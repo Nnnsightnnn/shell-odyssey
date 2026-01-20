@@ -1,0 +1,17 @@
+[2157-08-15 03:20:00] INFO     POWER: Reactor output stable at 85%
+[2157-08-15 03:20:15] INFO     POWER: Battery banks fully charged
+[2157-08-15 03:20:30] INFO     POWER: Solar collectors retracted (deep space mode)
+[2157-08-15 03:20:45] INFO     POWER: Distribution grid nominal
+[2157-08-15 03:21:00] INFO     POWER: Scheduled power cycle complete
+[2157-08-15 03:21:15] INFO     POWER: Cryogenic systems drawing 12kW
+[2157-08-15 03:21:30] INFO     POWER: Life support drawing 8kW
+[2157-08-15 03:21:45] INFO     POWER: Propulsion on standby (2kW idle)
+[2157-08-15 03:22:00] INFO     POWER: Total consumption within parameters
+[2157-08-15 03:22:32] WARNING  POWER: Surge detected from navigation array
+[2157-08-15 03:22:33] ERROR    POWER: Navigation array power fault
+[2157-08-15 03:22:35] WARNING  POWER: Isolating affected circuits
+[2157-08-15 03:22:38] WARNING  POWER: Switching to emergency distribution
+[2157-08-15 03:22:40] INFO     POWER: Non-essential systems powered down
+[2157-08-15 03:22:45] INFO     POWER: Emergency power stable
+[2157-08-15 03:22:50] INFO     POWER: Reactor reduced to 40% output
+[2157-08-15 03:23:00] INFO     POWER: Conservation mode active

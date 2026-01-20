@@ -1,0 +1,28 @@
+═══════════════════════════════════════════════════════════════════
+           NAVIGATION COMPUTER REPAIR MANUAL
+                    Document NC-7742
+═══════════════════════════════════════════════════════════════════
+
+EMERGENCY REPAIR PROCEDURE FOR STELLAR NAVIGATION FAILURE
+
+If the navigation computer has lost stellar fix capability:
+
+1. Verify gyroscope calibration data
+2. Check star tracker alignment
+3. Reset the navigation computer using code: STELLAR-FIX-2157
+4. Recalibrate using known stellar references
+5. Verify position against inertial navigation backup
+
+REPAIR CODE: STELLAR-FIX-2157
+
+This code authorizes emergency recalibration of the navigation
+array. Use this code in the diagnostics console to initiate
+the repair sequence.
+
+WARNING: Only qualified personnel should perform this procedure.
+         Improper calibration can result in navigation errors.
+
+═══════════════════════════════════════════════════════════════════
+Document Classification: Emergency Operations
+Last Updated: 2157-03-01
+═══════════════════════════════════════════════════════════════════

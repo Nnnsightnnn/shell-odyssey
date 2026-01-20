@@ -1,0 +1,57 @@
+
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║                                                                       ║
+    ║   ███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗███████╗██████╗    ║
+    ║   ██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝██╔════╝██╔══██╗   ║
+    ║   █████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  █████╗  ██████╔╝   ║
+    ║   ██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  ██╔══╝  ██╔══██╗   ║
+    ║   ███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗███████╗██║  ██║   ║
+    ║   ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝  ╚═╝   ║
+    ║                                                                       ║
+    ║                         DECK 3 - SECTOR 1                             ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+
+                              ┌──────────────┐
+                              │   REACTOR    │
+                              │    CORE      │
+                              └──────┬───────┘
+                                     │
+            ┌────────────────────────┼────────────────────────┐
+            │                        │                        │
+      ┌─────┴─────┐           ┌──────┴──────┐          ┌──────┴──────┐
+      │   LOGS    │           │ DIAGNOSTICS │          │ SCHEMATICS  │
+      │  ARCHIVE  │           │   CENTER    │          │   VAULT     │
+      └───────────┘           └─────────────┘          └─────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    The engineering section hums with the sound of backup generators. Warning
+    lights flash on multiple consoles. Chief Engineer Tanaka's station is
+    abandoned mid-task, diagnostic tools scattered across the deck.
+
+    The engineering computer displays a grim message:
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  ENGINEERING SYSTEMS STATUS                                        │
+    │  ─────────────────────────────────────────────────────────────────  │
+    │                                                                     │
+    │  ⚠ CRITICAL: Multiple subsystem failures detected                  │
+    │  ⚠ WARNING: Error logs exceeding normal parameters                 │
+    │  ⚠ ALERT: Configuration files corrupted                            │
+    │                                                                     │
+    │  The ship's diagnostic systems need your expertise to identify     │
+    │  the source of these failures. You'll need to search through       │
+    │  logs and locate critical files across multiple directories.       │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    SECTOR 1 SKILLS:
+    • find   - Locate files by name, type, or other attributes
+    • grep   - Search for text patterns within files
+    • wc     - Count lines, words, and characters
+    • tree   - Display directory structure (if installed)
+
+    Begin your mission: cat .mission
+

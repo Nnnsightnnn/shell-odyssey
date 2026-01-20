@@ -1,0 +1,49 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: COMMUNICATIONS DECODING                                         ║
+║  DIFFICULTY: Intermediate                                                 ║
+║  STATUS: In Progress                                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+Process intercepted transmissions to extract repair instructions sent
+from Earth. The data is corrupted and fragmented - you'll need to use
+data pipelines to filter and extract the useful information.
+
+This sector contains three sub-missions:
+    1. transmissions/  - Process raw signal data using pipes
+    2. signals/        - Parse structured transmission logs
+    3. decrypted/      - Final decoding challenge
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMMAND REFERENCE:
+
+    PIPES - Chain commands together:
+    command1 | command2 | command3
+
+    VIEW FILES:
+    head -n 10 file       First 10 lines
+    tail -n 10 file       Last 10 lines
+    tail -n +5 file       Everything from line 5 onwards
+
+    SORT & FILTER:
+    sort file             Sort lines alphabetically
+    sort -n file          Sort numerically
+    sort -r file          Reverse sort
+    uniq                  Remove adjacent duplicates
+    sort | uniq           Sort then deduplicate
+
+    EXTRACT FIELDS:
+    cut -d',' -f2 file    Get 2nd comma-separated field
+    cut -d':' -f1 file    Get 1st colon-separated field
+    awk '{print $3}'      Get 3rd whitespace-separated field
+
+    REDIRECT OUTPUT:
+    command > file        Write output to file (overwrite)
+    command >> file       Append output to file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Start with transmission processing: cd transmissions
+

@@ -1,0 +1,26 @@
+EQUIPMENT BAY INVENTORY
+=======================
+Last Updated: [DATE CORRUPTED]
+
+EMERGENCY SUPPLIES:
+- EVA Suits (6)
+- Oxygen Tanks (24)
+- Emergency Rations - 30 days
+- Medical Kit Alpha
+- Medical Kit Beta
+- Portable Lighting (12)
+
+REPAIR EQUIPMENT:
+- Welding Kit
+- Circuit Repair Kit
+- Structural Sealant (8 canisters)
+- Replacement Conduits (various)
+
+COMMUNICATION:
+- Handheld Radios (8)
+- Emergency Beacon
+- Signal Amplifier
+
+STATUS: Most equipment operational
+NOTE: Access code required for secure storage.
+      Code location: CLASSIFIED

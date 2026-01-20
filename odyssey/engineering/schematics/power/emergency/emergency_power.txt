@@ -1,0 +1,7 @@
+EMERGENCY POWER SYSTEM
+Document PW-3001
+
+Battery Capacity: 500 kWh
+Duration: 48 hours (essential only)
+Priority Systems: Life support, cryo
+Automatic Transfer: Yes

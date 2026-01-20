@@ -1,0 +1,19 @@
+SYSTEM DIAGNOSTIC REPORT: POWER SYSTEMS
+========================================
+Generated: 2157-08-15 03:30:00
+Report ID: PWR-2157-0815
+
+SUBSYSTEM STATUS:
+-----------------
+Fusion Reactor:   REDUCED (40%)
+Battery Banks:    CHARGED (95%)
+Distribution:     RESTRICTED
+Solar Collectors: RETRACTED
+
+OVERALL STATUS: DEGRADED
+
+Notes: Reactor output reduced to conserve fuel.
+       Non-essential systems powered down.
+       Emergency power available if needed.
+
+End of Report

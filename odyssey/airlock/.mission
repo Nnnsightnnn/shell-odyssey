@@ -1,0 +1,44 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: AIRLOCK ORIENTATION                                             ║
+║  DIFFICULTY: Tutorial                                                     ║
+║  STATUS: In Progress                                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+Before you can access the main ship systems, you must complete the
+emergency orientation protocol. This will verify your terminal access
+and familiarize you with the ship's computer interface.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK 1: Crew Manifest Verification
+──────────────────────────────────
+The crew manifest is stored in this directory. Read the file 'manifest.txt'
+to see the crew roster. Count the total number of crew members.
+
+Then, create a file called 'crew_count.txt' containing ONLY the number.
+
+Example: If there are 15 crew members, the file should contain just: 15
+
+VERIFICATION:
+When you've created the file correctly, run:
+    ./verify
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HINTS:
+• Use 'cat manifest.txt' to view the crew list
+• Use 'wc -l manifest.txt' to count lines in a file
+• Use 'echo 24 > crew_count.txt' to create a file with a number
+  (replace 24 with the actual count)
+
+AVAILABLE FILES:
+• manifest.txt    - Crew roster
+• verify          - Verification script (run when ready)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When this task is complete, proceed to the equipment check:
+    cd equipment_bay
+

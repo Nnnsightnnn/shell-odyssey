@@ -1,0 +1,7 @@
+BACKUP ENGINE SYSTEM
+Document PE-2001
+
+Type: Ion Drive Array
+Purpose: Emergency maneuvering
+Thrust: 0.1 MN
+Duration: 500 hours continuous

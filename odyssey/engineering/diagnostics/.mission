@@ -1,0 +1,42 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: SYSTEM DIAGNOSTICS                                              ║
+║  SKILL: Combined find + grep + wc                                         ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+Run a comprehensive diagnostic across all system reports to determine
+the ship's overall status and identify the authorization code needed
+to proceed to the next sector.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Analyze System Reports
+────────────────────────────
+The diagnostics directory contains multiple system status reports (.rpt files).
+You need to:
+
+1. Count how many reports show "STATUS: CRITICAL"
+2. Find the report that contains the "ENGINEERING_AUTH" code
+3. The auth code format is: ENGINEERING_AUTH_XXXX (where X is a digit)
+
+When you find the authorization code, run:
+    ./verify <code>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    find . -name "*.rpt"                 Find all report files
+    grep "CRITICAL" *.rpt                Search for CRITICAL in reports
+    grep -l "pattern" *.rpt              List files containing pattern
+    grep -r "AUTH" .                     Search recursively for AUTH
+    cat file.rpt | grep "STATUS"         Extract status lines
+
+COMBINING COMMANDS:
+    find . -name "*.rpt" | xargs grep "pattern"
+    grep -c "pattern" *.rpt              Count matches per file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When complete, you'll have finished ENGINEERING and can proceed to COMMS.
+

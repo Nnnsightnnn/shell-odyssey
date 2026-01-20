@@ -1,0 +1,14 @@
+3:Initialize star tracker:DELTA
+5:Confirm navigation lock:SEVEN
+1:Begin repair sequence:ALPHA
+2:Calibrate gyroscope:BETA
+1:Begin repair sequence:ALPHA
+4:Verify position fix:GAMMA
+3:Initialize star tracker:DELTA
+6:End sequence:NINE
+2:Calibrate gyroscope:BETA
+5:Confirm navigation lock:SEVEN
+4:Verify position fix:GAMMA
+1:Begin repair sequence:ALPHA
+6:End sequence:NINE
+3:Initialize star tracker:DELTA

@@ -1,0 +1,19 @@
+SYSTEM DIAGNOSTIC REPORT: COMMUNICATIONS
+=========================================
+Generated: 2157-08-15 03:30:00
+Report ID: COMM-2157-0815
+
+SUBSYSTEM STATUS:
+-----------------
+Internal Comms:   NOMINAL
+External Antenna: STANDBY
+Deep Space Relay: SEARCHING
+Emergency Beacon: READY
+
+OVERALL STATUS: DEGRADED
+
+Notes: Unable to establish position for directed transmission.
+       Broadcasting emergency beacon on all frequencies.
+       Internal ship communications fully operational.
+
+End of Report

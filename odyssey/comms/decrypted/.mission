@@ -1,0 +1,48 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: FINAL DECODING                                                  ║
+║  SKILL: Combined pipeline mastery                                         ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The priority message has been partially decoded into 'repair_sequence.txt'.
+However, the instructions are scrambled and contain duplicates from
+transmission errors. You must process the data to extract the final code.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Extract the Repair Authorization Code
+───────────────────────────────────────────
+The file 'repair_sequence.txt' contains numbered instruction lines:
+
+    STEP:INSTRUCTION:CODE_FRAGMENT
+
+To reconstruct the authorization code:
+1. Sort the lines by STEP number (first field)
+2. Remove duplicate lines
+3. Extract just the CODE_FRAGMENT field (3rd field)
+4. The fragments spell out the authorization code
+
+The final code is ALL the code fragments concatenated together
+(just the letters/numbers, in order, with hyphens between each).
+
+When you've assembled the code, run:
+    ./verify <code>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    sort -t':' -k1 -n file     Sort by 1st field numerically
+    uniq                        Remove duplicates
+    cut -d':' -f3              Extract 3rd field
+    tr -d '\n'                 Remove newlines (join lines)
+
+FULL PIPELINE:
+    sort -t':' -k1 -n file | uniq | cut -d':' -f3
+
+HINT: After extracting code fragments, join them with hyphens.
+      If fragments are: A B C D E
+      Code format is: A-B-C-D-E
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

@@ -1,0 +1,5 @@
+PERSONAL LOCKER - Chief Engineer Tanaka
+=======================================
+- Engineering manual
+- Spare tools
+- Note: "Check the hidden maintenance files if systems fail"

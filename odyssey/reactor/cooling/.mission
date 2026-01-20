@@ -1,0 +1,43 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: COOLING SYSTEM BATCH REPAIR                                     ║
+║  SKILL: xargs (batch operations)                                          ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+Multiple cooling sensor files need to be processed. Instead of handling
+them one by one, use xargs to perform batch operations efficiently.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Extract Critical Readings
+───────────────────────────────
+The directory contains multiple sensor log files (sensor_*.log).
+Each file contains temperature readings with some marked as "CRITICAL".
+
+Your task:
+1. Find all CRITICAL readings across ALL sensor files
+2. Count the total number of CRITICAL readings
+3. The answer is the total count
+
+Use xargs to efficiently search all files at once.
+
+When you have the count, run:
+    ./verify <count>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    ls sensor_*.log                          List sensor files
+    ls sensor_*.log | xargs grep "CRITICAL"  Search all files
+    ls sensor_*.log | xargs grep -c "CRIT"   Count per file
+
+    find . -name "sensor_*.log" | xargs grep "CRITICAL"
+    find . -name "*.log" -exec grep "CRITICAL" {} \;
+
+TO COUNT TOTAL:
+    ls *.log | xargs grep "CRITICAL" | wc -l
+    grep -r "CRITICAL" *.log | wc -l
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

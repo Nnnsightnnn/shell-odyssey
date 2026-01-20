@@ -1,0 +1,51 @@
+ODYSSEY CREW MANIFEST
+=====================
+Mission: Kepler-442b Survey
+Departure: 2157-03-15
+Expected Duration: 8 years
+
+COMMAND STAFF
+-------------
+1. Captain Elena Vasquez - Mission Commander
+2. Dr. James Chen - First Officer / Science Lead
+3. Lt. Sarah Okonkwo - Navigation Officer
+4. Marcus Webb - Communications Officer
+
+ENGINEERING DIVISION
+--------------------
+5. Chief Engineer Yuki Tanaka - Lead Engineer
+6. David Kowalski - Propulsion Specialist
+7. Aisha Patel - Life Support Systems
+8. Roberto Silva - Structural Engineer
+
+SCIENCE DIVISION
+----------------
+9. Dr. Maria Santos - Xenobiology
+10. Dr. Kwame Asante - Geology / Planetology
+11. Dr. Lisa Chang - Atmospheric Science
+12. Dr. Mikhail Volkov - Astrophysics
+13. Dr. Fatima Al-Hassan - Exochemistry
+
+MEDICAL DIVISION
+----------------
+14. Dr. Thomas Brennan - Chief Medical Officer
+15. Nurse Ana Rodriguez - Medical Support
+16. Dr. Sophie Martin - Psychologist
+
+OPERATIONS
+----------
+17. Security Chief John Drake - Security
+18. Officer Maya Singh - Security
+19. Chef Pierre Dubois - Nutrition/Morale
+20. Systems Operator [CURRENT USER] - IT/Systems
+
+CRYO-PRESERVED SPECIALISTS
+--------------------------
+21. Dr. Alexander Petrov - Colonial Advisor
+22. Engineer Kim Soo-yeon - Terraforming
+23. Dr. Rachel Green - Botanist
+24. Specialist Omar Hassan - Linguistic Analysis
+
+=====================
+TOTAL CREW: 24
+STATUS: 23 in cryosleep, 1 active (emergency protocol)

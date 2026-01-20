@@ -1,0 +1,7 @@
+THERMAL CONTROL SYSTEM
+Document LS-2001
+
+Method: Radiator panels + heat exchangers
+Operating Range: -10C to +40C
+Radiator Area: 200 m2
+Heat Rejection: 100 kW maximum

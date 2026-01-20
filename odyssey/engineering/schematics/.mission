@@ -1,0 +1,42 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: SCHEMATIC RETRIEVAL                                             ║
+║  SKILL: find (file location)                                              ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The ship's schematic archive contains hundreds of files organized into a
+complex directory structure. You need to locate specific repair documents
+without manually searching every folder.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Locate the Navigation Repair Manual
+─────────────────────────────────────────
+Based on the log analysis, we need to repair the navigation system.
+Somewhere in this directory structure is a file called:
+
+    nav_repair_manual.txt
+
+Find this file and read its contents. It contains a repair code that
+you'll need for the next step.
+
+When you find the repair code, run:
+    ./verify <code>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    find . -name "filename"        Find exact filename
+    find . -name "*.txt"           Find all .txt files
+    find . -name "*repair*"        Find files containing "repair"
+    find . -type f                 Find only files (not directories)
+    find . -type d                 Find only directories
+
+BONUS CHALLENGE:
+How many total .txt files are in this directory tree?
+
+    find . -name "*.txt" | wc -l
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

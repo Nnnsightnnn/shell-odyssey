@@ -1,0 +1,7 @@
+MAIN ENGINE SPECIFICATIONS
+Document PE-1001
+
+Engine Type: Fusion Drive Mark IV
+Thrust: 2.4 MN (Mega-Newtons)
+Specific Impulse: 12,000s
+Fuel: Deuterium-Helium3 mixture

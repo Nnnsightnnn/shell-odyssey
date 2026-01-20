@@ -1,0 +1,67 @@
+
+                    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+                  ▄▀                                           ▀▄
+                 █   ╔═══════════════════════════════════════╗   █
+                 █   ║    RESEARCH VESSEL ODYSSEY            ║   █
+                 █   ║    Emergency Systems Terminal         ║   █
+                 █   ╚═══════════════════════════════════════╝   █
+                  ▀▄                                           ▄▀
+                    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    │
+    │  ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝    │
+    │  ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗      │
+    │  ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝      │
+    │  ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗    │
+    │   ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝    │
+    │                                                                     │
+    │                        ABOARD THE ODYSSEY                           │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    EMERGENCY WAKE PROTOCOL INITIATED...
+    CRYOSLEEP POD 7 - SYSTEMS OPERATOR
+    DATE: UNKNOWN
+    LOCATION: UNKNOWN
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    You wake to the sound of alarms. Red emergency lights pulse through
+    the darkness of the airlock chamber. The last thing you remember is
+    entering cryosleep as the Odyssey departed for the Kepler system.
+
+    Something has gone terribly wrong.
+
+    The ship's main AI, ARIA, is offline. Most of the crew remains in
+    cryosleep. The emergency terminal in front of you flickers to life:
+
+    ┌─────────────────────────────────────────────────────────────────┐
+    │  ARIA EMERGENCY BACKUP v0.7                                    │
+    │  ─────────────────────────────────────────────────────────────  │
+    │                                                                 │
+    │  CRITICAL ALERT: Multiple system failures detected             │
+    │  CREW STATUS: 23/24 in cryosleep                               │
+    │  SHIP STATUS: Life support NOMINAL, all other systems OFFLINE  │
+    │                                                                 │
+    │  You are the only crew member with terminal access clearance.  │
+    │  You must navigate the ship's computer systems to restore      │
+    │  functionality before life support fails.                      │
+    │                                                                 │
+    │  Begin by reading your mission briefing:  cat .mission         │
+    │                                                                 │
+    └─────────────────────────────────────────────────────────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    HELPFUL COMMANDS:
+    • ls           - List files in current location
+    • ls -la       - List ALL files (including hidden ones starting with .)
+    • cat <file>   - Read a file's contents
+    • cd <dir>     - Move to a different directory
+    • pwd          - Show your current location
+    • clear        - Clear the terminal screen
+
+    ═══════════════════════════════════════════════════════════════════════
+

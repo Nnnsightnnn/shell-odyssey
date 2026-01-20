@@ -1,0 +1,41 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: LOG ANALYSIS                                                    ║
+║  SKILL: grep (pattern searching)                                          ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The system logs contain thousands of entries. Something triggered a cascade
+of failures, but finding it manually would take hours. Use grep to search
+for patterns and identify the root cause.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Find the Source of the Critical Failure
+─────────────────────────────────────────────
+The logs contain entries marked as INFO, WARNING, ERROR, and CRITICAL.
+
+1. First, find how many CRITICAL errors exist across all log files.
+2. Then, identify which SYSTEM caused the first CRITICAL failure.
+
+The answer is a system name (one word, like "NAVIGATION" or "PROPULSION").
+
+When you find the system name, run:
+    ./verify <system_name>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    grep "CRITICAL" *.log              Search all log files for CRITICAL
+    grep -c "CRITICAL" *.log           Count CRITICAL entries per file
+    grep -n "CRITICAL" system.log      Show line numbers of matches
+    grep "CRITICAL" *.log | head -5    Show first 5 matches
+
+LOG FILES:
+    system.log      - Main system log
+    power.log       - Power management log
+    network.log     - Network systems log
+    sensors.log     - Sensor array log
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

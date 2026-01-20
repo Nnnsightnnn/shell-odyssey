@@ -1,0 +1,63 @@
+
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║                                                                       ║
+    ║    ██████╗ ██████╗ ███╗   ███╗███╗   ███╗███████╗                    ║
+    ║   ██╔════╝██╔═══██╗████╗ ████║████╗ ████║██╔════╝                    ║
+    ║   ██║     ██║   ██║██╔████╔██║██╔████╔██║███████╗                    ║
+    ║   ██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║╚════██║                    ║
+    ║   ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║███████║                    ║
+    ║    ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚══════╝                    ║
+    ║                                                                       ║
+    ║                  COMMUNICATIONS CENTER                                ║
+    ║                       DECK 2 - SECTOR 2                               ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+
+                         ┌────────────────────┐
+                         │   )))  ANTENNA  (((│
+                         └─────────┬──────────┘
+                                   │
+                    ┌──────────────┼──────────────┐
+                    │              │              │
+              ┌─────┴─────┐  ┌─────┴─────┐  ┌─────┴─────┐
+              │TRANSMIT   │  │  DECODE   │  │  SIGNALS  │
+              │  BUFFER   │  │  CENTER   │  │  ARCHIVE  │
+              └───────────┘  └───────────┘  └───────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    The communications center is bathed in the soft glow of status displays.
+    Banks of equipment line the walls, their indicator lights blinking in
+    patterns that would be meaningful to a trained operator.
+
+    Marcus Webb's station shows hundreds of intercepted transmissions,
+    fragments of data from across the cosmos. Before the failure, the ship
+    received a burst transmission from Earth - repair instructions that
+    could save the Odyssey.
+
+    But the data is corrupted. Fragmented. You'll need to process and
+    filter it to extract the useful information.
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  COMMUNICATIONS STATUS                                             │
+    │  ─────────────────────────────────────────────────────────────────  │
+    │                                                                     │
+    │  ⚠ Incoming transmissions: BUFFERED (needs processing)             │
+    │  ⚠ Signal quality: DEGRADED (requires filtering)                   │
+    │  ⚠ Data format: MIXED (needs parsing)                              │
+    │                                                                     │
+    │  The key to decoding these transmissions is DATA PIPELINES -       │
+    │  chaining commands together to process data step by step.          │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    SECTOR 2 SKILLS:
+    • Pipes (|)      - Chain commands together
+    • head/tail      - View start/end of files
+    • sort/uniq      - Sort and deduplicate data
+    • cut/awk        - Extract specific fields
+    • Redirects      - Save output to files
+
+    Begin your mission: cat .mission
+

@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Cooling Batch Operations Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     CRITICAL COUNT VERIFICATION            ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+if [[ -z "$1" ]]; then
+    echo -e "${RED}[ERROR]${NC} No count provided."
+    echo ""
+    echo "Usage: ./verify <count>"
+    echo ""
+    exit 1
+fi
+
+COUNT="$1"
+
+if [[ "$COUNT" == "8" ]]; then
+    echo -e "${GREEN}[CONFIRMED]${NC} Critical reading count: 8"
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║    BATCH OPERATIONS COMPLETE!              ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    BATCH ANALYSIS:
+    ───────────────
+    You efficiently processed multiple sensor files using xargs.
+
+    Critical readings found:
+    • sensor_alpha.log: 2 critical readings
+    • sensor_beta.log: 3 critical readings
+    • sensor_gamma.log: 2 critical readings
+    • sensor_delta.log: 1 critical reading
+    • TOTAL: 8 critical readings
+
+    The cooling system has been flagged for inspection, but
+    readings are within recoverable parameters.
+
+    ───────────────────────────────────────────────────────────
+EOF
+    echo ""
+    echo "Final task: Write and execute a repair script"
+    echo -e "  ${YELLOW}cd ../scripts${NC}"
+    echo ""
+else
+    echo -e "${RED}[INCORRECT]${NC} Count '$1' is not correct."
+    echo ""
+    echo "Hint: Search all sensor files for CRITICAL and count the results."
+    echo ""
+    echo "Try: grep \"CRITICAL\" sensor_*.log | wc -l"
+    echo "Or:  ls sensor_*.log | xargs grep \"CRITICAL\" | wc -l"
+    echo ""
+    exit 1
+fi

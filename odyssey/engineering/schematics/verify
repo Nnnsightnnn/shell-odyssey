@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Schematics Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     REPAIR CODE VERIFICATION               ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+if [[ -z "$1" ]]; then
+    echo -e "${RED}[ERROR]${NC} No repair code provided."
+    echo ""
+    echo "Usage: ./verify <repair_code>"
+    echo ""
+    exit 1
+fi
+
+CODE=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+
+if [[ "$CODE" == "STELLAR-FIX-2157" ]]; then
+    echo -e "${GREEN}[AUTHORIZED]${NC} Repair code accepted: STELLAR-FIX-2157"
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║    SCHEMATIC RETRIEVAL COMPLETE!           ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    ARIA BACKUP: Excellent file navigation skills, Operator!
+                 You've demonstrated proficiency with the
+                 'find' command.
+
+    The repair code has been logged. Proceed to the diagnostics
+    center to run the full system analysis before initiating
+    repairs.
+
+    ───────────────────────────────────────────────────────────
+EOF
+    echo ""
+    echo "Proceed to diagnostics:"
+    echo -e "  ${YELLOW}cd ../diagnostics${NC}"
+    echo ""
+else
+    echo -e "${RED}[REJECTED]${NC} Invalid repair code: '$1'"
+    echo ""
+    echo "Hint: Find the navigation repair manual and look for"
+    echo "      the REPAIR CODE inside."
+    echo ""
+    echo "Try: find . -name \"*repair*\""
+    echo ""
+    exit 1
+fi

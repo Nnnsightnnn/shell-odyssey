@@ -1,0 +1,39 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: EQUIPMENT INVENTORY                                             ║
+║  DIFFICULTY: Tutorial                                                     ║
+║  STATUS: In Progress                                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The equipment bay's inventory system is partially corrupted. You need to
+locate the emergency access code hidden somewhere in this directory.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Find the Hidden Access Code
+─────────────────────────────────
+Somewhere in this equipment bay is a hidden file containing an access code.
+Find the code and enter it into the verification terminal.
+
+IMPORTANT: Some files are hidden! In Unix systems, files starting with
+a dot (.) are hidden from normal directory listings.
+
+Use:  ls -la  to see ALL files, including hidden ones.
+
+When you find the access code, run:
+    ./verify <code>
+
+Example: If the code is ABC123, run: ./verify ABC123
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HINTS:
+• ls shows visible files
+• ls -la shows ALL files including hidden ones (those starting with .)
+• cat <filename> reads a file's contents
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When complete, you'll unlock access to ENGINEERING to begin system repairs.
+

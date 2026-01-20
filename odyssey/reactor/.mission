@@ -1,0 +1,41 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: REACTOR REPAIR                                                  ║
+║  DIFFICULTY: Advanced                                                     ║
+║  STATUS: In Progress                                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+Execute repair procedures on the reactor's corrupted configuration files
+and automate the restoration process using shell scripts.
+
+This sector contains three sub-missions:
+    1. core/     - Fix corrupted config files with sed
+    2. cooling/  - Batch operations with xargs
+    3. scripts/  - Write and execute repair scripts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMMAND REFERENCE:
+
+    SED - Stream Editor:
+    sed 's/old/new/' file          Replace first occurrence per line
+    sed 's/old/new/g' file         Replace all occurrences
+    sed -i '' 's/old/new/g' file   Edit file in place (macOS)
+    sed -i 's/old/new/g' file      Edit file in place (Linux)
+    sed '/pattern/d' file          Delete lines matching pattern
+
+    XARGS - Build commands from input:
+    echo "file1 file2" | xargs cat         Run cat on each file
+    find . -name "*.txt" | xargs grep X    Search all found files
+    ls *.cfg | xargs -I {} cp {} {}.bak    Copy with filename placeholder
+
+    SHELL SCRIPTS:
+    #!/bin/bash                    Shebang line
+    chmod +x script.sh             Make executable
+    ./script.sh                    Run script
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Start with core configuration repair: cd core
+

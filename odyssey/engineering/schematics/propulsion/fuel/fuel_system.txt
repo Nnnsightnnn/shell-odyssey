@@ -1,0 +1,6 @@
+FUEL STORAGE AND DELIVERY
+Document PE-3001
+
+Primary Tank Capacity: 50,000 kg
+Reserve Tank: 10,000 kg
+Delivery Rate: 0.5 kg/s maximum

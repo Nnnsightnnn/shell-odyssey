@@ -1,0 +1,38 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: ENGINEERING DIAGNOSTICS                                         ║
+║  DIFFICULTY: Intermediate                                                 ║
+║  STATUS: In Progress                                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The engineering systems have suffered multiple cascading failures. You need
+to diagnose the problems by searching through system logs and locating
+critical configuration files.
+
+This sector contains three sub-missions in separate directories:
+    1. logs/        - Analyze error logs to find failure patterns
+    2. schematics/  - Locate critical system files
+    3. diagnostics/ - Run comprehensive system analysis
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMMAND REFERENCE:
+
+    grep <pattern> <file>     Search for pattern in file
+    grep -r <pattern> <dir>   Search recursively in directory
+    grep -i <pattern> <file>  Case-insensitive search
+    grep -c <pattern> <file>  Count matching lines
+    grep -n <pattern> <file>  Show line numbers
+
+    find <dir> -name "*.txt"  Find files by name pattern
+    find <dir> -type f        Find only files
+    find <dir> -type d        Find only directories
+
+    wc -l <file>              Count lines in file
+    wc -w <file>              Count words in file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Start with the logs analysis: cd logs
+

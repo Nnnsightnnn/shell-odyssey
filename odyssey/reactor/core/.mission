@@ -1,0 +1,48 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: CONFIGURATION REPAIR                                            ║
+║  SKILL: sed (stream editor)                                               ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The reactor configuration file has been corrupted. Several values have
+been changed to "CORRUPTED" and need to be restored to their correct
+settings.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Restore the Configuration File
+────────────────────────────────────
+The file 'reactor.cfg' contains the reactor configuration.
+Some values show "CORRUPTED" instead of their proper values.
+
+Reference the 'reactor.cfg.reference' file to see what the
+correct values should be.
+
+Create a fixed version of the config by using sed to replace
+the corrupted values. Save it as 'reactor_fixed.cfg'.
+
+When ready, run:
+    ./verify
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    cat reactor.cfg                        View corrupted config
+    cat reactor.cfg.reference              View correct values
+    diff reactor.cfg reactor.cfg.reference Compare files
+
+    sed 's/CORRUPTED/value/' file          Replace CORRUPTED
+    sed 's/old/new/g' file > newfile       Save to new file
+
+EXAMPLE (replace one specific line):
+    If line says: power_output=CORRUPTED
+    And should be: power_output=85
+
+    sed 's/power_output=CORRUPTED/power_output=85/' reactor.cfg
+
+You may need multiple sed commands or chain them:
+    sed 's/X/Y/' file | sed 's/A/B/' > output
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

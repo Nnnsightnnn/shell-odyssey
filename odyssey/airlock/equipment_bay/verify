@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# Equipment Bay Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GAME_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     ACCESS CODE VERIFICATION               ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+if [[ -z "$1" ]]; then
+    echo -e "${RED}[ERROR]${NC} No access code provided."
+    echo ""
+    echo "Usage: ./verify <access_code>"
+    echo "Example: ./verify ABC123"
+    echo ""
+    exit 1
+fi
+
+CODE="$1"
+
+# Accept the code with or without the prefix
+if [[ "$CODE" == "ODYSSEY-7X9" ]] || [[ "$CODE" == "odyssey-7x9" ]]; then
+    echo -e "${GREEN}[ACCESS GRANTED]${NC} Code verified: ODYSSEY-7X9"
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║     EQUIPMENT BAY ACCESS UNLOCKED!         ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    ARIA BACKUP: Well done! You've demonstrated proficiency with
+                 hidden files. This skill will be essential for
+                 navigating the ship's systems.
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │  TUTORIAL COMPLETE                                          │
+    │  ─────────────────────────────────────────────────────────  │
+    │                                                             │
+    │  You've proven your basic terminal skills. Now the real     │
+    │  work begins.                                               │
+    │                                                             │
+    │  The ENGINEERING section has suffered critical failures.    │
+    │  You'll need to use more advanced commands to diagnose      │
+    │  and repair the damage.                                     │
+    │                                                             │
+    │  Commands you'll learn:                                     │
+    │  • find  - Locate files across directories                  │
+    │  • grep  - Search for patterns in files                     │
+    │  • wc    - Count lines, words, characters                   │
+    │  • tree  - Visualize directory structures                   │
+    │                                                             │
+    └─────────────────────────────────────────────────────────────┘
+EOF
+    echo ""
+    echo -e "Proceed to Engineering: ${YELLOW}cd $GAME_DIR/odyssey/engineering${NC}"
+    echo ""
+else
+    echo -e "${RED}[ACCESS DENIED]${NC} Invalid code: '$CODE'"
+    echo ""
+    echo "Hint: Look for hidden files using 'ls -la'"
+    echo ""
+    exit 1
+fi

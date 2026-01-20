@@ -1,0 +1,64 @@
+
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║                                                                       ║
+    ║   ██████╗ ██████╗ ██╗██████╗  ██████╗ ███████╗                       ║
+    ║   ██╔══██╗██╔══██╗██║██╔══██╗██╔════╝ ██╔════╝                       ║
+    ║   ██████╔╝██████╔╝██║██║  ██║██║  ███╗█████╗                         ║
+    ║   ██╔══██╗██╔══██╗██║██║  ██║██║   ██║██╔══╝                         ║
+    ║   ██████╔╝██║  ██║██║██████╔╝╚██████╔╝███████╗                       ║
+    ║   ╚═════╝ ╚═╝  ╚═╝╚═╝╚═════╝  ╚═════╝ ╚══════╝                       ║
+    ║                                                                       ║
+    ║                    COMMAND BRIDGE                                     ║
+    ║                     DECK 1 - BONUS SECTOR                             ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+
+                              ★ ★ ★
+                            ★       ★
+                    ════════╗     ╔════════
+                            ║     ║
+               ┌────────────╨─────╨────────────┐
+               │      CAPTAIN'S CHAIR          │
+               │          ◊                    │
+               │    ┌─────────────────┐        │
+               │    │ MAIN VIEWSCREEN │        │
+               │    └─────────────────┘        │
+               │  ┌─────┐       ┌─────┐       │
+               │  │ NAV │       │COMM │       │
+               │  └─────┘       └─────┘       │
+               └───────────────────────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    The bridge is bathed in starlight streaming through the main viewscreen.
+    The Odyssey drifts serenely now, her critical systems restored thanks to
+    your efforts.
+
+    Captain Vasquez's chair sits empty, but the navigation display shows
+    your current position - you're 4.2 light years from Earth, somewhere
+    in the Alpha Centauri system.
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  ARIA BACKUP: Operator, you have exceeded expectations.            │
+    │                                                                     │
+    │  The main sectors have been restored. These bridge terminals        │
+    │  contain advanced training modules for those who wish to            │
+    │  continue their education.                                          │
+    │                                                                     │
+    │  Topics available:                                                  │
+    │  • Process management (ps, kill, jobs, &)                          │
+    │  • Network operations (curl, wget, ssh)                            │
+    │  • Version control (git basics)                                    │
+    │                                                                     │
+    │  These are optional challenges for advanced operators.              │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    BONUS SECTOR - Work in Progress
+
+    The bridge challenges are coming in a future update.
+    For now, celebrate your victory - you've saved the Odyssey!
+
+    Check your achievements: ~/shell-odyssey/scripts/check-progress.sh
+

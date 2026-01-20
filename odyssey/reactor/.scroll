@@ -1,0 +1,59 @@
+
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║                                                                       ║
+    ║   ██████╗ ███████╗ █████╗  ██████╗████████╗ ██████╗ ██████╗          ║
+    ║   ██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗         ║
+    ║   ██████╔╝█████╗  ███████║██║        ██║   ██║   ██║██████╔╝         ║
+    ║   ██╔══██╗██╔══╝  ██╔══██║██║        ██║   ██║   ██║██╔══██╗         ║
+    ║   ██║  ██║███████╗██║  ██║╚██████╗   ██║   ╚██████╔╝██║  ██║         ║
+    ║   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝         ║
+    ║                                                                       ║
+    ║                     REACTOR CONTROL CENTER                            ║
+    ║                        DECK 5 - SECTOR 3                              ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+
+                           ╔═══════════════╗
+                           ║   ☢ REACTOR   ║
+                           ║     CORE      ║
+                           ╚═══════╤═══════╝
+                                   │
+                    ┌──────────────┼──────────────┐
+                    │              │              │
+              ┌─────┴─────┐  ┌─────┴─────┐  ┌─────┴─────┐
+              │  COOLING  │  │   CORE    │  │  SCRIPTS  │
+              │  SYSTEM   │  │  CONFIG   │  │  LIBRARY  │
+              └───────────┘  └───────────┘  └───────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    Warning klaxons echo through the reactor control room. The massive
+    fusion reactor at the heart of the Odyssey hums with barely contained
+    power. Multiple configuration files have been corrupted, and manual
+    intervention is required.
+
+    Chief Engineer Tanaka's repair scripts are still in the system, but
+    they need to be modified and executed to restore full functionality.
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  REACTOR STATUS                                                    │
+    │  ─────────────────────────────────────────────────────────────────  │
+    │                                                                     │
+    │  ⚠ Configuration files: CORRUPTED (needs patching)                 │
+    │  ⚠ Batch operations: REQUIRED (multiple files affected)            │
+    │  ⚠ Repair scripts: NEED MODIFICATION                               │
+    │                                                                     │
+    │  To restore the reactor, you'll need to use text manipulation      │
+    │  tools and write shell scripts to automate the repairs.            │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ═══════════════════════════════════════════════════════════════════════
+
+    SECTOR 3 SKILLS:
+    • sed          - Stream editor for text manipulation
+    • xargs        - Build commands from input
+    • Shell scripts - Automate repair procedures
+    • chmod        - Manage file permissions
+
+    Begin your mission: cat .mission
+

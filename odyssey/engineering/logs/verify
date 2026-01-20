@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Engineering Logs Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     LOG ANALYSIS VERIFICATION              ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+if [[ -z "$1" ]]; then
+    echo -e "${RED}[ERROR]${NC} No system name provided."
+    echo ""
+    echo "Usage: ./verify <system_name>"
+    echo "Example: ./verify PROPULSION"
+    echo ""
+    exit 1
+fi
+
+ANSWER=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+
+if [[ "$ANSWER" == "NAVIGATION" ]]; then
+    echo -e "${GREEN}[CONFIRMED]${NC} Root cause identified: NAVIGATION system"
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║      LOG ANALYSIS COMPLETE!                ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    ANALYSIS SUMMARY:
+    ─────────────────
+    The NAVIGATION system was the first to report a CRITICAL failure.
+    The sequence was:
+    1. Gyroscope calibration drift (WARNING)
+    2. Star tracker misalignment (WARNING)
+    3. Unable to acquire stellar fix (ERROR)
+    4. Total navigation failure (CRITICAL) ← First CRITICAL
+
+    This cascaded into failures in other systems as they lost
+    positional data.
+
+    ───────────────────────────────────────────────────────────
+EOF
+    echo ""
+    echo "Excellent grep work! Next, locate the repair schematics:"
+    echo -e "  ${YELLOW}cd ../schematics${NC}"
+    echo ""
+else
+    echo -e "${RED}[INCORRECT]${NC} '$1' is not the root cause."
+    echo ""
+    echo "Hint: Search for CRITICAL entries and find which system"
+    echo "      reported the FIRST critical failure."
+    echo ""
+    echo "Try: grep -n \"CRITICAL\" *.log"
+    echo ""
+    exit 1
+fi

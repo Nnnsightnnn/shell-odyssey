@@ -1,0 +1,51 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: REPAIR SCRIPT EXECUTION                                         ║
+║  SKILL: Shell scripting                                                   ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The final step to restore the reactor requires executing a repair script.
+However, the script is incomplete and needs you to finish it.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Complete and Run the Repair Script
+────────────────────────────────────────
+The file 'repair_template.sh' contains an incomplete repair script.
+You need to:
+
+1. Copy it to a new file called 'repair.sh'
+2. Edit it to fill in the missing parts (marked with TODO)
+3. Make it executable with: chmod +x repair.sh
+4. Run it with: ./repair.sh
+
+The script should:
+- Print "REPAIR SEQUENCE INITIATED"
+- Create a file called 'reactor_status.txt' containing "ONLINE"
+- Print "REPAIR COMPLETE"
+
+When finished, run:
+    ./verify
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SHELL SCRIPT BASICS:
+
+    #!/bin/bash              First line (shebang) - tells system to use bash
+    echo "Hello"             Print text
+    echo "text" > file       Write text to file
+    echo "text" >> file      Append text to file
+
+MAKING SCRIPTS EXECUTABLE:
+    chmod +x script.sh       Add execute permission
+    ./script.sh              Run the script
+
+EXAMPLE SCRIPT:
+    #!/bin/bash
+    echo "Starting process..."
+    echo "COMPLETE" > status.txt
+    echo "Done!"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

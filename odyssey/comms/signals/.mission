@@ -1,0 +1,47 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: SIGNAL PARSING                                                  ║
+║  SKILL: cut, awk, field extraction                                        ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The signal log contains structured data about all received transmissions.
+Extract specific fields to analyze the data and find the priority message.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Find the Priority Code
+────────────────────────────
+The file 'transmission_log.csv' contains structured data with fields:
+
+    TIMESTAMP,SOURCE,PRIORITY,SIGNAL_STRENGTH,MESSAGE_ID
+
+Find the MESSAGE_ID of the transmission with:
+- SOURCE = "EARTH"
+- PRIORITY = "CRITICAL"
+
+There should be only one CRITICAL priority message from EARTH.
+Extract its MESSAGE_ID.
+
+When you find it, run:
+    ./verify <message_id>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    cat transmission_log.csv | head -5         See structure
+    cut -d',' -f2 file                         Get SOURCE field (2nd)
+    cut -d',' -f3 file                         Get PRIORITY field (3rd)
+    cut -d',' -f5 file                         Get MESSAGE_ID (5th)
+
+    grep "EARTH" file | grep "CRITICAL"        Two-stage filter
+    grep "EARTH.*CRITICAL" file                Pattern matching
+
+    awk -F',' '{print $5}' file                Print 5th field
+    awk -F',' '$2=="EARTH" {print $0}' file    Filter by field value
+
+PIPELINE:
+    grep "EARTH" file | grep "CRITICAL" | cut -d',' -f5
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

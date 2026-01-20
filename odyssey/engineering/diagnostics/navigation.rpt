@@ -1,0 +1,24 @@
+SYSTEM DIAGNOSTIC REPORT: NAVIGATION
+=====================================
+Generated: 2157-08-15 03:30:00
+Report ID: NAV-2157-0815
+
+SUBSYSTEM STATUS:
+-----------------
+Gyroscope Array:  DEGRADED
+Star Tracker:     OFFLINE
+Nav Computer:     REBOOTING
+Inertial Nav:     ACTIVE
+
+OVERALL STATUS: CRITICAL
+
+FAILURE ANALYSIS:
+Star tracker lost lock on reference stars.
+Gyroscope drift exceeded calibration bounds.
+Position uncertainty: >1000 km
+
+AUTHORIZATION FOR REPAIR: ENGINEERING_AUTH_7749
+
+Recovery procedure initiated. Awaiting manual intervention.
+
+End of Report

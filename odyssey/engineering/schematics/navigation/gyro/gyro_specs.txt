@@ -1,0 +1,7 @@
+GYROSCOPE ARRAY SPECIFICATIONS
+Document NV-1001
+
+Type: Laser Ring Gyroscope
+Precision: 0.0001 degrees
+Calibration Interval: 24 hours
+Backup: Fiber optic gyroscope array

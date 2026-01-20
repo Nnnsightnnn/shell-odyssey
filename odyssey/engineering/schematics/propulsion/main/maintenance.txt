@@ -1,0 +1,7 @@
+MAIN ENGINE MAINTENANCE SCHEDULE
+Document PE-1002
+
+Daily: Monitor plasma containment field
+Weekly: Check fuel injector alignment
+Monthly: Calibrate thrust vectoring
+Quarterly: Full diagnostic scan

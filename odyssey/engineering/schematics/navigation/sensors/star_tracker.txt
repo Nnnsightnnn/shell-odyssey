@@ -1,0 +1,7 @@
+STAR TRACKER SYSTEM
+Document NV-2001
+
+Camera Resolution: 4096 x 4096
+Star Database: 2.5 million entries
+Update Rate: 10 Hz
+Accuracy: 0.5 arcseconds

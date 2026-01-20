@@ -1,0 +1,7 @@
+WATER RECYCLING SYSTEM
+Document LS-3001
+
+Capacity: 200 liters/day
+Recovery Rate: 98%
+Sources: Humidity, waste processing
+Storage: 5000 liters

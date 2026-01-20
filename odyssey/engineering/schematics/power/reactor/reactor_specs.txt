@@ -1,0 +1,7 @@
+FUSION REACTOR SPECIFICATIONS
+Document PW-1001
+
+Type: Tokamak Fusion Reactor
+Output: 500 MW thermal
+Electrical: 200 MW
+Fuel: Deuterium-Tritium

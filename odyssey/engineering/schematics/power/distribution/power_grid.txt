@@ -1,0 +1,7 @@
+POWER DISTRIBUTION GRID
+Document PW-2001
+
+Primary Voltage: 480V AC
+Secondary: 240V, 120V, 48V DC
+Total Circuits: 847
+Emergency Backup: Battery arrays

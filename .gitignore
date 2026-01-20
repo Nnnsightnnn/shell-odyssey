@@ -1,0 +1,33 @@
+# Progress tracking
+.progress/
+**/.complete
+**/.hints_*
+
+# Player-created files
+odyssey/airlock/crew_count.txt
+odyssey/airlock/equipment_bay/.complete
+odyssey/reactor/core/reactor_fixed.cfg
+odyssey/reactor/scripts/repair.sh
+odyssey/reactor/scripts/reactor_status.txt
+
+# Sandbox/workspace directories
+odyssey/*/sandbox/*
+odyssey/*/workspace/*
+!**/.gitkeep
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
+*.log.bak

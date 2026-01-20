@@ -1,0 +1,7 @@
+OXYGEN GENERATION SYSTEM
+Document LS-1001
+
+Method: Electrolysis of water
+Capacity: 24 kg O2/day
+Crew Requirement: 20 kg O2/day
+Reserve: 72 hours emergency supply

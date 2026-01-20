@@ -1,0 +1,45 @@
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║  MISSION: TRANSMISSION FILTERING                                          ║
+║  SKILL: Pipes, head, tail, sort, uniq                                     ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+OBJECTIVE:
+The transmission buffer contains hundreds of signal fragments. Most are
+noise, but hidden among them are message fragments from Earth. You need
+to filter out the noise and identify the unique signal sources.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASK: Identify the Earth Transmission
+─────────────────────────────────────
+The file 'signal_buffer.txt' contains mixed transmissions from various
+sources. Each line has the format:
+
+    SOURCE:SIGNAL_STRENGTH:MESSAGE
+
+Your tasks:
+1. Find all unique signal SOURCES (first field)
+2. Identify which source is from EARTH
+3. Count how many transmissions came from Earth
+
+The answer is the NUMBER of Earth transmissions.
+
+When you have the count, run:
+    ./verify <count>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USEFUL COMMANDS:
+    cat signal_buffer.txt                      View all signals
+    head -20 signal_buffer.txt                 See first 20 lines
+    cut -d':' -f1 signal_buffer.txt            Extract sources
+    cut -d':' -f1 file | sort | uniq           Unique sources
+    grep "EARTH" signal_buffer.txt             Find Earth signals
+    grep "EARTH" signal_buffer.txt | wc -l     Count Earth signals
+
+PIPELINE EXAMPLE:
+    cat file | cut -d':' -f1 | sort | uniq
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
