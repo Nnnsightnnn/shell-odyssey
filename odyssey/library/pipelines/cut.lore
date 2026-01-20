@@ -1,0 +1,59 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: cut                                          ║
+║  Classification: Data Pipeline                                ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Cut appeared in Unix System III (1982) as a simple tool for  │
+│  extracting columns from structured text. Before cut, you'd   │
+│  use awk for even simple field extraction. Cut was designed   │
+│  to be fast and focused - it does one thing: slice out        │
+│  vertical sections of text. It's the scissors of Unix.        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of cut as selecting COLUMNS from a table:              │
+│                                                                │
+│     Input (CSV):           cut -d',' -f2                      │
+│    ┌─────┬───────┬─────┐  ┌───────┐                          │
+│    │ id  │ name  │ age │  │ name  │   ← extracts column 2    │
+│    │ 1   │ alice │ 30  │  │ alice │                          │
+│    │ 2   │ bob   │ 25  │  │ bob   │                          │
+│    │ 3   │ carol │ 35  │  │ carol │                          │
+│    └─────┴───────┴─────┘  └───────┘                          │
+│                                                                │
+│  Two modes of operation:                                       │
+│                                                                │
+│    1. By delimiter (fields):                                   │
+│       cut -d',' -f2        → 2nd comma-separated field        │
+│       cut -d':' -f1,3      → 1st and 3rd colon-separated      │
+│       cut -d' ' -f1-3      → fields 1 through 3               │
+│                                                                │
+│    2. By character position:                                   │
+│       cut -c1-10           → characters 1-10                  │
+│       cut -c5-             → from character 5 to end          │
+│                                                                │
+│  Note: Fields and characters are 1-indexed (start at 1)       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: sort, uniq, grep, pipes                   │
+│  • Alternatives: awk (more powerful), sed                     │
+│  • Builds toward: CSV processing, log parsing                 │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "Cut is perfect for simple column extraction but has limits. │
+│  It can't handle quoted fields in CSV (where commas appear    │
+│  inside quotes). For complex CSV, you'll need awk or a real   │
+│  CSV parser. But for log files, /etc/passwd, and simple       │
+│  delimited data? Cut is fast and clean."                      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

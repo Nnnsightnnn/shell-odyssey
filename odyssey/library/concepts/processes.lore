@@ -1,0 +1,75 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: Processes                                    ║
+║  Classification: Concept                                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Unix process management evolved at Bell Labs in the early    │
+│  1970s. The fork() system call (create a copy of a process)   │
+│  and exec() (replace the current program) appeared around     │
+│  1971. This fork-exec model was revolutionary - lightweight,  │
+│  hierarchical, and elegant. Every Unix process is a child     │
+│  of another, forming a tree rooted at process 1 (init).       │
+│  Tools like ps and kill emerged by mid-1970s.                 │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Every running program is a PROCESS with a unique ID (PID):   │
+│                                                                │
+│        Process Tree:                                           │
+│        ┌────────────┐                                          │
+│        │  init (1)  │  ← The ancestor of all processes        │
+│        └─────┬──────┘                                          │
+│              │                                                 │
+│        ┌─────┴─────┐                                           │
+│        ▼           ▼                                           │
+│    ┌────────┐  ┌────────┐                                      │
+│    │ bash   │  │ sshd   │                                      │
+│    │ (1234) │  │ (456)  │                                      │
+│    └────┬───┘  └────────┘                                      │
+│         │                                                      │
+│    ┌────┴────┐                                                 │
+│    ▼         ▼                                                 │
+│ ┌──────┐ ┌──────┐                                              │
+│ │ vim  │ │ grep │                                              │
+│ │(5678)│ │(5679)│                                              │
+│ └──────┘ └──────┘                                              │
+│                                                                │
+│  Key commands:                                                 │
+│                                                                │
+│    ps          → list your processes                          │
+│    ps aux      → list ALL processes (a=all users, u=detail)   │
+│    top / htop  → live process monitor                         │
+│    kill PID    → send termination signal                      │
+│    kill -9 PID → force kill (SIGKILL, cannot be ignored)      │
+│                                                                │
+│  Background jobs:                                              │
+│    command &   → run in background                            │
+│    jobs        → list background jobs                         │
+│    fg          → bring job to foreground                      │
+│    Ctrl+Z      → suspend current process                      │
+│    bg          → resume suspended process in background       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: grep (ps aux | grep name), pipes          │
+│  • Related: nohup (survive logout), screen/tmux (sessions)    │
+│  • Builds toward: System administration, debugging, DevOps    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "When something's stuck, 'ps aux | grep processname' finds   │
+│  its PID. Then 'kill PID' asks it to stop gracefully. If      │
+│  that fails, 'kill -9 PID' forces it - but use sparingly,     │
+│  as it doesn't let the process clean up. And remember:        │
+│  'kill' doesn't mean 'destroy' - it means 'send a signal'.    │
+│  The default signal is SIGTERM (please stop)."                │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

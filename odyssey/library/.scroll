@@ -1,0 +1,40 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                    SHIP'S LIBRARY                             ║
+║              "Know thy tools, know thyself"                   ║
+╚═══════════════════════════════════════════════════════════════╝
+
+ARIA's voice echoes softly:
+
+"Welcome to the Ship's Library, crew member. This archive contains
+the accumulated knowledge of generations of engineers who built
+and refined the tools you now use.
+
+Every command has a story. Every tool was forged to solve a real
+problem. Understanding their origins will help you wield them
+with greater purpose.
+
+The archives are organized by category:
+
+  BASICS     - Foundation tools: reading, listing, navigating
+  SEARCH     - Finding needles in haystacks: grep, find
+  PIPELINES  - The art of flowing data: pipes, sort, cut
+  TRANSFORM  - Shaping text to your will: sed, awk, xargs
+  CONCEPTS   - Deeper patterns: regex, scripting, processes
+
+Some sections remain locked until you prove your skills in the
+relevant ship sectors. Knowledge is earned here, not given.
+
+To access an archive, use:
+
+  ./scripts/lore.sh <topic>
+
+For example:
+
+  ./scripts/lore.sh grep
+
+May these records serve you well on your journey."
+
+┌─────────────────────────────────────────────────────────────────┐
+│  "The tools we use shape the thoughts we think."               │
+│                                    — Ken Thompson, circa 1973   │
+└─────────────────────────────────────────────────────────────────┘

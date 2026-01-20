@@ -30,6 +30,33 @@ When finished, run:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+COPYING FILES:
+
+    cp source destination    Copy a file
+    cp template.sh new.sh    Example: copy template.sh to new.sh
+
+EDITING FILES WITH NANO (recommended for beginners):
+
+    nano filename            Open file in nano editor
+
+    Inside nano:
+    - Use arrow keys to navigate
+    - Type to add/edit text
+    - Ctrl+O then Enter to save
+    - Ctrl+X to exit
+
+EDITING FILES WITH VIM (alternative):
+
+    vim filename             Open file in vim editor
+
+    Inside vim:
+    - Press 'i' to enter insert mode (type text)
+    - Press Esc to exit insert mode
+    - Type :wq and Enter to save and quit
+    - Type :q! and Enter to quit without saving
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 SHELL SCRIPT BASICS:
 
     #!/bin/bash              First line (shebang) - tells system to use bash

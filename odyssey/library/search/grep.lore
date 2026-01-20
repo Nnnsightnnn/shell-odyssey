@@ -1,0 +1,58 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: grep                                         ║
+║  Classification: Core Tool                                    ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  The name comes from the ed editor command g/re/p - meaning    │
+│  "global / regular expression / print". Ken Thompson wrote     │
+│  grep overnight on March 3, 1973, to help Doug McIlroy search  │
+│  the Federalist Papers for linguistic patterns. It was so     │
+│  useful that Thompson extracted it into a standalone tool.     │
+│  Brian Kernighan called it a "memorable mini-revolution."      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of grep as a FILTER that only lets matching lines       │
+│  through:                                                      │
+│                                                                │
+│     Input Stream          grep "ERROR"          Output         │
+│    ┌────────────┐        ┌──────────┐       ┌────────────┐    │
+│    │ INFO: ok   │───────▶│          │       │            │    │
+│    │ ERROR: bad │───────▶│  FILTER  │──────▶│ ERROR: bad │    │
+│    │ INFO: fine │───────▶│          │       │ ERROR: x   │    │
+│    │ ERROR: x   │───────▶│          │       └────────────┘    │
+│    └────────────┘        └──────────┘                         │
+│                                                                │
+│  The filter tests each line: does it match the pattern?        │
+│  If yes, it passes through. If no, it's discarded.            │
+│                                                                │
+│  Key flags:                                                    │
+│    -i   → case-insensitive (Error = error = ERROR)            │
+│    -r   → recursive (search directories)                      │
+│    -n   → show line numbers                                   │
+│    -v   → invert (show lines that DON'T match)                │
+│    -c   → count matches instead of showing them               │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: pipes, find (-exec), xargs                │
+│  • Alternatives: ack, ag (silver searcher), ripgrep (rg)      │
+│  • Builds toward: Regular expressions, text processing        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "Start simple: 'grep ERROR *.log' finds errors in log files. │
+│  Add -i when case doesn't matter. Add -r when you need to     │
+│  search directories. The power of grep scales with your       │
+│  knowledge of regular expressions - but literal strings work  │
+│  perfectly fine for most tasks."                               │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

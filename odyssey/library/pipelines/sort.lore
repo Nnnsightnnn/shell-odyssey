@@ -1,0 +1,60 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: sort                                         ║
+║  Classification: Data Pipeline                                ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Sort was one of the original Unix filter utilities from      │
+│  Bell Labs, designed to work in pipelines. When pipes were    │
+│  introduced around 1973, sort was modified to read from       │
+│  standard input, becoming a composable component. The design  │
+│  reflects Unix philosophy: do one thing well, and let users   │
+│  compose tools to solve larger problems.                      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Sort takes a stream of lines, reorders them, and outputs     │
+│  the result:                                                   │
+│                                                                │
+│     Input              sort              Output                │
+│    ┌────────┐      ┌──────────┐      ┌────────┐              │
+│    │ cherry │      │          │      │ apple  │              │
+│    │ apple  │ ───▶ │ REORDER  │ ───▶ │ banana │              │
+│    │ date   │      │          │      │ cherry │              │
+│    │ banana │      │          │      │ date   │              │
+│    └────────┘      └──────────┘      └────────┘              │
+│                                                                │
+│  Key flags change sorting behavior:                            │
+│                                                                │
+│    sort         → alphabetical (default)                      │
+│    sort -n      → numeric (10 comes after 9, not after 1)     │
+│    sort -r      → reverse order                               │
+│    sort -k2     → sort by 2nd field (column)                  │
+│    sort -t','   → use comma as field delimiter                │
+│    sort -u      → unique (remove duplicates while sorting)    │
+│                                                                │
+│  Combining: sort -t',' -k2 -n -r                              │
+│    (sort by 2nd comma-separated field, numerically, reversed) │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: uniq (requires sorted input!), head, tail │
+│  • Alternatives: awk (for complex sorting logic)              │
+│  • Builds toward: Data analysis, reporting pipelines          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "The most common mistake: forgetting -n for numbers.         │
+│  Alphabetically, '9' comes after '10' (because '9' > '1').    │
+│  Use 'sort -n' for numbers. Also remember: 'uniq' only        │
+│  removes ADJACENT duplicates, so always sort first:           │
+│  'sort file | uniq' not 'uniq file | sort'."                  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

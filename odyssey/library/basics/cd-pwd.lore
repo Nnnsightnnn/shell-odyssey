@@ -1,0 +1,58 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: cd & pwd                                     ║
+║  Classification: Core Tool                                    ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Both commands date to early Unix (1971). "cd" stands for     │
+│  "change directory" and "pwd" for "print working directory."  │
+│  The concept of a "current directory" was revolutionary -     │
+│  before Unix, you had to specify full paths for everything.   │
+│  The working directory is stored in an environment variable   │
+│  called $PWD, which the shell updates as you navigate.        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of the filesystem as a tree, and "you" as standing     │
+│  on one branch at any given moment:                           │
+│                                                                │
+│              / (root)                                          │
+│             /|\                                                │
+│            / | \                                               │
+│         home usr var                                           │
+│          |                                                     │
+│        kenny     ← cd /home/kenny brings you here             │
+│         /|\                                                    │
+│        / | \                                                   │
+│     docs  projects  .bashrc                                    │
+│             |                                                  │
+│           shell-odyssey  ← pwd shows: /home/kenny/projects/... │
+│                                                                │
+│  Special shortcuts:                                            │
+│    cd ~     → go to your home directory ($HOME)               │
+│    cd ..    → go up one level (parent directory)              │
+│    cd -     → go back to previous directory (toggle)          │
+│    cd       → same as cd ~ (go home)                          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: ls, find, pushd/popd                      │
+│  • Alternatives: pushd/popd (for directory stacks)            │
+│  • Builds toward: Understanding paths, $HOME, shell variables │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "The 'cd -' trick is underrated. It toggles between your     │
+│  current directory and the previous one - perfect when you're │
+│  jumping between two locations repeatedly. And remember:      │
+│  if you ever feel lost, 'pwd' tells you exactly where you     │
+│  are. Getting lost is part of learning the ship's layout."    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

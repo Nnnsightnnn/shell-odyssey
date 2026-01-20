@@ -1,0 +1,56 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: ls                                           ║
+║  Classification: Core Tool                                    ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Created by Ken Thompson and Dennis Ritchie in 1971 for Unix  │
+│  on the PDP-7. The name is simply short for "list." In the    │
+│  early days, every keystroke mattered - terminals were slow,  │
+│  and memory was measured in kilobytes. Two-letter commands    │
+│  like ls, cd, rm, and cp saved precious time and resources.   │
+│  The command has grown from 5 options in 1972 to over 60      │
+│  today, yet the basics remain unchanged.                      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of ls as asking a directory "What's inside you?"       │
+│                                                                │
+│      ┌─────────────────────┐                                   │
+│      │   Directory (.)     │                                   │
+│      │  ┌────┬────┬────┐   │                                   │
+│      │  │file│file│dir/│   │  ← ls sees this                  │
+│      │  └────┴────┴────┘   │                                   │
+│      └─────────────────────┘                                   │
+│                                                                │
+│  Key flags change what you see:                                │
+│                                                                │
+│    ls       → names only                                       │
+│    ls -l    → long format (permissions, size, date)           │
+│    ls -a    → all files (including hidden .dotfiles)          │
+│    ls -la   → both: all files in long format                  │
+│                                                                │
+│  The dot prefix convention: files starting with . are hidden  │
+│  by default. This was actually a bug that became a feature!   │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: cd, pwd, find, tree                       │
+│  • Alternatives: find (for searching), tree (for structure)   │
+│  • Builds toward: Understanding file permissions, navigation  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "When troubleshooting, always start with 'ls -la'. The -a    │
+│  reveals hidden configuration files that are often the source │
+│  of mysterious behavior. Many ship systems store their state  │
+│  in .dotfiles - invisible unless you ask to see them."        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

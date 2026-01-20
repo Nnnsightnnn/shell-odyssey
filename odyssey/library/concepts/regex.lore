@@ -1,0 +1,67 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: Regular Expressions                          ║
+║  Classification: Concept                                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  The concept began in 1951 when mathematician Stephen Kleene  │
+│  formalized "regular languages" to describe patterns. Ken     │
+│  Thompson brought regex to practical computing in 1968,       │
+│  implementing pattern matching in the QED editor. He used     │
+│  just-in-time compilation to make it fast - a technique now   │
+│  common in modern software. Thompson later added regex to     │
+│  ed and grep, making it a cornerstone of Unix text processing.│
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  A regex is a PATTERN that describes a set of strings:        │
+│                                                                │
+│    Pattern: cat                                                │
+│    Matches: "cat" "catalog" "scat"                            │
+│                                                                │
+│    Pattern: ^cat                                               │
+│    Matches: "cat" "catalog" (only at START of line)           │
+│                                                                │
+│  Core building blocks:                                         │
+│                                                                │
+│    .       any single character     (c.t → cat, cot, cut)     │
+│    *       zero or more of previous (ca*t → ct, cat, caat)    │
+│    +       one or more of previous  (ca+t → cat, caat)        │
+│    ?       zero or one of previous  (colou?r → color, colour) │
+│    ^       start of line            (^Error → lines starting) │
+│    $       end of line              (end$ → lines ending)     │
+│    [abc]   any char in set          ([aeiou] → any vowel)     │
+│    [^abc]  any char NOT in set      ([^0-9] → non-digit)      │
+│    \       escape special chars     (\. → literal dot)        │
+│                                                                │
+│  Examples:                                                     │
+│    ^[0-9]+$         → lines containing only numbers           │
+│    \.txt$           → strings ending in .txt                  │
+│    [A-Za-z_][A-Za-z0-9_]*  → valid variable names            │
+│                                                                │
+│  BRE vs ERE:                                                   │
+│    Basic (grep):    escape +, ?, |, (, ) to use them          │
+│    Extended (grep -E, egrep): use them directly               │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Used in: grep, sed, awk, find, vim, perl                   │
+│  • Alternatives: literal strings (simpler), glob patterns     │
+│  • Builds toward: Text processing mastery, programming        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "Start simple. Most real-world regex needs are basic:        │
+│  'grep ERROR' for literal text, 'grep '^2024' for lines       │
+│  starting with 2024. Build complexity only when needed.       │
+│  And use regex101.com to test patterns interactively -        │
+│  it explains what each part does."                            │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

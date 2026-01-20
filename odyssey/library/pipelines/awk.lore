@@ -1,0 +1,60 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: awk                                          ║
+║  Classification: Data Pipeline                                ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Created in 1977 at Bell Labs by Alfred Aho, Peter Weinberger,│
+│  and Brian Kernighan. The name AWK comes from their initials  │
+│  (pronounced like the bird "auk"). It was designed to make    │
+│  text processing easy - combining pattern matching with a     │
+│  C-like programming language. Kernighan later co-authored     │
+│  "The AWK Programming Language" (1988), a classic text.       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  AWK processes text line by line using PATTERN { ACTION }:    │
+│                                                                │
+│     Input          Pattern Match?      Action                  │
+│    ┌────────┐     ┌─────────────┐    ┌────────────────┐       │
+│    │ Line 1 │────▶│ /ERROR/ ?   │─Y─▶│ { print $2 }   │       │
+│    │ Line 2 │     │    N        │    │                │       │
+│    │ Line 3 │     └─────────────┘    └────────────────┘       │
+│    └────────┘           │                    │                 │
+│                         │skip               output             │
+│                                                                │
+│  Built-in variables:                                           │
+│    $0  = entire line                                           │
+│    $1  = first field    $2 = second field    etc.             │
+│    NF  = number of fields    NR = line number                 │
+│    FS  = field separator (default: whitespace)                │
+│                                                                │
+│  Common patterns:                                              │
+│    awk '{print $1}'           → print first field of each line│
+│    awk '/ERROR/ {print}'      → print lines containing ERROR  │
+│    awk -F',' '{print $2}'     → use comma as separator        │
+│    awk '{sum+=$1} END {print sum}'  → sum first column        │
+│    awk 'NR>1 {print}'         → skip first line (header)      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: pipes, sort, uniq                         │
+│  • Alternatives: cut (simpler), sed (for substitution)        │
+│  • Builds toward: Perl, data transformation pipelines         │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "AWK is a programming language disguised as a command.       │
+│  Start simple: 'awk '{print $1}'' to get the first column.    │
+│  Most tasks only need print, $N, and maybe a pattern.         │
+│  The moment you need loops or conditionals, you've graduated  │
+│  to real AWK programming - which is actually quite powerful." │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,61 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: find                                         ║
+║  Classification: Core Tool                                    ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Created by Dick Haight at Bell Labs for Unix Version 5       │
+│  (1974) as part of the Programmer's Workbench. It was built   │
+│  alongside cpio for file system management. The command's     │
+│  unusual syntax (using expressions rather than flags) dates   │
+│  to this era, predating conventions established by the        │
+│  Bourne shell. The design reflects its origin as a tool for   │
+│  walking complex directory trees.                             │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of find as an EXPLORER that walks through every        │
+│  directory, testing each file against your criteria:          │
+│                                                                │
+│           / (starting point)                                   │
+│          /|\                                                   │
+│         / | \                                                  │
+│       a/  b/  c.txt  ← find visits EVERY node                 │
+│      /|    |                                                   │
+│     / |   d.txt                                                │
+│   e/ f.txt                                                     │
+│   |                                                            │
+│  g.txt                                                         │
+│                                                                │
+│  At each node, find evaluates your tests:                      │
+│                                                                │
+│    find . -name "*.txt"     → Does name match *.txt?          │
+│    find . -type d           → Is it a directory?              │
+│    find . -mtime -7         → Modified in last 7 days?        │
+│    find . -size +1M         → Larger than 1 megabyte?         │
+│                                                                │
+│  You can combine tests: find . -name "*.log" -mtime -1        │
+│  (log files modified in the last day)                          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: -exec, xargs, grep                        │
+│  • Alternatives: locate (faster, uses database), fd (modern)  │
+│  • Builds toward: File system understanding, automation       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "The -exec flag is powerful but tricky. Use {} as a          │
+│  placeholder for the found file, and end with \\; or +.       │
+│  Example: find . -name '*.bak' -exec rm {} \\;                 │
+│  When in doubt, add -print first to see what would match      │
+│  before doing anything destructive."                           │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,52 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: cat                                          ║
+║  Classification: Core Tool                                    ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Created by Ken Thompson in 1969 for the first Unix system.   │
+│  The name is short for "concatenate" - to link things         │
+│  together in a chain. Thompson needed a way to join multiple  │
+│  files and display their combined contents. The command has   │
+│  remained essentially unchanged for over 50 years.            │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of cat as a FUNNEL that pours file contents to your    │
+│  screen (stdout):                                              │
+│                                                                │
+│     file1.txt ──┐                                              │
+│                 ├──▶ [cat] ──▶ stdout (your screen)           │
+│     file2.txt ──┘                                              │
+│                                                                │
+│  When given multiple files, it chains them together:          │
+│                                                                │
+│     cat part1.txt part2.txt part3.txt                         │
+│         ↓           ↓           ↓                              │
+│     [contents1][contents2][contents3] → screen                │
+│                                                                │
+│  Despite its design for concatenation, most people use it     │
+│  simply to view single files quickly.                         │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: pipes (cat file | grep), less, head, tail │
+│  • Alternatives: less (for long files), head/tail (for parts) │
+│  • Builds toward: Understanding stdin/stdout, pipelines       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "A common mistake is using 'cat file | grep pattern' when    │
+│  'grep pattern file' works directly. This is called 'useless  │
+│  use of cat' - but don't feel bad, even experienced engineers │
+│  do it. The habit of reading files through cat is deeply      │
+│  ingrained. Use what feels natural while learning."           │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
