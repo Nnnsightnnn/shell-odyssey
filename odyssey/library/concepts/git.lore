@@ -1,0 +1,70 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: git                                          ║
+║  Classification: Concept                                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Linus Torvalds created git in 2005 out of necessity. The     │
+│  Linux kernel had been using BitKeeper, but a licensing       │
+│  dispute ended that arrangement. Linus needed a distributed   │
+│  version control system that was fast and could handle the    │
+│  massive Linux codebase. He wrote git in about two weeks.     │
+│  The name? Linus jokes it's British slang for an unpleasant   │
+│  person - "I'm an egotistical bastard, so I name all my       │
+│  projects after myself."                                       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of git as a TIME MACHINE for your files:               │
+│                                                                │
+│        Working Directory → Staging Area → Repository           │
+│                                                                │
+│     ┌───────────────┐   ┌────────────┐   ┌────────────────┐   │
+│     │ Your files    │   │  Prepared  │   │   Saved        │   │
+│     │ (editing)     │──▶│  changes   │──▶│   snapshots    │   │
+│     │               │   │  (index)   │   │   (commits)    │   │
+│     └───────────────┘   └────────────┘   └────────────────┘   │
+│           │                   │                   │           │
+│        git add            git commit          git log         │
+│                                                                │
+│  The history is a chain of commits:                           │
+│                                                                │
+│     ○──────○──────○──────○  (HEAD)                            │
+│     │      │      │      │                                     │
+│   first  2nd    3rd   current                                 │
+│  commit commit commit  state                                  │
+│                                                                │
+│  Core commands:                                                │
+│    git init       → Create new repository                     │
+│    git status     → See current state                         │
+│    git add        → Stage changes                             │
+│    git commit     → Save snapshot                             │
+│    git log        → View history                              │
+│    git diff       → See what changed                          │
+│    git checkout   → Switch branches/restore files             │
+│    git branch     → List/create branches                      │
+│    git merge      → Combine branches                          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: GitHub/GitLab, CI/CD pipelines            │
+│  • Alternatives: Mercurial (hg), SVN (centralized)            │
+│  • Builds toward: Collaboration, code review, deployment      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "The key insight is that git tracks CONTENT, not files.      │
+│  Every commit is a complete snapshot, not a diff. Start       │
+│  with the basics: init, add, commit, status, log. Run         │
+│  'git status' constantly - it's your compass. Commit early,   │
+│  commit often. Write meaningful commit messages - your        │
+│  future self will thank you."                                 │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

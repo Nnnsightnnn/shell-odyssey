@@ -1,0 +1,65 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: jq                                           ║
+║  Classification: Core Tool                                    ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Stephen Dolan created jq in 2012, frustrated by the lack     │
+│  of good command-line JSON tools. He designed it as "sed for  │
+│  JSON" - a lightweight, flexible JSON processor. The name     │
+│  jq follows the Unix tradition of short tool names (like awk, │
+│  sed, grep). It quickly became essential as JSON became the   │
+│  dominant data format for APIs and configuration.             │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of jq as a JSON QUERY AND TRANSFORM engine:            │
+│                                                                │
+│     JSON Input              jq filter           Output         │
+│    ┌──────────────┐       ┌──────────┐      ┌───────────┐     │
+│    │ {            │       │          │      │           │     │
+│    │   "name": "X"│ ────▶ │  .name   │ ───▶ │ "X"       │     │
+│    │   "items": [ │       │          │      │           │     │
+│    │     1, 2, 3  │       └──────────┘      └───────────┘     │
+│    │   ]          │                                            │
+│    │ }            │       ┌──────────┐      ┌───────────┐     │
+│    └──────────────┘ ────▶ │ .items[] │ ───▶ │ 1 2 3     │     │
+│                           └──────────┘      └───────────┘     │
+│                                                                │
+│  Essential filters:                                            │
+│    .              → Identity (pretty print)                   │
+│    .field         → Extract field                             │
+│    .parent.child  → Nested extraction                         │
+│    .[]            → Iterate array elements                    │
+│    .[0]           → First array element                       │
+│    | select(.x)   → Filter elements                           │
+│    | map(.field)  → Transform each element                    │
+│                                                                │
+│  Output options:                                               │
+│    -r             → Raw output (no quotes on strings)         │
+│    -c             → Compact (one line)                        │
+│    -e             → Exit with error if null                   │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: curl (APIs), pipes, shell scripts         │
+│  • Alternatives: fx (interactive), gron (grepable JSON)       │
+│  • Builds toward: API scripting, data pipelines, DevOps       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ ARIA'S INSIGHT ───────────────────────────────────────────────┐
+│                                                                │
+│  "Start by just piping JSON to 'jq .' for pretty printing.    │
+│  Then try extracting: jq '.data.results'. Use -r when you     │
+│  want plain strings without quotes. The [] notation is        │
+│  powerful - '.items[]' expands arrays, '.items[0]' gets       │
+│  the first element. Combine with select() to filter:          │
+│  jq '.items[] | select(.active == true)'"                     │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

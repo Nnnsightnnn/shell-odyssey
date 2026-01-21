@@ -1,0 +1,5 @@
+HINT 1: Read system_log.txt to find the names of the three rogue processes. Look for CRITICAL and ALERT entries.
+
+HINT 2: Use grep to find each process name in ps_snapshot.txt. For example: grep "memory-leak" ps_snapshot.txt
+
+HINT 3: The PID is the second column in the ps output. The three rogue PIDs are 2847, 3921, and 4156. Write them space-separated to terminate.txt

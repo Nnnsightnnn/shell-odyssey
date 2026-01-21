@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# Datalink Mission Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GAME_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     STATUS REPORT VERIFICATION             ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+    echo -e "${RED}[ERROR]${NC} jq is not installed."
+    echo ""
+    echo "This mission requires jq for JSON parsing."
+    echo ""
+    echo "Install it with:"
+    echo "  macOS:  brew install jq"
+    echo "  Ubuntu: sudo apt install jq"
+    echo "  CentOS: sudo yum install jq"
+    echo ""
+    exit 1
+fi
+
+REPORT_FILE="$SCRIPT_DIR/status_report.txt"
+
+if [[ ! -f "$REPORT_FILE" ]]; then
+    echo -e "${RED}[ERROR]${NC} status_report.txt not found."
+    echo ""
+    echo "Create it with the three values (one per line):"
+    echo "  1. Reactor temperature"
+    echo "  2. Shield percentage"
+    echo "  3. Oxygen level"
+    echo ""
+    exit 1
+fi
+
+# Read user values (strip whitespace) - bash 3.2 compatible
+i=0
+while IFS= read -r line || [[ -n "$line" ]]; do
+    line=$(echo "$line" | tr -d '[:blank:]')
+    if [[ -n "$line" ]]; then
+        USER_VALUES[$i]="$line"
+        ((i++))
+    fi
+done < "$REPORT_FILE"
+
+# Expected values
+EXPECTED_REACTOR="847"
+EXPECTED_SHIELDS="64"
+EXPECTED_OXYGEN="21.3"
+
+# Check count
+if [[ ${#USER_VALUES[@]} -lt 3 ]]; then
+    echo -e "${RED}[ERROR]${NC} Expected 3 values, found ${#USER_VALUES[@]}"
+    echo ""
+    echo "Format: one value per line"
+    echo "  Line 1: reactor temperature"
+    echo "  Line 2: shield percentage"
+    echo "  Line 3: oxygen level"
+    echo ""
+    exit 1
+fi
+
+ERRORS=0
+
+# Check reactor temp
+if [[ "${USER_VALUES[0]}" != "$EXPECTED_REACTOR" ]]; then
+    echo -e "${RED}[X]${NC} Reactor temperature: expected $EXPECTED_REACTOR, got ${USER_VALUES[0]}"
+    ERRORS=$((ERRORS + 1))
+else
+    echo -e "${GREEN}[✓]${NC} Reactor temperature: $EXPECTED_REACTOR"
+fi
+
+# Check shields
+if [[ "${USER_VALUES[1]}" != "$EXPECTED_SHIELDS" ]]; then
+    echo -e "${RED}[X]${NC} Shield percentage: expected $EXPECTED_SHIELDS, got ${USER_VALUES[1]}"
+    ERRORS=$((ERRORS + 1))
+else
+    echo -e "${GREEN}[✓]${NC} Shield percentage: $EXPECTED_SHIELDS"
+fi
+
+# Check oxygen
+if [[ "${USER_VALUES[2]}" != "$EXPECTED_OXYGEN" ]]; then
+    echo -e "${RED}[X]${NC} Oxygen level: expected $EXPECTED_OXYGEN, got ${USER_VALUES[2]}"
+    ERRORS=$((ERRORS + 1))
+else
+    echo -e "${GREEN}[✓]${NC} Oxygen level: $EXPECTED_OXYGEN"
+fi
+
+echo ""
+
+if [[ $ERRORS -eq 0 ]]; then
+    echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║     DATALINK EXTRACTION COMPLETE!                          ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    ┌─────────────────────────────────────────────────────────────────┐
+    │                                                                 │
+    │  ARIA BACKUP: Data extraction successful!                       │
+    │                                                                 │
+    │  You've learned essential data retrieval skills:                │
+    │  • Using curl to fetch data (works with URLs and files)        │
+    │  • Parsing JSON with jq                                         │
+    │  • Extracting nested values from structured data               │
+    │  • Building pipelines for data processing                       │
+    │                                                                 │
+    │  In production systems, you'd use:                              │
+    │    curl https://api.example.com/data | jq '.results'           │
+    │                                                                 │
+    │  The file:// protocol is useful for testing pipelines          │
+    │  before connecting to real APIs.                                │
+    │                                                                 │
+    └─────────────────────────────────────────────────────────────────┘
+EOF
+    echo ""
+    echo "Continue to the final challenge:"
+    echo -e "  ${YELLOW}cd $SCRIPT_DIR/../archives${NC}"
+    echo ""
+else
+    echo -e "${RED}[VERIFICATION FAILED]${NC} $ERRORS value(s) incorrect"
+    echo ""
+    echo "Hint: Use jq to explore the JSON structure:"
+    echo "  jq '.' ship_status.json"
+    echo "  jq '.systems.reactor' ship_status.json"
+    echo ""
+    exit 1
+fi

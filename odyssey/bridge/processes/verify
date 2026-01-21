@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# Processes Mission Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GAME_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     PROCESS TERMINATION VERIFICATION       ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+TERMINATE_FILE="$SCRIPT_DIR/terminate.txt"
+
+if [[ ! -f "$TERMINATE_FILE" ]]; then
+    echo -e "${RED}[ERROR]${NC} terminate.txt not found."
+    echo ""
+    echo "Create it with the PIDs of the rogue processes:"
+    echo "  echo \"PID1 PID2 PID3\" > terminate.txt"
+    echo ""
+    exit 1
+fi
+
+# Read and normalize the answer (sort the PIDs)
+USER_PIDS=$(cat "$TERMINATE_FILE" | tr -s '[:space:]' '\n' | grep -E '^[0-9]+$' | sort -n | tr '\n' ' ' | sed 's/ $//')
+EXPECTED_PIDS="2847 3921 4156"
+
+if [[ "$USER_PIDS" == "$EXPECTED_PIDS" ]]; then
+    echo -e "${GREEN}[TERMINATION AUTHORIZED]${NC}"
+    echo ""
+    echo "Terminating process 2847 (memory-leak-exploit.sh)... DONE"
+    echo "Terminating process 3921 (crypto-miner-backdoor)... DONE"
+    echo "Terminating process 4156 (fork-bomb-variant)... DONE"
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║     LIFE SUPPORT STABILIZED!                               ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    ┌─────────────────────────────────────────────────────────────────┐
+    │                                                                 │
+    │  ARIA BACKUP: Excellent work, Operator!                        │
+    │                                                                 │
+    │  You've demonstrated process management skills:                 │
+    │  • Reading process listings (ps aux output)                    │
+    │  • Identifying processes by name and resource usage            │
+    │  • Cross-referencing logs with process data                    │
+    │  • Understanding PIDs and process termination                  │
+    │                                                                 │
+    │  In a live system, you would use:                              │
+    │    kill PID        - Graceful termination (SIGTERM)            │
+    │    kill -9 PID     - Forced termination (SIGKILL)              │
+    │    ps aux | grep X - Find processes by name                    │
+    │                                                                 │
+    └─────────────────────────────────────────────────────────────────┘
+EOF
+    echo ""
+    echo "Continue to the next challenge:"
+    echo -e "  ${YELLOW}cd $SCRIPT_DIR/../datalink${NC}"
+    echo ""
+else
+    echo -e "${RED}[TERMINATION DENIED]${NC} Incorrect PIDs"
+    echo ""
+    echo "Expected 3 PIDs of rogue processes."
+    echo "Your answer: $USER_PIDS"
+    echo ""
+    echo "Hint: Check system_log.txt for the process names,"
+    echo "      then grep for them in ps_snapshot.txt to find PIDs."
+    echo ""
+    exit 1
+fi

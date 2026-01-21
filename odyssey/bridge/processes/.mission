@@ -1,0 +1,59 @@
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║  MISSION: LIFE SUPPORT DIAGNOSTICS                                    ║
+║  Location: Bridge - Process Management Terminal                       ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  ARIA BACKUP: Critical alert, Operator!                                │
+│                                                                        │
+│  The life support system is being overwhelmed by rogue processes.      │
+│  I've captured a snapshot of all running processes before the          │
+│  monitoring system went offline.                                       │
+│                                                                        │
+│  Your task: Analyze the process snapshot, cross-reference with the     │
+│  system logs, and identify which processes need to be terminated.      │
+│                                                                        │
+└─────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+
+MISSION BRIEFING:
+
+The file 'ps_snapshot.txt' contains output from 'ps aux' - a list of all
+running processes at the time of capture.
+
+The file 'system_log.txt' contains warnings about which processes are
+causing problems.
+
+OBJECTIVES:
+
+1. Examine ps_snapshot.txt to understand running processes
+2. Read system_log.txt to identify problematic processes
+3. Find the PIDs of the THREE rogue processes
+4. Write the PIDs to 'terminate.txt' (space-separated, any order)
+
+Example: If you identify PIDs 1234, 5678, and 9012, create:
+  echo "1234 5678 9012" > terminate.txt
+
+Then verify: ./verify
+
+═══════════════════════════════════════════════════════════════════════════
+
+USEFUL COMMANDS:
+
+  cat ps_snapshot.txt       - View all processes
+  grep "pattern" file       - Search for pattern in file
+  ps aux | grep name        - (For reference) How you'd search live
+
+═══════════════════════════════════════════════════════════════════════════
+
+PROCESS ANATOMY (ps aux columns):
+USER  PID  %CPU  %MEM  VSZ  RSS  TTY  STAT  START  TIME  COMMAND
+
+  • PID  = Process ID (the number you need to identify)
+  • %CPU = Percentage of CPU being used
+  • %MEM = Percentage of memory being used
+  • STAT = Process state (R=running, S=sleeping, Z=zombie)
+
+═══════════════════════════════════════════════════════════════════════════

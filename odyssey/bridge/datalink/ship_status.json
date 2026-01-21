@@ -1,0 +1,47 @@
+{
+  "vessel": {
+    "name": "USS Odyssey",
+    "class": "Explorer",
+    "registry": "NX-7749"
+  },
+  "systems": {
+    "reactor": {
+      "status": "online",
+      "temperature": 847,
+      "fuel_remaining": 72.5,
+      "output_percentage": 85
+    },
+    "shields": {
+      "status": "active",
+      "percentage": 64,
+      "recharge_rate": 2.3
+    },
+    "engines": {
+      "status": "standby",
+      "warp_capability": true,
+      "impulse_power": 100
+    },
+    "life_support": {
+      "status": "nominal",
+      "backup_available": true
+    }
+  },
+  "navigation": {
+    "current_position": {
+      "system": "Alpha Centauri",
+      "coordinates": {
+        "x": 4.367,
+        "y": 0.012,
+        "z": -1.234
+      }
+    },
+    "destination": "Earth",
+    "eta_hours": 2847
+  },
+  "crew": {
+    "total": 127,
+    "active": 45,
+    "in_cryo": 82
+  },
+  "last_updated": "2287-06-15T10:30:00Z"
+}

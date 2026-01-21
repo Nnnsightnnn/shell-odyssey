@@ -1,0 +1,36 @@
+{
+  "timestamp": "2287-06-15T10:30:00Z",
+  "environmental": {
+    "atmosphere": {
+      "oxygen_level": 21.3,
+      "nitrogen_level": 78.1,
+      "co2_level": 0.04,
+      "pressure_kpa": 101.3
+    },
+    "temperature": {
+      "bridge": 22.5,
+      "engineering": 28.7,
+      "cargo_bay": 18.2,
+      "medical": 21.0
+    },
+    "humidity": {
+      "average": 45,
+      "min": 38,
+      "max": 52
+    }
+  },
+  "external": {
+    "radiation_level": 0.003,
+    "debris_proximity": "clear",
+    "solar_wind": {
+      "speed_kms": 450,
+      "density": 5.2
+    }
+  },
+  "alerts": [],
+  "sensor_status": {
+    "primary_array": "online",
+    "backup_array": "standby",
+    "calibration": "nominal"
+  }
+}

@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# Archives Mission Verification Script
+
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GAME_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║     ARCHIVE SYSTEM VERIFICATION            ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+
+ERRORS=0
+
+# Check if git is installed
+if ! command -v git &> /dev/null; then
+    echo -e "${RED}[ERROR]${NC} git is not installed."
+    echo ""
+    echo "Install git to complete this mission."
+    echo "  macOS:  xcode-select --install (or: brew install git)"
+    echo "  Ubuntu: sudo apt install git"
+    echo ""
+    exit 1
+fi
+
+# Check 1: .git directory exists
+if [[ -d "$SCRIPT_DIR/.git" ]]; then
+    echo -e "${GREEN}[✓]${NC} Repository initialized (.git exists)"
+else
+    echo -e "${RED}[X]${NC} Repository not initialized"
+    echo "    Run: git init"
+    ((ERRORS++))
+fi
+
+# Check 2: At least one commit exists
+if [[ -d "$SCRIPT_DIR/.git" ]]; then
+    COMMIT_COUNT=$(cd "$SCRIPT_DIR" && git rev-list --count HEAD 2>/dev/null || echo "0")
+    if [[ "$COMMIT_COUNT" -gt 0 ]]; then
+        echo -e "${GREEN}[✓]${NC} Commit history exists ($COMMIT_COUNT commit(s))"
+    else
+        echo -e "${RED}[X]${NC} No commits found"
+        echo "    Run: git commit -m \"your message\""
+        ((ERRORS++))
+    fi
+fi
+
+# Check 3: Both files are tracked
+if [[ -d "$SCRIPT_DIR/.git" ]] && [[ "$COMMIT_COUNT" -gt 0 ]]; then
+    TRACKED_FILES=$(cd "$SCRIPT_DIR" && git ls-files 2>/dev/null)
+
+    if echo "$TRACKED_FILES" | grep -q "repair_log.md"; then
+        echo -e "${GREEN}[✓]${NC} repair_log.md is tracked"
+    else
+        echo -e "${RED}[X]${NC} repair_log.md is not tracked"
+        echo "    Run: git add repair_log.md"
+        ((ERRORS++))
+    fi
+
+    if echo "$TRACKED_FILES" | grep -q "system_notes.md"; then
+        echo -e "${GREEN}[✓]${NC} system_notes.md is tracked"
+    else
+        echo -e "${RED}[X]${NC} system_notes.md is not tracked"
+        echo "    Run: git add system_notes.md"
+        ((ERRORS++))
+    fi
+fi
+
+# Check 4: Commit message contains "repair"
+if [[ -d "$SCRIPT_DIR/.git" ]] && [[ "$COMMIT_COUNT" -gt 0 ]]; then
+    COMMIT_MSG=$(cd "$SCRIPT_DIR" && git log --format=%B -n 1 2>/dev/null)
+    if echo "$COMMIT_MSG" | grep -qi "repair"; then
+        echo -e "${GREEN}[✓]${NC} Commit message contains 'repair'"
+    else
+        echo -e "${RED}[X]${NC} Commit message must contain 'repair'"
+        echo "    Current message: \"$COMMIT_MSG\""
+        echo "    Create a new commit with the word 'repair' in the message"
+        ((ERRORS++))
+    fi
+fi
+
+echo ""
+
+if [[ $ERRORS -eq 0 ]]; then
+    echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║     ARCHIVE SYSTEM ESTABLISHED!                            ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+
+    # Create completion marker
+    touch "$SCRIPT_DIR/.complete"
+
+    cat << 'EOF'
+    ┌─────────────────────────────────────────────────────────────────┐
+    │                                                                 │
+    │  ARIA BACKUP: Archive system operational!                       │
+    │                                                                 │
+    │  You've learned fundamental version control:                    │
+    │  • git init    - Create a new repository                       │
+    │  • git add     - Stage files for commit                        │
+    │  • git commit  - Save a snapshot with a message                │
+    │  • git status  - Check current state                           │
+    │  • git log     - View history                                  │
+    │                                                                 │
+    │  These skills are essential for:                                │
+    │  • Tracking changes to code and documents                       │
+    │  • Collaborating with other developers                          │
+    │  • Maintaining project history                                  │
+    │  • Reverting mistakes                                           │
+    │                                                                 │
+    └─────────────────────────────────────────────────────────────────┘
+EOF
+    echo ""
+    echo -e "${GREEN}╔═════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║                                                                 ║${NC}"
+    echo -e "${GREEN}║   ★ ★ ★  BRIDGE SECTOR COMPLETE  ★ ★ ★                         ║${NC}"
+    echo -e "${GREEN}║                                                                 ║${NC}"
+    echo -e "${GREEN}║   You have completed all advanced training modules.            ║${NC}"
+    echo -e "${GREEN}║   The Odyssey is fully operational.                            ║${NC}"
+    echo -e "${GREEN}║                                                                 ║${NC}"
+    echo -e "${GREEN}╚═════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo "Check your full progress:"
+    echo -e "  ${YELLOW}$GAME_DIR/scripts/check-progress.sh${NC}"
+    echo ""
+else
+    echo -e "${RED}[VERIFICATION FAILED]${NC} $ERRORS requirement(s) not met"
+    echo ""
+    exit 1
+fi

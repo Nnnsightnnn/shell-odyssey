@@ -1,0 +1,40 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.1 169836 11424 ?        Ss   Jun01   0:12 /sbin/init
+root         127  0.0  0.0  46324  5680 ?        Ss   Jun01   0:01 /lib/systemd/systemd-journald
+root         155  0.0  0.0  21996  5532 ?        Ss   Jun01   0:00 /lib/systemd/systemd-udevd
+aria         312  0.2  0.5 432156 42880 ?        Ssl  Jun01   3:45 aria-core --daemon
+aria         415  0.1  0.2 215680 18432 ?        S    Jun01   1:22 aria-sensors --monitor
+root         423  0.0  0.0  14428  4564 tty1     Ss+  Jun01   0:00 /sbin/agetty -o -p -- \u --noclear tty1
+aria         518  0.1  0.3 287456 24576 ?        S    Jun01   2:15 navigation-daemon
+aria         624  0.0  0.1 125840 10240 ?        S    Jun01   0:45 life-support-monitor
+aria        2847 89.2 45.3 8745632 3712000 ?     R    10:15  42:18 memory-leak-exploit.sh
+root         731  0.0  0.0  72296  6144 ?        Ss   Jun01   0:03 /usr/sbin/sshd -D
+aria         845  0.0  0.2 198456 16384 ?        S    Jun01   0:38 comms-relay
+aria         912  0.1  0.1 156320 12288 ?        S    Jun01   1:05 power-grid-manager
+root         956  0.0  0.0  55180  4096 ?        Ss   Jun01   0:00 /usr/sbin/cron -f
+aria        1024  0.0  0.1 134560  8192 ?        S    Jun01   0:22 atmosphere-processor
+aria        1156  0.0  0.2 187640 14336 ?        S    Jun01   0:55 hull-integrity-checker
+aria        1287  0.1  0.1 145920 11264 ?        S    Jun01   1:18 thermal-regulator
+aria        1423  0.0  0.1 123456  9216 ?        S    Jun01   0:33 backup-generator
+aria        1556  0.0  0.2 176540 15360 ?        S    Jun01   0:47 cargo-manifest-sync
+aria        1689  0.1  0.1 165432 13312 ?        S    Jun01   1:02 crew-locator
+aria        1823  0.0  0.1 154320 12288 ?        S    Jun01   0:41 water-recycler
+aria        1957  0.1  0.2 189760 16384 ?        S    Jun01   1:35 waste-processor
+aria        2145  0.0  0.1 143280 10240 ?        S    Jun01   0:28 airlock-controller
+aria        2312  0.1  0.1 167840 14336 ?        S    Jun01   1:12 gravity-compensator
+aria        2478  0.0  0.2 178560 15360 ?        S    Jun01   0:52 radiation-shield
+aria        2634  0.0  0.1 156780 13312 ?        S    Jun01   0:39 emergency-beacon
+aria        3921 78.5 32.1 6543210 2621440 ?     R    10:18  38:42 crypto-miner-backdoor
+aria        3045  0.1  0.2 198760 17408 ?        S    Jun01   1:45 medical-scanner
+aria        3189  0.0  0.1 145680 11264 ?        S    Jun01   0:35 food-synthesizer
+aria        3356  0.1  0.2 187450 16384 ?        S    Jun01   1:28 entertainment-system
+aria        3512  0.0  0.1 134560  9216 ?        S    Jun01   0:25 lighting-controller
+aria        3678  0.0  0.2 176890 15360 ?        S    Jun01   0:58 security-camera
+aria        3845  0.1  0.1 165430 14336 ?        S    Jun01   1:15 door-access-control
+aria        4012  0.0  0.1 154320 12288 ?        S    Jun01   0:43 ventilation-system
+aria        4156 95.8 22.4 4521984 1835008 ?     R    10:22  35:56 fork-bomb-variant
+aria        4289  0.0  0.2 189870 17408 ?        S    Jun01   0:67 escape-pod-manager
+aria        4456  0.1  0.1 167890 13312 ?        S    Jun01   1:08 sensor-array
+aria        4623  0.0  0.1 145780 11264 ?        S    Jun01   0:31 communication-buffer
+aria        4789  0.0  0.2 178650 16384 ?        S    Jun01   0:54 shield-generator
+aria        4956  0.1  0.1 156890 14336 ?        S    Jun01   1:22 engine-monitor

@@ -1,0 +1,5 @@
+HINT 1: Start by initializing a git repository with: git init (this creates the .git directory)
+
+HINT 2: Add files to staging with: git add repair_log.md system_notes.md (or: git add .) Then check with: git status
+
+HINT 3: Create the commit with: git commit -m "Archive repair documentation" (message must contain "repair"). If git asks for identity, run: git config user.email "you@example.com" and git config user.name "Your Name"

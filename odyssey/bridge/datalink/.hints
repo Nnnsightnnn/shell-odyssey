@@ -1,0 +1,5 @@
+HINT 1: First, examine the JSON structure with: cat ship_status.json | jq '.' or: curl -s file://$(pwd)/ship_status.json | jq '.'
+
+HINT 2: The reactor temperature is at .systems.reactor.temperature in ship_status.json. The shield percentage is at .systems.shields.percentage. Try: jq -r '.systems.reactor.temperature' ship_status.json
+
+HINT 3: The three values are: 847 (reactor temp), 64 (shields), 21.3 (oxygen at .environmental.atmosphere.oxygen_level). Write them to status_report.txt, one per line.

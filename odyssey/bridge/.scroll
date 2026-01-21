@@ -55,10 +55,21 @@
 
     ═══════════════════════════════════════════════════════════════════════
 
-    BONUS SECTOR - Work in Progress
+    BONUS SECTOR - Advanced Training
 
-    The bridge challenges are coming in a future update.
-    For now, celebrate your victory - you've saved the Odyssey!
+    These terminals contain challenges designed by Earth's most demanding
+    instructors. They are optional, but those who complete them emerge
+    as truly elite operators.
 
-    Check your achievements: ~/shell-odyssey/scripts/check-progress.sh
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  AVAILABLE TRAINING MODULES:                                       │
+    │                                                                    │
+    │  • processes/   - Life Support Diagnostics (ps, grep, kill)       │
+    │  • datalink/    - API Data Extraction (curl, jq)                  │
+    │  • archives/    - Ship Log Version Control (git)                  │
+    │                                                                    │
+    │  Complete them in any order. Each builds different skills.         │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    Begin training: cd processes
 

@@ -1,0 +1,73 @@
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║  MISSION: API DATA EXTRACTION                                         ║
+║  Location: Bridge - Datalink Terminal                                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  ARIA BACKUP: The ship's status monitoring system stores data in       │
+│  JSON format. I need you to extract critical readings using the        │
+│  datalink tools: curl and jq.                                          │
+│                                                                        │
+│  curl can fetch data from local files using the file:// protocol.      │
+│  jq is a powerful JSON processor - think of it as "grep for JSON".     │
+│                                                                        │
+└─────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+
+MISSION BRIEFING:
+
+Two JSON data files contain ship status information:
+  • ship_status.json   - Core system readings
+  • sensor_readings.json - Environmental sensor data
+
+Extract THREE critical values and write them to 'status_report.txt':
+  1. The reactor temperature (from ship_status.json)
+  2. The shield percentage (from ship_status.json)
+  3. The oxygen level (from sensor_readings.json)
+
+FORMAT for status_report.txt (one value per line):
+  <reactor_temp>
+  <shield_percent>
+  <oxygen_level>
+
+Example (with made-up values):
+  850
+  92
+  21.5
+
+═══════════════════════════════════════════════════════════════════════════
+
+CURL BASICS:
+
+  curl file://$(pwd)/ship_status.json    - Fetch local file via curl
+  curl -s ...                            - Silent mode (no progress bar)
+
+JQ BASICS:
+
+  jq '.'                    - Pretty print entire JSON
+  jq '.field'               - Extract a top-level field
+  jq '.parent.child'        - Extract nested field
+  jq -r '.field'            - Raw output (no quotes)
+
+EXAMPLE PIPELINE:
+
+  curl -s file://$(pwd)/data.json | jq -r '.temperature'
+
+═══════════════════════════════════════════════════════════════════════════
+
+OBJECTIVES:
+
+1. Examine the JSON files to understand their structure
+2. Use curl and jq to extract the three values
+3. Write the values to status_report.txt (one per line, in order)
+4. Run ./verify to check your work
+
+═══════════════════════════════════════════════════════════════════════════
+
+NOTE: This mission requires 'jq' to be installed. If you don't have it:
+  macOS:  brew install jq
+  Linux:  sudo apt install jq  (or: sudo yum install jq)
+
+═══════════════════════════════════════════════════════════════════════════

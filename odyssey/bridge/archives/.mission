@@ -1,0 +1,70 @@
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║  MISSION: SHIP LOG VERSION CONTROL                                    ║
+║  Location: Bridge - Archives Terminal                                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  ARIA BACKUP: The ship's document archiving system has failed.         │
+│  We need to initialize a new version control system to track           │
+│  critical repair logs.                                                 │
+│                                                                        │
+│  Git is the standard for version control - it tracks changes to        │
+│  files over time, allowing you to see history, revert mistakes,        │
+│  and collaborate with others.                                          │
+│                                                                        │
+└─────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+
+MISSION BRIEFING:
+
+Two critical documents need to be archived:
+  • repair_log.md    - Record of all repairs performed
+  • system_notes.md  - Technical notes about ship systems
+
+Your task: Initialize a git repository, add these files, and create
+a commit to preserve them in the archive.
+
+═══════════════════════════════════════════════════════════════════════════
+
+GIT BASICS:
+
+  git init              - Initialize a new repository (creates .git/)
+  git status            - Show current state (what's tracked, modified)
+  git add <file>        - Stage a file for commit
+  git add .             - Stage all files
+  git commit -m "msg"   - Create a commit with a message
+  git log               - View commit history
+
+═══════════════════════════════════════════════════════════════════════════
+
+OBJECTIVES:
+
+1. Initialize a git repository in this directory (git init)
+2. Stage both files for commit (git add)
+3. Create a commit with a message containing the word "repair"
+4. Run ./verify to confirm the archive is established
+
+VERIFICATION REQUIREMENTS:
+  • .git directory must exist (repository initialized)
+  • Both files must be tracked (committed)
+  • At least one commit must exist
+  • Commit message must contain "repair" (case-insensitive)
+
+═══════════════════════════════════════════════════════════════════════════
+
+EXAMPLE WORKFLOW:
+
+  git init
+  git add repair_log.md system_notes.md
+  git commit -m "Archive repair documentation"
+  ./verify
+
+═══════════════════════════════════════════════════════════════════════════
+
+NOTE: If git asks for your identity, configure it with:
+  git config user.email "operator@odyssey.ship"
+  git config user.name "Ship Operator"
+
+═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,19 @@
+[2287-06-15 10:14:32] ARIA: Life support systems nominal
+[2287-06-15 10:15:01] ALERT: Unusual process spawned - investigating
+[2287-06-15 10:15:15] WARNING: Process 'memory-leak-exploit.sh' consuming excessive memory
+[2287-06-15 10:15:23] CRITICAL: Memory usage at 45% from single process - ABNORMAL
+[2287-06-15 10:16:45] ARIA: Attempting to isolate rogue process
+[2287-06-15 10:17:12] WARNING: CPU spike detected - new unauthorized process
+[2287-06-15 10:18:05] ALERT: Process 'crypto-miner-backdoor' detected - MALICIOUS
+[2287-06-15 10:18:18] CRITICAL: CPU usage at 78% from unauthorized process
+[2287-06-15 10:19:33] ARIA: Multiple intrusion attempts detected
+[2287-06-15 10:20:01] WARNING: System stability compromised
+[2287-06-15 10:21:15] ALERT: Third suspicious process detected
+[2287-06-15 10:22:08] CRITICAL: Process 'fork-bomb-variant' attempting to overwhelm system
+[2287-06-15 10:22:34] WARNING: CPU at 95% - life support at risk
+[2287-06-15 10:23:01] ARIA: Manual intervention required - identify and terminate:
+[2287-06-15 10:23:02]   -> memory-leak-exploit.sh (HIGH MEMORY)
+[2287-06-15 10:23:03]   -> crypto-miner-backdoor (MALICIOUS)
+[2287-06-15 10:23:04]   -> fork-bomb-variant (CPU EXHAUSTION)
+[2287-06-15 10:23:15] ARIA: Process snapshot saved to ps_snapshot.txt
+[2287-06-15 10:23:16] ARIA: Monitoring offline - awaiting operator action
