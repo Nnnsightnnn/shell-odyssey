@@ -31,3 +31,4 @@ odyssey/*/workspace/*
 *.tmp
 *.temp
 *.log.bak
+odyssey/bridge/processes/terminate.txt
