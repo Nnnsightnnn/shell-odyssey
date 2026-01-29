@@ -1,0 +1,122 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║   ██╗     ██╗██████╗ ██████╗  █████╗ ██████╗ ██╗   ██╗                       ║
+║   ██║     ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝                       ║
+║   ██║     ██║██████╔╝██████╔╝███████║██████╔╝ ╚████╔╝                        ║
+║   ██║     ██║██╔══██╗██╔══██╗██╔══██║██╔══██╗  ╚██╔╝                         ║
+║   ███████╗██║██████╔╝██║  ██║██║  ██║██║  ██║   ██║                          ║
+║   ╚══════╝╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝                          ║
+║                                                                               ║
+║                    NETWORK KNOWLEDGE ARCHIVES                                 ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+                         ┌─────────────────────────────┐
+                         │   ╔═══════════════════╗     │
+                         │   ║    ARCHIVES       ║     │
+                         │   ║    DECK 5         ║     │
+                         │   ╚═══════════════════╝     │
+                         │                             │
+                         │      ╔═══╗ ╔═══╗ ╔═══╗     │
+                         │      ║ ▓ ║ ║ ▓ ║ ║ ▓ ║     │
+                         │      ╚═══╝ ╚═══╝ ╚═══╝     │
+                         │      ╔═══╗ ╔═══╗ ╔═══╗     │
+                         │      ║ ▓ ║ ║ ▓ ║ ║ ▓ ║     │
+                         │      ╚═══╝ ╚═══╝ ╚═══╝     │
+                         │      DATA STORAGE BANKS     │
+                         └─────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCATION: Network Knowledge Archives, Deck 5
+STATUS: Archive Access Granted
+ACCESS: ALL CLEARANCE LEVELS
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The Archives are quiet. Rows of data terminals glow softly in the dim light,
+each one a gateway to decades of networking knowledge. The original network
+engineers who built Earth's first internetworks left their wisdom here -
+origin stories, mental models, hard-won insights.
+
+Dr. Elena Vasquez, the station's historian, curated this collection. "Every
+tool has a story," she wrote in her introduction. "Understanding where
+something came from helps you understand how to use it."
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  NEXUS: Welcome to the Archives, Specialist.                       │
+    │                                                                     │
+    │         Here you'll find the origin stories of your tools.         │
+    │         Each one was created by humans solving real problems.      │
+    │         Understanding their history will deepen your mastery.      │
+    │                                                                     │
+    │         The archives are organized by domain:                      │
+    │                                                                     │
+    │         • fundamentals/   - Basic networking tools                 │
+    │         • troubleshooting/ - Diagnostic tools                      │
+    │         • infrastructure/ - Docker and system tools                │
+    │         • security/       - Isolation and protection               │
+    │                                                                     │
+    │         Read any .lore file to learn about a tool's history.       │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ARCHIVE CATALOG
+═══════════════
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  FUNDAMENTALS                                                      │
+    │  ────────────────────────────────────────────────────────────────  │
+    │  ping.lore        ICMP echo - the heartbeat of connectivity       │
+    │  ip.lore          iproute2 - modern network configuration         │
+    │  dig.lore         DNS investigation - asking the nameservers      │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  TROUBLESHOOTING                                                   │
+    │  ────────────────────────────────────────────────────────────────  │
+    │  tcpdump.lore     Packet capture - seeing the invisible           │
+    │  traceroute.lore  Path tracing - mapping the journey              │
+    │  netcat.lore      Network Swiss Army knife                        │
+    │  curl.lore        URL transfer - speaking HTTP                    │
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  INFRASTRUCTURE                                                    │
+    │  ────────────────────────────────────────────────────────────────  │
+    │  docker-network.lore  Container networking - virtual worlds       │
+    │  bridge.lore          Linux bridges - virtual switches            │
+    │  dns.lore             Domain Name System - the internet's phonebook│
+    └─────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  SECURITY                                                          │
+    │  ────────────────────────────────────────────────────────────────  │
+    │  isolation.lore       Network namespaces - boundaries             │
+    │  segmentation.lore    Zone architecture - defense in depth        │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+USAGE
+═════
+
+    # Read a tool's origin story
+    cat fundamentals/ping.lore
+
+    # Browse available lore
+    ls fundamentals/
+    ls troubleshooting/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    "Those who don't learn from history are doomed to debug the same
+     problems their predecessors already solved."
+                                        - Dr. Elena Vasquez
+                                          Station Historian
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

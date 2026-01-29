@@ -1,0 +1,72 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Station Network Identity                                            ║
+║  DIFFICULTY: Beginner                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Engineer, the station's network topology database was corrupted during
+       the cascade failure. I need you to manually discover your workstation's
+       network identity. Every device on Helios has a unique address - find
+       yours, and we can begin rebuilding our network map."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+Before we can diagnose network issues, we must understand our own position in
+the network. Every container on Helios Station has:
+
+  - An IP Address: A unique identifier (e.g., 172.20.0.10)
+  - A Subnet: The range of addresses in our network segment
+  - A Default Gateway: The route to other networks
+  - A DNS Server: How we translate names to addresses
+
+Your task is to discover all of these for your workstation.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: View Your IP Address
+    Command: ip addr
+    Look for the eth0 interface and note the IP address and subnet mask (/24)
+
+[ ] Task 2: View Your Default Gateway
+    Command: ip route
+    Find the "default via X.X.X.X" line - this is your gateway
+
+[ ] Task 3: Check DNS Configuration
+    Command: cat /etc/resolv.conf
+    Identify the nameserver IP address
+
+[ ] Task 4: Resolve Another Container's Address
+    Command: dig +short server
+    Use DNS to find what IP the "server" container has
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CONCEPTS
+════════════
+  ip addr      - Shows all network interfaces and their addresses
+  ip route     - Shows routing table (how to reach other networks)
+  /etc/resolv.conf - System DNS configuration file
+  dig          - DNS lookup utility
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'network_info.txt' with three lines:
+  Line 1: Your container's IP address (e.g., 172.20.0.10)
+  Line 2: Your default gateway (e.g., 172.20.0.1)
+  Line 3: Your DNS server address
+
+Run: ./verify
+
+Success: You can identify your workstation's IP, subnet, gateway, and DNS server.
+The network map will begin to take shape.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../connectivity && cat .mission

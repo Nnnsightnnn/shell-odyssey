@@ -1,0 +1,86 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: ping                                         ║
+║  Classification: Network Diagnostic                           ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Mike Muuss wrote ping in December 1983 at the US Army         │
+│  Ballistic Research Laboratory. He named it after the sound    │
+│  that sonar makes - the "ping" that bounces off submarines     │
+│  and returns as an echo. Just as sonar reveals what's in       │
+│  the depths, ping reveals whether a network host is alive.     │
+│  Muuss later said "I named it after the sound that a sonar     │
+│  makes, inspired by the whole principle of echo-location."     │
+│  Tragically, he died in a car accident in 2000.                │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of ping as SUBMARINE SONAR for networks:                │
+│                                                                │
+│    Your Machine                              Remote Host       │
+│    ┌──────────┐                             ┌──────────┐      │
+│    │          │  ──── ICMP Echo Request ──▶ │          │      │
+│    │   ping   │                             │  Target  │      │
+│    │          │  ◀─── ICMP Echo Reply ───── │          │      │
+│    └──────────┘                             └──────────┘      │
+│         │                                                      │
+│         ▼                                                      │
+│    ┌──────────────────────────────────────────────────────┐   │
+│    │ 64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=14ms │   │
+│    └──────────────────────────────────────────────────────┘   │
+│                                                                │
+│  What ping tells you:                                          │
+│    • Is the host reachable? (replies vs timeout)              │
+│    • How fast is the connection? (time in ms)                 │
+│    • Is the link stable? (packet loss percentage)             │
+│    • How many hops away? (TTL value)                          │
+│                                                                │
+│  Key options:                                                  │
+│    -c N     → Send only N packets (otherwise runs forever)    │
+│    -i N     → Wait N seconds between packets                  │
+│    -W N     → Timeout after N seconds                         │
+│    -s N     → Send packets of N bytes (test MTU)              │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Basic connectivity test                                     │
+│  ping -c 4 google.com                                          │
+│                                                                │
+│  # Test local network (gateway)                                │
+│  ping -c 4 192.168.1.1                                         │
+│                                                                │
+│  # Quick check if host is up                                   │
+│  ping -c 1 -W 2 hostname && echo "UP" || echo "DOWN"          │
+│                                                                │
+│  # Continuous monitoring (Ctrl+C to stop)                      │
+│  ping hostname                                                 │
+│                                                                │
+│  # Test with larger packets (MTU issues)                       │
+│  ping -s 1472 -c 4 hostname                                    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: traceroute, dig, netcat                   │
+│  • Alternatives: fping (faster for many hosts), hping3        │
+│  • Builds toward: Network troubleshooting, monitoring         │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "ping is always your first diagnostic. Can't reach a         │
+│  service? Start with ping. If ping works but the service      │
+│  doesn't, the network is fine - look at the service. If       │
+│  ping fails, work backwards: can you ping the gateway?        │
+│  Can you ping localhost? Narrow down where packets stop.      │
+│  Remember: some hosts block ICMP, so no reply doesn't         │
+│  always mean the host is down."                               │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

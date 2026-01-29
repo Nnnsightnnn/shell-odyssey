@@ -1,0 +1,100 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: dig                                          ║
+║  Classification: DNS Query Tool                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  dig (Domain Information Groper) was developed as part of     │
+│  BIND (Berkeley Internet Name Domain), the reference DNS      │
+│  implementation. First released in the 1990s by ISC           │
+│  (Internet Systems Consortium), it was designed to replace    │
+│  the older nslookup tool. While nslookup still exists, dig    │
+│  provides more detailed output and greater flexibility.       │
+│  DNS administrators and developers consider dig the           │
+│  definitive tool for DNS troubleshooting. Its verbose         │
+│  output shows exactly what's happening at the DNS level.      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of dig as a DNS DETECTIVE that shows the full story:   │
+│                                                                │
+│    ┌────────────┐        Query         ┌─────────────────┐    │
+│    │            │ ─────────────────▶   │                 │    │
+│    │    dig     │   "What is the IP    │   DNS Server    │    │
+│    │            │    for google.com?"  │                 │    │
+│    │            │ ◀─────────────────── │                 │    │
+│    └────────────┘     Response         └─────────────────┘    │
+│          │                                                     │
+│          ▼                                                     │
+│    ┌──────────────────────────────────────────────────────┐   │
+│    │ ;; QUESTION SECTION:                                 │   │
+│    │ ;google.com.                    IN      A            │   │
+│    │                                                      │   │
+│    │ ;; ANSWER SECTION:                                   │   │
+│    │ google.com.             300     IN      A  142.x.x.x │   │
+│    │                                                      │   │
+│    │ ;; Query time: 23 msec                               │   │
+│    │ ;; SERVER: 8.8.8.8#53                                │   │
+│    └──────────────────────────────────────────────────────┘   │
+│                                                                │
+│  Record types:                                                 │
+│    A      → IPv4 address                                      │
+│    AAAA   → IPv6 address                                      │
+│    MX     → Mail server                                       │
+│    NS     → Name server                                       │
+│    TXT    → Text records (SPF, DKIM, etc.)                    │
+│    CNAME  → Canonical name (alias)                            │
+│    PTR    → Reverse DNS lookup                                │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Basic lookup (A record)                                     │
+│  dig google.com                                                │
+│                                                                │
+│  # Short answer only                                           │
+│  dig +short google.com                                         │
+│                                                                │
+│  # Query specific record type                                  │
+│  dig google.com MX                    # mail servers          │
+│  dig google.com NS                    # name servers          │
+│  dig google.com TXT                   # text records          │
+│                                                                │
+│  # Use specific DNS server                                     │
+│  dig @8.8.8.8 google.com              # query Google DNS      │
+│  dig @1.1.1.1 google.com              # query Cloudflare      │
+│                                                                │
+│  # Reverse lookup (IP to hostname)                             │
+│  dig -x 8.8.8.8                                                │
+│                                                                │
+│  # Trace the full resolution path                              │
+│  dig +trace google.com                                         │
+│                                                                │
+│  # Check all record types                                      │
+│  dig google.com ANY                                            │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: host, nslookup, ping                      │
+│  • Alternatives: host (simpler), nslookup (older)             │
+│  • Builds toward: DNS debugging, network troubleshooting      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "When DNS seems broken, dig tells you the truth. First,      │
+│  try 'dig +short domain.com' for a quick answer. If that      │
+│  works, DNS is fine - look elsewhere. If it fails, use        │
+│  'dig @8.8.8.8 domain.com' to test with a public DNS.         │
+│  If public DNS works but local doesn't, your local            │
+│  resolver is the problem. The '+trace' option is gold         │
+│  for tracking down where resolution actually breaks."         │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

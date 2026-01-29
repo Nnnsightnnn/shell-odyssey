@@ -1,0 +1,98 @@
+#!/bin/bash
+# verify - Path Trace mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                      PATH TRACE VERIFICATION                                   ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next module or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check for path_report.txt
+if [[ ! -f "$SCRIPT_DIR/path_report.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} path_report.txt not found."
+    echo ""
+    echo "Create a file with:"
+    echo "  Line 1: Number of hops to server"
+    echo "  Line 2: Is there a route to 172.21.0.0/24? (yes or no)"
+    echo ""
+    exit 1
+fi
+
+# Read the file
+HOPS=$(sed -n '1p' "$SCRIPT_DIR/path_report.txt" | tr -d '[:space:]')
+HAS_ROUTE=$(sed -n '2p' "$SCRIPT_DIR/path_report.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+
+# Validate hops
+if ! [[ "$HOPS" =~ ^[0-9]+$ ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} Line 1 should be a number (hop count)."
+    exit 1
+fi
+
+# In Docker network, usually 1 hop for same-network containers
+if [[ "$HOPS" -ge 1 ]] && [[ "$HOPS" -le 5 ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Hop count: $HOPS (reasonable for Docker network)"
+else
+    echo -e "${YELLOW}[WARNING]${NC} $HOPS hops seems unusual, but accepting."
+fi
+
+# Validate route answer
+if [[ "$HAS_ROUTE" == "no" ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Correct! No route to 172.21.0.0/24 from client."
+elif [[ "$HAS_ROUTE" == "yes" ]]; then
+    echo -e "${YELLOW}[CHECK]${NC} You said there IS a route to backend. Are you sure?"
+    echo "         Run 'ip route' and look for 172.21.x.x entries."
+    echo "         If you're in the client container, there should be NO such route."
+    # Still accept it since network config might vary
+    echo -e "${GREEN}[ACCEPTED]${NC} Proceeding with your answer."
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Line 2 should be 'yes' or 'no'."
+    exit 1
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "You can now trace the paths packets take through networks.
+       This is essential for understanding routing issues.
+
+       Tools mastered:
+       - traceroute: Shows each hop to destination
+       - mtr: Continuous monitoring with statistics
+       - ip route: Your local routing table
+
+       Key insight: The client has no route to 172.21.0.0/24 (backend).
+       That's why you can't reach the database - it's not DNS, it's not
+       the service being down, it's that your routing table doesn't know
+       how to get there. Network isolation at work!"
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                       MODULE 2 COMPLETE                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+EOF
+
+echo -e "${YELLOW}NEXT MODULE:${NC} cd ../../03-junction && cat .scroll"
+echo ""

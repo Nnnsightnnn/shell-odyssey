@@ -1,0 +1,119 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Bridge Network Architecture                                         ║
+║  DIFFICULTY: Intermediate                                                     ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Engineer, to truly understand our network topology, you must understand
+       bridge networks - the virtual switches that connect containers. Docker
+       creates these bridges, and each one forms an isolated network segment.
+       Let me show you how they work from both inside and outside the containers."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+A bridge network is like a virtual network switch. Containers on the same
+bridge can communicate; containers on different bridges cannot (by default).
+
+Docker provides:
+  - Default bridge: Basic connectivity, NO automatic DNS
+  - User-defined bridges: Better isolation, automatic DNS between containers
+
+Our station uses user-defined bridges (frontend_net, backend_net) for
+controlled communication.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+NOTE: These tasks should be run from the Docker HOST, not inside a container.
+
+[ ] Task 1: List All Docker Networks
+    Command: docker network ls
+    Find: bridge (default), network-lab_frontend_net, network-lab_backend_net
+
+[ ] Task 2: Inspect Frontend Network
+    Command: docker network inspect network-lab_frontend_net
+    Find the subnet (172.20.0.0/24), gateway (172.20.0.1), and connected containers.
+
+[ ] Task 3: Compare Default vs User-Defined Bridge
+    # Default bridge has NO DNS:
+    docker run -d --name test1 nginx:alpine
+    docker exec test1 ping -c 1 client  # FAILS - no DNS
+    docker rm -f test1
+
+    # User-defined bridge has DNS:
+    docker exec client ping -c 1 server  # WORKS
+
+[ ] Task 4: View Bridge from Inside Container
+    Command: docker exec -it client bash
+    Inside: ip addr                    # See eth0 interface
+    Inside: ip route                   # See gateway (172.20.0.1)
+    Inside: exit
+
+[ ] Task 5: List Containers on a Network
+    Command: docker network inspect network-lab_frontend_net \
+      --format '{{range .Containers}}{{.Name}}: {{.IPv4Address}}{{"\n"}}{{end}}'
+
+[ ] Task 6: Show Container's Networks
+    Command: docker inspect client \
+      --format '{{range $net, $config := .NetworkSettings.Networks}}{{$net}}: {{$config.IPAddress}}{{"\n"}}{{end}}'
+
+[ ] Task 7: Verify DNS on User-Defined Bridge
+    Command: docker exec client nslookup server
+    Command: docker exec client nslookup api
+    Automatic DNS resolution between containers!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BRIDGE NETWORK DIAGRAM
+══════════════════════
+
+┌──────────────────────────────────────────────────────────────────┐
+│                         Docker Host                               │
+│                                                                   │
+│   ┌─────────┐     ┌─────────┐     ┌─────────┐                   │
+│   │ client  │     │ server  │     │   api   │                   │
+│   │  eth0   │     │  eth0   │     │  eth0   │                   │
+│   └────┬────┘     └────┬────┘     └────┬────┘                   │
+│        │               │               │                         │
+│   ─────┴───────────────┴───────────────┴──────────────────────  │
+│                  Docker Bridge (br-xxxx)                         │
+│                  172.20.0.1 (gateway)                            │
+│                            │                                     │
+│                       ┌────┴─────┐                               │
+│                       │   NAT    │                               │
+│                       └────┬─────┘                               │
+└────────────────────────────┼─────────────────────────────────────┘
+                             │
+                        Physical Network
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CONCEPTS
+════════════
+USER-DEFINED BRIDGE ADVANTAGES:
+  1. Automatic DNS     - Containers resolve each other by name
+  2. Better isolation  - Only connected containers communicate
+  3. Hot-connect       - Add/remove containers without restart
+  4. Configurable      - Custom subnets, gateways, options
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'bridge_info.txt' with:
+  Line 1: Frontend network subnet (e.g., 172.20.0.0/24)
+  Line 2: Frontend network gateway (e.g., 172.20.0.1)
+  Line 3: How many containers are on frontend_net? (a number)
+
+Run: ./verify
+
+Success: You understand bridge networks, can inspect them, and know the
+difference between default and user-defined bridges.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../custom-nets && cat .mission

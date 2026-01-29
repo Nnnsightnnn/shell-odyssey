@@ -1,0 +1,146 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Security Zone Architecture                                          ║
+║  DIFFICULTY: Advanced                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Engineer, the cascade failure revealed weaknesses in our network design.
+       Your mission is to understand network segmentation - dividing infrastructure
+       into security zones based on trust levels. This is how station architects
+       design secure systems. Learn the three-tier model, then apply it."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+Network segmentation divides infrastructure into zones:
+  - DMZ (Demilitarized Zone): Public-facing services
+  - Application Tier: Business logic, API servers
+  - Data Tier: Databases, storage, caches
+
+Each tier has different security requirements and access patterns.
+Containers only receive access to tiers they need.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CURRENT ARCHITECTURE
+════════════════════
+
+Internet
+    |
+    v
+┌─────────────────────────────┐
+│   Frontend Zone (DMZ)       │
+│   172.20.0.0/24             │
+│   - client (user access)    │
+│   - server (web)            │
+│   - api (gateway)           │
+└──────────────┬──────────────┘
+               │
+        [API Gateway]
+               │
+┌──────────────┴──────────────┐
+│   Backend Zone              │
+│   172.21.0.0/24             │
+│   - api (internal)          │
+│   - database                │
+│   - monitor (admin)         │
+└─────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Analyze Current Two-Tier Setup
+    docker network inspect network-lab_frontend_net --format '
+    Subnet: {{range .IPAM.Config}}{{.Subnet}}{{end}}
+    Gateway: {{range .IPAM.Config}}{{.Gateway}}{{end}}
+    Containers: {{range .Containers}}{{.Name}} {{end}}'
+
+    docker network inspect network-lab_backend_net --format '
+    Subnet: {{range .IPAM.Config}}{{.Subnet}}{{end}}
+    Gateway: {{range .IPAM.Config}}{{.Gateway}}{{end}}
+    Containers: {{range .Containers}}{{.Name}} {{end}}'
+
+[ ] Task 2: Design Three-Tier Access Rules
+    Consider what traffic should be allowed:
+
+    | From | To   | Allow? | Reason                    |
+    |------|------|--------|---------------------------|
+    | DMZ  | App  | Yes    | Forward user requests     |
+    | DMZ  | Data | No     | No direct DB access       |
+    | App  | Data | Yes    | Query databases           |
+    | App  | DMZ  | Yes    | Return responses          |
+    | Data | *    | No     | Data never initiates      |
+    | Mgmt | All  | Yes    | Admins need full access   |
+
+[ ] Task 3: Build a Three-Tier Test Environment
+    # Create networks
+    docker network create --subnet=172.50.0.0/24 tier-dmz
+    docker network create --subnet=172.51.0.0/24 tier-app
+    docker network create --subnet=172.52.0.0/24 tier-data
+
+    # DMZ tier - web server
+    docker run -d --name web --network tier-dmz nginx:alpine
+
+    # App tier - connects to DMZ and Data
+    docker run -d --name app --network tier-app nicolaka/netshoot sleep 3600
+    docker network connect tier-dmz app
+    docker network connect tier-data app
+
+    # Data tier - database
+    docker run -d --name db --network tier-data \
+      --env POSTGRES_PASSWORD=test postgres:15-alpine
+
+[ ] Task 4: Verify Tier Isolation
+    # Web can only see DMZ
+    docker exec web ping -c 1 172.51.0.2 2>&1 || echo "Web cannot reach app tier"
+    docker exec web ping -c 1 172.52.0.2 2>&1 || echo "Web cannot reach data tier"
+
+    # App can reach all tiers (connected to all)
+    docker exec app ping -c 1 172.50.0.2  # web in DMZ
+    docker exec app ping -c 1 172.52.0.2  # db in data tier
+
+    # DB is isolated
+    docker exec db sh -c "ping -c 1 172.50.0.2 2>&1" || echo "DB cannot reach DMZ"
+
+[ ] Task 5: Document the Architecture
+    For any segmented network, document:
+    1. Network map (subnets, gateways)
+    2. Traffic flows (what talks to what)
+    3. Access rules (allowed/denied)
+    4. Gateway services (what bridges zones)
+    5. Monitoring points (where to inspect)
+
+[ ] Task 6: Cleanup Test Environment
+    docker rm -f web app db 2>/dev/null
+    docker network rm tier-dmz tier-app tier-data 2>/dev/null
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SEGMENTATION BEST PRACTICES
+═══════════════════════════
+  1. Minimize cross-zone traffic (smaller attack surface)
+  2. Use gateway services (don't expose databases directly)
+  3. Implement least privilege (only needed connections)
+  4. Monitor zone boundaries (log cross-zone traffic)
+  5. Separate management (admin access on dedicated network)
+
+SECURITY CONTROLS PER TIER:
+  DMZ:  Rate limiting, WAF, DDoS protection, TLS termination
+  App:  Auth/authz, input validation, secrets management
+  Data: Encryption at rest, minimal ports, no external access
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Run: ./verify
+
+Success: You understand three-tier architecture, can design network
+segmentation, and know what traffic to allow between tiers.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../traffic-monitor && cat .mission

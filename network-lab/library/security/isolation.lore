@@ -1,0 +1,115 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: Network Isolation                            ║
+║  Classification: Security Concepts                            ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Linux network namespaces emerged from the container          │
+│  revolution of the 2000s. Eric Biederman led the namespace    │
+│  work in the kernel, with network namespaces added around     │
+│  Linux 2.6.24 (2008). Each namespace provides a complete,     │
+│  isolated copy of the network stack - its own interfaces,     │
+│  routing tables, firewall rules, and ports. This technology   │
+│  underpins Docker, Kubernetes, and modern container           │
+│  infrastructure. Combined with cgroups, namespaces enable     │
+│  containers to be lightweight yet strongly isolated.          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Network namespaces create PARALLEL NETWORK UNIVERSES:        │
+│                                                                │
+│    ┌─────────────────────────────────────────────────────┐    │
+│    │                    Host                             │    │
+│    │  ┌─────────────────────────────────────────────┐   │    │
+│    │  │            Root Network Namespace            │   │    │
+│    │  │  • eth0 (physical)                          │   │    │
+│    │  │  • docker0 (bridge)                         │   │    │
+│    │  │  • Full routing table                       │   │    │
+│    │  │  • All iptables rules                       │   │    │
+│    │  └─────────────────────────────────────────────┘   │    │
+│    │         │veth                       │veth          │    │
+│    │  ┌──────┴──────┐             ┌──────┴──────┐      │    │
+│    │  │ Container A │             │ Container B │      │    │
+│    │  │ Namespace   │             │ Namespace   │      │    │
+│    │  │             │             │             │      │    │
+│    │  │ • eth0      │             │ • eth0      │      │    │
+│    │  │ • lo        │             │ • lo        │      │    │
+│    │  │ • Own ports │             │ • Own ports │      │    │
+│    │  │ • Own rules │             │ • Own rules │      │    │
+│    │  └─────────────┘             └─────────────┘      │    │
+│    └─────────────────────────────────────────────────────┘    │
+│                                                                │
+│  Each namespace has its own:                                   │
+│    • Network interfaces (can reuse names like eth0)           │
+│    • IP addresses                                             │
+│    • Port space (both can bind to :80)                        │
+│    • Routing table                                            │
+│    • Firewall rules (iptables/nftables)                       │
+│                                                                │
+│  Connecting namespaces:                                        │
+│    veth pairs → Virtual ethernet cable between namespaces     │
+│    bridges    → Connect multiple namespaces                   │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # List network namespaces                                     │
+│  ip netns list                                                 │
+│                                                                │
+│  # Create namespace                                            │
+│  ip netns add myns                                            │
+│                                                                │
+│  # Run command in namespace                                    │
+│  ip netns exec myns ip addr                                   │
+│  ip netns exec myns ping 8.8.8.8                              │
+│                                                                │
+│  # Create veth pair connecting namespaces                      │
+│  ip link add veth0 type veth peer name veth1                  │
+│  ip link set veth1 netns myns                                 │
+│                                                                │
+│  # Configure IPs in each namespace                             │
+│  ip addr add 10.0.0.1/24 dev veth0                            │
+│  ip netns exec myns ip addr add 10.0.0.2/24 dev veth1         │
+│                                                                │
+│  # Bring up interfaces                                         │
+│  ip link set veth0 up                                         │
+│  ip netns exec myns ip link set veth1 up                      │
+│  ip netns exec myns ip link set lo up                         │
+│                                                                │
+│  # Enter namespace with shell                                  │
+│  ip netns exec myns bash                                      │
+│                                                                │
+│  # See what namespace a process is in                          │
+│  ls -la /proc/PID/ns/net                                      │
+│                                                                │
+│  # Docker container's namespace                                │
+│  docker inspect --format '{{.NetworkSettings.SandboxKey}}'    │
+│    container-name                                             │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: ip, bridge, iptables, docker              │
+│  • Related: PID namespaces, mount namespaces, cgroups         │
+│  • Builds toward: Container security, network virtualization  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "Network namespaces are containers' secret weapon for        │
+│  isolation. Each container lives in its own namespace,        │
+│  completely separate from the host and other containers.      │
+│  When debugging container networking, 'ip netns exec' or      │
+│  'docker exec' lets you see inside. The isolation isn't       │
+│  magic - it's veth pairs connecting namespace to bridge.      │
+│  Understanding this helps you debug 'why can't container      │
+│  A reach container B?' - check the veth, check the bridge,    │
+│  check the namespace's routing table. Layer by layer."        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

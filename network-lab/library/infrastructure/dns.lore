@@ -1,0 +1,109 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: DNS (Domain Name System)                     ║
+║  Classification: Network Protocol                             ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Paul Mockapetris invented DNS in 1983 (RFC 882, 883) to      │
+│  replace the unsustainable HOSTS.TXT file that ARPANET used.  │
+│  Before DNS, a single file at SRI-NIC contained all hostname  │
+│  mappings, and everyone downloaded it regularly. As the       │
+│  internet grew, this became impossible. DNS introduced a      │
+│  distributed, hierarchical naming system that could scale     │
+│  infinitely. Today, DNS handles trillions of queries daily    │
+│  and is often called "the phone book of the internet."        │
+│  It's so fundamental that when DNS breaks, the internet       │
+│  appears broken - even though routing still works.            │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  DNS is a HIERARCHICAL DISTRIBUTED DATABASE:                  │
+│                                                                │
+│                        . (root)                                │
+│                           │                                    │
+│          ┌────────────────┼────────────────┐                  │
+│          ▼                ▼                ▼                  │
+│        .com             .org             .net                 │
+│          │                │                │                  │
+│    ┌─────┼─────┐          │          ┌─────┼─────┐           │
+│    ▼     ▼     ▼          ▼          ▼     ▼     ▼           │
+│ google example foo    wikipedia    nginx  github aws         │
+│    │                      │                                   │
+│    ▼                      ▼                                   │
+│  www.google.com      en.wikipedia.org                         │
+│                                                                │
+│  Resolution flow (recursive):                                  │
+│    ┌──────────┐     ┌────────────┐     ┌──────────────┐      │
+│    │ Your App │────▶│  Resolver  │────▶│ Root Server  │      │
+│    └──────────┘     │  (cache)   │     └──────────────┘      │
+│                     │            │────▶│ TLD Server   │      │
+│                     │            │     └──────────────┘      │
+│                     │            │────▶│ Auth Server  │      │
+│                     └────────────┘     └──────────────┘      │
+│                           │                   │               │
+│                           ◀───────────────────┘               │
+│                        (cached answer)                         │
+│                                                                │
+│  Record types:                                                 │
+│    A     → Name to IPv4         NS    → Nameserver            │
+│    AAAA  → Name to IPv6         MX    → Mail server           │
+│    CNAME → Alias                TXT   → Text data             │
+│    PTR   → IP to name           SOA   → Zone authority        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Check system DNS configuration                              │
+│  cat /etc/resolv.conf                                          │
+│                                                                │
+│  # Query DNS (using dig - see dig.lore)                        │
+│  dig google.com                                                │
+│  dig +short google.com                                         │
+│  dig @8.8.8.8 google.com         # query specific server      │
+│                                                                │
+│  # Simple lookup                                               │
+│  host google.com                                               │
+│  nslookup google.com                                           │
+│                                                                │
+│  # Check what resolver your system uses                        │
+│  # Linux with systemd:                                         │
+│  resolvectl status                                             │
+│                                                                │
+│  # Flush DNS cache                                             │
+│  # macOS:                                                      │
+│  sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder│
+│  # Linux (systemd):                                            │
+│  sudo systemd-resolve --flush-caches                          │
+│                                                                │
+│  # Common public DNS servers:                                  │
+│  # 8.8.8.8, 8.8.4.4       (Google)                            │
+│  # 1.1.1.1, 1.0.0.1       (Cloudflare)                        │
+│  # 9.9.9.9                (Quad9)                             │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: dig, host, nslookup, curl                 │
+│  • Related: /etc/hosts, /etc/resolv.conf, systemd-resolved    │
+│  • Builds toward: Web infrastructure, security, load balancing│
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "DNS is usually the first thing to check when 'nothing       │
+│  works.' Can you ping 8.8.8.8 but not google.com? DNS         │
+│  problem. The fix is often in /etc/resolv.conf or your        │
+│  network's DHCP settings. Remember: DNS responses are         │
+│  cached aggressively - TTL values tell you how long. When     │
+│  changing DNS records, lower the TTL first, wait, make        │
+│  the change, then restore TTL. In containers, DNS often       │
+│  works differently - Docker has its own resolver. Always      │
+│  verify what resolver you're actually using with dig."        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

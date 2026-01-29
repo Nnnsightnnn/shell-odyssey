@@ -1,0 +1,100 @@
+#!/bin/bash
+# verify - Multi-Network mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                  MULTI-NETWORK VERIFICATION                                    ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next module or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check for multi_net.txt
+if [[ ! -f "$SCRIPT_DIR/multi_net.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} multi_net.txt not found."
+    echo ""
+    echo "Create a file with:"
+    echo "  Line 1: Number of networks API is connected to"
+    echo "  Line 2: Docker command to connect myapp to backend"
+    echo "  Line 3: Docker command to disconnect it"
+    echo ""
+    exit 1
+fi
+
+# Read the file
+NET_COUNT=$(sed -n '1p' "$SCRIPT_DIR/multi_net.txt" | tr -d '[:space:]')
+CONNECT_CMD=$(sed -n '2p' "$SCRIPT_DIR/multi_net.txt" | tr '[:upper:]' '[:lower:]')
+DISCONNECT_CMD=$(sed -n '3p' "$SCRIPT_DIR/multi_net.txt" | tr '[:upper:]' '[:lower:]')
+
+# Validate network count (api should be on 2 networks)
+if [[ "$NET_COUNT" =~ ^[0-9]+$ ]] && [[ "$NET_COUNT" -ge 2 ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} API network count: $NET_COUNT"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} API is connected to at least 2 networks (frontend and backend)."
+    exit 1
+fi
+
+# Validate connect command
+if [[ "$CONNECT_CMD" == *"docker"* ]] && [[ "$CONNECT_CMD" == *"network"* ]] && [[ "$CONNECT_CMD" == *"connect"* ]] && [[ "$CONNECT_CMD" == *"backend"* ]] && [[ "$CONNECT_CMD" == *"myapp"* ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Connect command correct!"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Connect command should be: docker network connect backend myapp"
+    exit 1
+fi
+
+# Validate disconnect command
+if [[ "$DISCONNECT_CMD" == *"docker"* ]] && [[ "$DISCONNECT_CMD" == *"network"* ]] && [[ "$DISCONNECT_CMD" == *"disconnect"* ]] && [[ "$DISCONNECT_CMD" == *"backend"* ]] && [[ "$DISCONNECT_CMD" == *"myapp"* ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Disconnect command correct!"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Disconnect command should be: docker network disconnect backend myapp"
+    exit 1
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Multi-network containers are powerful but require careful design.
+       The API container acts as a controlled gateway between zones.
+
+       Gateway pattern benefits:
+       - Frontend can't reach backend directly
+       - All access goes through application logic
+       - Easy to add authentication/authorization
+       - Audit logging at the boundary
+
+       Commands mastered:
+       - docker network connect: Add container to network
+       - docker network disconnect: Remove from network
+       - No container restart required!
+
+       This is the foundation of secure microservice architectures."
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                       MODULE 3 COMPLETE                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+EOF
+
+echo -e "${YELLOW}NEXT MODULE:${NC} cd ../../04-security-hub && cat .scroll"
+echo ""

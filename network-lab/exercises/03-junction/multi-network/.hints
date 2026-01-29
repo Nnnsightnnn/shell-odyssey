@@ -1,0 +1,5 @@
+HINT 1: Some containers need to communicate with multiple network segments - like an API that talks to both frontend users and backend databases. Each network connection adds another interface to the container.
+
+HINT 2: A container can be on multiple networks, getting one interface per network. Use 'docker network connect <network> <container>' to add a connection. Use 'docker network disconnect' to remove it.
+
+HINT 3: Check multi-network container: 'docker inspect api --format "{{range \$k, \$v := .NetworkSettings.Networks}}{{\$k}} {{\$v.IPAddress}}\n{{end}}"'. Connect existing container: 'docker network connect network-lab_backend_net client'. Inside container, 'ip addr' shows multiple eth interfaces. Disconnect: 'docker network disconnect network-lab_backend_net client'.

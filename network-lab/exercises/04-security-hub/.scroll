@@ -1,0 +1,128 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║  ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗              ║
+║  ██╔════╝██╔════╝██╔════╝██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝              ║
+║  ███████╗█████╗  ██║     ██║   ██║██████╔╝██║   ██║    ╚████╔╝               ║
+║  ╚════██║██╔══╝  ██║     ██║   ██║██╔══██╗██║   ██║     ╚██╔╝                ║
+║  ███████║███████╗╚██████╗╚██████╔╝██║  ██║██║   ██║      ██║                 ║
+║  ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝                 ║
+║                                                                               ║
+║               ██╗  ██╗██╗   ██╗██████╗                                        ║
+║               ██║  ██║██║   ██║██╔══██╗                                       ║
+║               ███████║██║   ██║██████╔╝                                       ║
+║               ██╔══██║██║   ██║██╔══██╗                                       ║
+║               ██║  ██║╚██████╔╝██████╔╝                                       ║
+║               ╚═╝  ╚═╝ ╚═════╝ ╚═════╝                                        ║
+║                                                                               ║
+║                      SECURITY HUB - LEVEL 1 (RESTRICTED)                      ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+                    ┌─────────────────────────────────────┐
+                    │   ╔═════════════════════════════╗   │
+                    │   ║     ⚠ SECURITY HUB ⚠       ║   │
+                    │   ║    RESTRICTED ACCESS        ║   │
+                    │   ╚═════════════════════════════╝   │
+                    │                                     │
+                    │         ┌─────────────┐             │
+                    │         │ ████████████│             │
+                    │         │ █ MONITOR  █│             │
+                    │         │ █ STATION  █│             │
+                    │         │ ████████████│             │
+                    │         └─────────────┘             │
+                    │      TRAFFIC ANALYSIS CONSOLE       │
+                    └─────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCATION: Security Hub, Deck 1 (Command Level)
+STATUS: High Alert
+ACCESS: GRANTED - SECURITY CLEARANCE VERIFIED
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The Security Hub sits at the heart of Helios Station's defenses. Dim blue
+lighting preserves night vision while banks of monitors display traffic
+patterns across every network segment. Chief Security Officer Adeyemi's
+station dominates the center of the room.
+
+"Networks are attack surfaces," her training materials begin. "Every
+connection is a potential breach. Every open port is an invitation."
+
+The solar flare disrupted more than communications. Without proper network
+segmentation, a single compromised container could cascade through the
+entire station. Adeyemi's defense-in-depth architecture is our best
+protection - if we can verify it's still intact.
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  NEXUS: This is the final module, Specialist. The most critical.   │
+    │                                                                     │
+    │         Everything you've learned converges here. Understanding    │
+    │         networks, troubleshooting them, and architecting them -    │
+    │         all in service of one goal: security.                      │
+    │                                                                     │
+    │         Officer Adeyemi's principle: "Isolation is not             │
+    │         inconvenience. Isolation is protection."                   │
+    │                                                                     │
+    │         You will learn to:                                         │
+    │                                                                     │
+    │         • Verify network isolation boundaries                      │
+    │         • Design segmented architectures                           │
+    │         • Monitor and inspect cross-network traffic                │
+    │                                                                     │
+    │         Complete this module and you'll be ready to secure the     │
+    │         station's production networks.                             │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SECURITY PRINCIPLES
+═══════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  1. LEAST PRIVILEGE                                                │
+    │     Containers access only what they need. Nothing more.           │
+    │                                                                     │
+    │  2. DEFENSE IN DEPTH                                               │
+    │     Multiple layers of protection. No single point of failure.    │
+    │                                                                     │
+    │  3. NETWORK SEGMENTATION                                           │
+    │     Separate concerns into isolated zones. Limit blast radius.    │
+    │                                                                     │
+    │  4. VISIBILITY                                                     │
+    │     Monitor traffic at boundaries. Detect anomalies early.        │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MODULE MISSIONS
+═══════════════
+
+    [1] isolation-verify    Verify Network Isolation Boundaries
+    [2] segmentation        Design Secure Network Architecture
+    [3] traffic-monitor     Inspect Cross-Network Traffic
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SKILLS YOU WILL LEARN
+═════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  SKILL              │  PURPOSE                                     │
+    ├─────────────────────┼───────────────────────────────────────────────┤
+    │  Isolation testing  │  Verify containers can't cross boundaries   │
+    │  Zone architecture  │  Design frontend/backend segmentation       │
+    │  Traffic capture    │  Monitor cross-zone communication           │
+    │  Anomaly detection  │  Identify suspicious patterns               │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BEGIN FIRST MISSION: cd isolation-verify && cat .mission
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

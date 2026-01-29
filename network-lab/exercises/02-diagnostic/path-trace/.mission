@@ -1,0 +1,106 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Network Path Analysis                                               ║
+║  DIFFICULTY: Intermediate                                                     ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "The cascade failure may have disrupted routing paths across the station.
+       When packets travel from source to destination, they pass through routers
+       and gateways. traceroute and mtr reveal this path - showing every hop
+       and identifying where latency or failures occur."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+traceroute shows the path packets take through the network. Each "hop" is a
+router or gateway between you and the destination. In our Docker environment,
+paths are short, but these tools are essential for real-world debugging.
+
+mtr (My Traceroute) combines ping and traceroute for continuous monitoring,
+showing packet loss and latency statistics at each hop.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Basic Traceroute
+    Command: traceroute server
+    See the path to the server (likely 1 hop on Docker network).
+
+[ ] Task 2: Traceroute to External Host
+    Command: traceroute -m 10 8.8.8.8
+    See the path through Docker to the internet. (-m 10 limits hops)
+
+[ ] Task 3: Different Traceroute Methods
+    Command: traceroute server          # UDP (default)
+    Command: traceroute -I server       # ICMP (like ping)
+    Command: traceroute -T -p 80 server # TCP (useful when ICMP blocked)
+
+[ ] Task 4: Use mtr for Continuous Monitoring
+    Command: mtr server
+    Press 'q' to quit. Note the Loss%, Avg, Best, and Worst columns.
+
+[ ] Task 5: mtr Report Mode
+    Command: mtr -r -c 10 server
+    Generate a quick report (-r) with 10 packets (-c 10).
+
+[ ] Task 6: Check Your Routing Table
+    Command: ip route
+    Command: ip route get 172.20.0.20
+    Command: ip route get 172.21.0.40
+    Understand what routes exist and why some destinations are unreachable.
+
+[ ] Task 7: Trace to Unreachable Network
+    Command: traceroute 172.21.0.40
+    See what happens when there's no route to the destination.
+
+[ ] Task 8: Path Analysis Checklist
+    Run these commands to fully understand your routing:
+
+    ip addr show eth0          # Your IP
+    ip route                   # All routes
+    ip route get 172.20.0.20   # Route to frontend
+    ip route get 172.21.0.40   # Route to backend (fails)
+    ip neigh                   # ARP table (Layer 2)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CONCEPTS
+════════════
+  traceroute    Show path to destination
+  -m N          Max hops
+  -I            Use ICMP instead of UDP
+  -T            Use TCP instead of UDP
+  -p PORT       Specify port (with -T)
+
+  mtr           Continuous path monitoring
+  -r            Report mode (non-interactive)
+  -c N          Send N packets
+
+OUTPUT COLUMNS (mtr):
+  Loss%    Packet loss at this hop
+  Snt      Packets sent
+  Last     Last RTT
+  Avg      Average RTT
+  Best     Best (lowest) RTT
+  Wrst     Worst (highest) RTT
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'path_report.txt' with:
+  Line 1: How many hops to reach 'server'? (a number, likely 1)
+  Line 2: Is there a route to 172.21.0.0/24 in your routing table? (yes or no)
+
+Run: ./verify
+
+Success: You can trace network paths, use mtr for monitoring, and understand
+routing table output.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DIAGNOSTIC SECTOR COMPLETE! Proceed to Network Junction:
+cd ../../03-junction/bridge-explore && cat .mission

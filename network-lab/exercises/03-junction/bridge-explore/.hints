@@ -1,0 +1,5 @@
+HINT 1: Docker networks act like virtual switches. Containers on the same bridge can communicate directly. User-defined bridges offer advantages over the default bridge, including automatic DNS resolution.
+
+HINT 2: Use 'docker network ls' to list networks. Use 'docker network inspect <name>' to see subnet, gateway, and connected containers. From inside containers, 'ip addr' shows interfaces and 'ip route' shows routing.
+
+HINT 3: Run 'docker network ls' from host. Inspect with 'docker network inspect network-lab_frontend_net' - look for "IPAM" section (subnet/gateway) and "Containers" section. Default bridge has no DNS; user-defined bridges resolve container names automatically.

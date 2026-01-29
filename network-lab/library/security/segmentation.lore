@@ -1,0 +1,117 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: Network Segmentation                         ║
+║  Classification: Security Architecture                        ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Network segmentation evolved from military and government    │
+│  security models of the 1980s. The DMZ (Demilitarized Zone)   │
+│  concept was borrowed from military terminology - a buffer    │
+│  zone between trusted and untrusted networks. As networks     │
+│  grew more complex, segmentation became essential: separate   │
+│  development from production, guest WiFi from corporate,      │
+│  databases from web servers. Modern approaches like Zero      │
+│  Trust assume no segment is inherently safe, requiring        │
+│  verification for every connection. Segmentation remains      │
+│  a fundamental defense against lateral movement in attacks.   │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Segmentation creates SECURITY ZONES with controlled access:  │
+│                                                                │
+│                        INTERNET                                │
+│                           │                                    │
+│                     ┌─────┴─────┐                             │
+│                     │  Firewall │                             │
+│                     └─────┬─────┘                             │
+│                           │                                    │
+│         ┌─────────────────┼─────────────────┐                 │
+│         │                 │                 │                 │
+│         ▼                 ▼                 ▼                 │
+│    ┌─────────┐      ┌─────────┐      ┌─────────┐             │
+│    │   DMZ   │      │ Internal│      │  Data   │             │
+│    │         │      │         │      │  Zone   │             │
+│    │ • Web   │─────▶│ • Apps  │─────▶│ • DB    │             │
+│    │ • Proxy │      │ • Users │      │ • Files │             │
+│    └─────────┘      └─────────┘      └─────────┘             │
+│     Public-facing    Business logic   Sensitive data         │
+│     Least trusted    Medium trust     Most protected         │
+│                                                                │
+│  Traffic flow rules:                                           │
+│    Internet → DMZ        ✓ (filtered)                         │
+│    DMZ → Internal        ✓ (specific ports)                   │
+│    Internal → Data       ✓ (authenticated)                    │
+│    Internet → Data       ✗ (blocked)                          │
+│    Data → Internet       ✗ (blocked)                          │
+│                                                                │
+│  Segmentation methods:                                         │
+│    VLANs       → Layer 2 separation                           │
+│    Subnets     → Layer 3 separation                           │
+│    Firewalls   → Access control between segments              │
+│    ACLs        → Router-based filtering                       │
+│    SDN         → Software-defined policies                    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Docker network isolation                                    │
+│  # Create separate networks                                    │
+│  docker network create frontend                               │
+│  docker network create backend                                │
+│  docker network create database                               │
+│                                                                │
+│  # Connect services to appropriate networks only               │
+│  docker run --network frontend nginx                          │
+│  docker run --network frontend --network backend app          │
+│  docker run --network backend --network database api          │
+│  docker run --network database postgres                       │
+│                                                                │
+│  # Verify isolation                                            │
+│  docker exec frontend-container ping db-container  # fails    │
+│  docker exec api-container ping db-container       # works    │
+│                                                                │
+│  # iptables for segment firewall rules                         │
+│  # Allow web to app                                            │
+│  iptables -A FORWARD -s 10.0.1.0/24 -d 10.0.2.0/24 \         │
+│    -p tcp --dport 8080 -j ACCEPT                              │
+│                                                                │
+│  # Block direct web to database                                │
+│  iptables -A FORWARD -s 10.0.1.0/24 -d 10.0.3.0/24 -j DROP   │
+│                                                                │
+│  # Compose file with network isolation                         │
+│  # services:                                                   │
+│  #   web:                                                      │
+│  #     networks: [frontend]                                    │
+│  #   api:                                                      │
+│  #     networks: [frontend, backend]                           │
+│  #   db:                                                       │
+│  #     networks: [backend]                                     │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: iptables, docker network, VLANs           │
+│  • Related: Zero Trust, microsegmentation, SDN                │
+│  • Builds toward: Defense in depth, compliance, secure design │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "Segmentation is about blast radius. When (not if) something │
+│  gets compromised, segmentation limits how far an attacker    │
+│  can move. The web server shouldn't need direct database      │
+│  access - make it go through the API. In Docker, use          │
+│  multiple networks: frontend containers can't reach the       │
+│  database if they're on different networks with no bridge.    │
+│  Test your segmentation: can you ping from zone A to zone C?  │
+│  You shouldn't be able to. Document the allowed flows.        │
+│  And remember: segmentation is only as good as the rules      │
+│  enforcing it - audit regularly."                             │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

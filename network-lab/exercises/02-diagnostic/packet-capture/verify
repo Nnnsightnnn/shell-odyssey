@@ -1,0 +1,98 @@
+#!/bin/bash
+# verify - Packet Capture mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                    PACKET CAPTURE VERIFICATION                                 ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next mission or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check for capture file or analysis file
+if [[ ! -f "$SCRIPT_DIR/capture_analysis.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} capture_analysis.txt not found."
+    echo ""
+    echo "Create a file with:"
+    echo "  Line 1: Number of packets captured"
+    echo "  Line 2: Protocol for curl traffic (tcp or http)"
+    echo ""
+    exit 1
+fi
+
+# Read analysis
+PACKET_COUNT=$(sed -n '1p' "$SCRIPT_DIR/capture_analysis.txt" | tr -d '[:space:]')
+PROTOCOL=$(sed -n '2p' "$SCRIPT_DIR/capture_analysis.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+
+# Validate packet count is a number
+if ! [[ "$PACKET_COUNT" =~ ^[0-9]+$ ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} Line 1 should be a number (packet count)."
+    exit 1
+fi
+
+if [[ "$PACKET_COUNT" -lt 1 ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} You need to capture at least some packets!"
+    exit 1
+fi
+
+echo -e "${GREEN}[VERIFIED]${NC} Packet count: $PACKET_COUNT"
+
+# Validate protocol
+if [[ "$PROTOCOL" == "tcp" ]] || [[ "$PROTOCOL" == "http" ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Protocol identified: $PROTOCOL"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Protocol should be 'tcp' or 'http'."
+    echo "HTTP traffic runs over TCP, so either answer is acceptable."
+    exit 1
+fi
+
+# Bonus: Check if capture.pcap exists
+if [[ -f "$SCRIPT_DIR/capture.pcap" ]]; then
+    echo -e "${GREEN}[BONUS]${NC} capture.pcap file found!"
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "You've gained the ability to see what's truly happening on the wire.
+       tcpdump is one of the most powerful diagnostic tools available.
+
+       Key skills acquired:
+       - Capture traffic on specific interfaces (-i eth0)
+       - Filter by host, port, or protocol
+       - View packet content (-A for ASCII)
+       - Save captures for later analysis (-w file.pcap)
+
+       TCP Flags you observed:
+       - [S]  SYN    - Connection start
+       - [.]  ACK    - Acknowledgment
+       - [P]  PSH    - Push data
+       - [F]  FIN    - Connection close
+
+       HTTP runs over TCP. That's why you see TCP packets when curling!"
+
+EOF
+
+echo -e "${YELLOW}NEXT MISSION:${NC} cd ../path-trace && cat .mission"
+echo ""

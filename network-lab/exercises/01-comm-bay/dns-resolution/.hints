@@ -1,0 +1,5 @@
+HINT 1: DNS translates hostnames to IP addresses. Understanding how to query DNS directly helps you determine if connection problems are name resolution issues or actual connectivity issues.
+
+HINT 2: The 'dig' command queries DNS servers. Use '+short' for just the IP. You can specify which DNS server to ask with '@server-ip'. Different record types (A, AAAA, ANY) provide different information.
+
+HINT 3: Run 'dig +short server' for a quick IP lookup. Use 'dig @172.20.0.53 server' to query a specific DNS server. Try 'dig -x 172.20.0.20' for reverse lookup (IP to hostname). Compare 'dig @8.8.8.8 server' (fails - external DNS doesn't know internal hosts) vs 'dig @172.20.0.53 server' (works).

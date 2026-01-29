@@ -1,0 +1,88 @@
+#!/bin/bash
+# verify - Connectivity mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                    CONNECTIVITY VERIFICATION                                   ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next mission or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check if ping_results.txt exists
+if [[ ! -f "$SCRIPT_DIR/ping_results.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} ping_results.txt not found."
+    echo ""
+    echo "Create a file called ping_results.txt with:"
+    echo "  Line 1: A hostname you can reach (server or api)"
+    echo "  Line 2: Why you can't reach database (isolation, firewall, or noroute)"
+    echo ""
+    exit 1
+fi
+
+# Read the file
+REACHABLE=$(sed -n '1p' "$SCRIPT_DIR/ping_results.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+REASON=$(sed -n '2p' "$SCRIPT_DIR/ping_results.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+
+# Validate reachable host
+if [[ "$REACHABLE" == "server" ]] || [[ "$REACHABLE" == "api" ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Confirmed reachable host: $REACHABLE"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} '$REACHABLE' is not a valid reachable host."
+    echo "Expected: server or api"
+    exit 1
+fi
+
+# Validate reason for database unreachability
+if [[ "$REASON" == "isolation" ]] || [[ "$REASON" == "noroute" ]] || [[ "$REASON" == "firewall" ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Correct understanding: $REASON"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} '$REASON' is not the expected answer."
+    echo "Expected: isolation, noroute, or firewall"
+    echo ""
+    echo "Hint: The database is on a different network segment that"
+    echo "      your container cannot reach directly."
+    exit 1
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "You've discovered a fundamental truth about network security:
+       isolation protects resources. The database is invisible to you
+       because it exists on a separate network segment.
+
+       Key insights:
+       - Ping confirms Layer 3 (IP) connectivity
+       - Successful ping: network path exists
+       - Failed ping: no route, blocked, or host down
+       - Network isolation is intentional security
+
+       The API container can reach the database because it's connected
+       to BOTH networks. It acts as a controlled gateway."
+
+EOF
+
+echo -e "${YELLOW}NEXT MISSION:${NC} cd ../dns-resolution && cat .mission"
+echo ""

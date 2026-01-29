@@ -1,0 +1,106 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: tcpdump                                      ║
+║  Classification: Packet Capture                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Van Jacobson, Steve McCanne, and Craig Leres created         │
+│  tcpdump at Lawrence Berkeley Laboratory (LBL) in 1988.       │
+│  Jacobson, famous for TCP congestion control algorithms,      │
+│  needed a tool to analyze network problems. tcpdump was       │
+│  the first packet sniffer for Unix and became the gold        │
+│  standard. It uses the libpcap library (also created at       │
+│  LBL) which became the foundation for Wireshark and every     │
+│  other packet capture tool. The output format Jacobson        │
+│  designed is still used today, 35+ years later.               │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of tcpdump as a WIRETAP on your network:               │
+│                                                                │
+│                  Network Interface                             │
+│                        │                                       │
+│    ┌──────────────────┬┴┬──────────────────┐                  │
+│    │                  │ │                  │                  │
+│    │  Normal Traffic  │ │   Copy to        │                  │
+│    │   (passes thru)  │ │   tcpdump        │                  │
+│    │                  │ │      │           │                  │
+│    └──────────────────┴─┴──────┼───────────┘                  │
+│                                │                               │
+│                                ▼                               │
+│                    ┌───────────────────┐                      │
+│                    │     tcpdump       │                      │
+│                    │                   │                      │
+│                    │  Filter → Decode  │                      │
+│                    │      → Display    │                      │
+│                    └───────────────────┘                      │
+│                                │                               │
+│    ┌───────────────────────────┼──────────────────────────┐   │
+│    │ 14:23:45.123456 IP 10.0.0.1.443 > 10.0.0.2.52341:   │   │
+│    │   Flags [P.], seq 1:100, ack 1, win 65535           │   │
+│    └─────────────────────────────────────────────────────┘   │
+│                                                                │
+│  Output breakdown:                                             │
+│    timestamp  protocol  src.port > dst.port: details          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Capture on specific interface                               │
+│  tcpdump -i eth0                                               │
+│                                                                │
+│  # Capture specific port                                       │
+│  tcpdump -i eth0 port 80                                       │
+│  tcpdump -i eth0 port 443                                      │
+│                                                                │
+│  # Capture specific host                                       │
+│  tcpdump -i eth0 host 192.168.1.100                           │
+│                                                                │
+│  # Capture and show packet contents (ASCII)                    │
+│  tcpdump -i eth0 -A port 80                                    │
+│                                                                │
+│  # Capture and show hex + ASCII                                │
+│  tcpdump -i eth0 -XX port 80                                   │
+│                                                                │
+│  # Save to file for later analysis                             │
+│  tcpdump -i eth0 -w capture.pcap                              │
+│                                                                │
+│  # Read from saved file                                        │
+│  tcpdump -r capture.pcap                                       │
+│                                                                │
+│  # Don't resolve hostnames (faster)                            │
+│  tcpdump -i eth0 -n port 80                                    │
+│                                                                │
+│  # Capture only N packets                                      │
+│  tcpdump -i eth0 -c 100 port 80                               │
+│                                                                │
+│  # Complex filters                                             │
+│  tcpdump -i eth0 'host 10.0.0.1 and port 443'                 │
+│  tcpdump -i eth0 'src port 80 or dst port 443'                │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: wireshark (GUI), tshark, grep             │
+│  • Alternatives: wireshark, tshark, ngrep                     │
+│  • Builds toward: Protocol analysis, security monitoring      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "tcpdump is your X-ray vision for networks. When logs        │
+│  lie and applications blame the network, tcpdump shows        │
+│  the truth. Start with '-n' to avoid DNS delays. Use          │
+│  '-w file.pcap' to capture now, analyze later in Wireshark.   │
+│  The filter syntax is BPF (Berkeley Packet Filter) - learn    │
+│  it once and use it everywhere. Pro tip: 'tcpdump -D'         │
+│  lists all available interfaces when you're not sure          │
+│  which one to capture on."                                    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

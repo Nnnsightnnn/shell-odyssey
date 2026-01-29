@@ -1,0 +1,10 @@
+HINT 1: Network problems have layers. Work from the bottom up: first check if the name resolves, then if the host is reachable, then if the port is open, finally if the application responds correctly.
+
+HINT 2: The diagnostic ladder is: dig (DNS) -> ping (connectivity) -> nc -zv (port) -> curl (protocol). Each step isolates a different potential failure point. Match error messages to the layer that failed.
+
+HINT 3: Full diagnostic sequence:
+  1. 'dig +short api' - DNS working?
+  2. 'ping -c 1 api' - Host reachable?
+  3. 'nc -zv api 5000' - Port open?
+  4. 'curl http://api:5000/health' - App responding?
+Errors like "Could not resolve" = DNS, "No route" = network, "Connection refused" = service down.

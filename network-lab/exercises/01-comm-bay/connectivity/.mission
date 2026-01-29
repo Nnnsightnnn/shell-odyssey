@@ -1,0 +1,79 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Signal Echo Test                                                    ║
+║  DIFFICULTY: Beginner                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Now that we know our position, we must verify connectivity to other
+       station systems. I'm detecting intermittent failures across the network.
+       Use ICMP echo requests - what humans call 'ping' - to test which systems
+       are reachable from your workstation."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+The 'ping' command sends ICMP echo requests to test basic network connectivity.
+It tells us:
+  - Whether a host is reachable
+  - How long packets take to travel (round-trip time)
+  - If any packets are being lost
+
+Test connectivity to critical station systems and understand the network
+isolation boundaries that protect our sensitive systems.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Ping by IP Address
+    Command: ping -c 4 172.20.0.20
+    Send 4 packets to the server. Check for 0% packet loss.
+
+[ ] Task 2: Ping by Hostname
+    Command: ping -c 4 server
+    Verify DNS resolution is working by pinging using the name.
+
+[ ] Task 3: Test Cross-Network Isolation
+    Command: ping -c 2 database
+    Attempt to reach the backend database. This should FAIL.
+
+[ ] Task 4: Verify API Gateway Connectivity
+    Command: ping -c 2 api
+    The API container bridges networks. This should succeed.
+
+[ ] Task 5: Test Nonexistent Host
+    Command: ping -c 2 172.20.0.250
+    Understand the difference between DNS failure and connectivity failure.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CONCEPTS
+════════════
+  ping -c N    - Send N packets then stop
+  0% loss      - All packets returned (healthy connection)
+  100% loss    - No packets returned (host unreachable)
+  RTT (ms)     - Round-trip time in milliseconds
+
+FAILURE TYPES:
+  "Name not known"     - DNS cannot resolve the hostname
+  "No route to host"   - Network path does not exist
+  No response          - Host down or firewall blocking
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'ping_results.txt' with two lines:
+  Line 1: A hostname you CAN reach (server or api)
+  Line 2: The reason you CANNOT reach the database (isolation, firewall, or noroute)
+
+Run: ./verify
+
+Success: You understand which systems are reachable and why the database is
+isolated. Network isolation is a security feature, not a failure!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../dns-resolution && cat .mission

@@ -1,0 +1,99 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: netcat (nc)                                  ║
+║  Classification: Network Swiss Army Knife                     ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Hobbit (a hacker pseudonym) released netcat in 1995,         │
+│  describing it as "the TCP/IP Swiss Army knife." The tool     │
+│  was revolutionary in its simplicity: it just reads and       │
+│  writes data across network connections. That's it. But       │
+│  this simplicity makes it incredibly powerful. Security       │
+│  researchers, system administrators, and developers all       │
+│  adopted it. Several modern versions exist: the original      │
+│  nc, GNU netcat, ncat (from nmap project), and OpenBSD        │
+│  netcat - each with slightly different features.              │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of netcat as a RAW PIPE for networks:                  │
+│                                                                │
+│  CLIENT MODE: Connect to something                             │
+│    ┌──────────┐                    ┌──────────┐               │
+│    │  stdin   │────▶┌────────┐────▶│  Remote  │               │
+│    │          │     │   nc   │     │  Server  │               │
+│    │  stdout  │◀────│        │◀────│  :port   │               │
+│    └──────────┘     └────────┘     └──────────┘               │
+│                                                                │
+│  SERVER MODE: Listen for connections (-l)                      │
+│    ┌──────────┐                    ┌──────────┐               │
+│    │  stdin   │────▶┌────────┐◀────│  Remote  │               │
+│    │          │     │ nc -l  │     │  Client  │               │
+│    │  stdout  │◀────│ :port  │────▶│          │               │
+│    └──────────┘     └────────┘     └──────────┘               │
+│                                                                │
+│  What makes it powerful:                                       │
+│    • Raw TCP/UDP - no protocol overhead                       │
+│    • Bidirectional - send AND receive                         │
+│    • Scriptable - works with pipes and redirects              │
+│    • Minimal - does one thing well                            │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Test if port is open                                        │
+│  nc -zv hostname 80                                            │
+│  nc -zv hostname 20-30          # port range                  │
+│                                                                │
+│  # Simple chat between two machines                            │
+│  # Machine A (listener):                                       │
+│  nc -l 1234                                                    │
+│  # Machine B (connector):                                      │
+│  nc machineA 1234                                             │
+│                                                                │
+│  # Quick HTTP request                                          │
+│  echo -e "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | \    │
+│    nc example.com 80                                          │
+│                                                                │
+│  # Transfer a file                                             │
+│  # Receiver:                                                   │
+│  nc -l 1234 > received_file                                   │
+│  # Sender:                                                     │
+│  nc receiver_host 1234 < file_to_send                         │
+│                                                                │
+│  # Simple port scanner                                         │
+│  nc -zv hostname 1-1000 2>&1 | grep succeeded                 │
+│                                                                │
+│  # UDP mode                                                    │
+│  nc -u hostname 53              # connect via UDP              │
+│  nc -ul 1234                    # listen via UDP              │
+│                                                                │
+│  # Timeout after N seconds                                     │
+│  nc -w 5 hostname 80                                          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: pipes, bash, telnet alternatives          │
+│  • Alternatives: socat (more powerful), ncat (nmap version)   │
+│  • Builds toward: Port testing, network debugging, scripting  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "netcat is pure network plumbing. When you need to test      │
+│  if a port is reachable, 'nc -zv host port' is faster than    │
+│  any other method. The '-z' means zero-I/O (just test),       │
+│  '-v' gives you verbose output. For debugging protocols,      │
+│  netcat lets you type raw requests and see raw responses.     │
+│  It's the telnet replacement that doesn't try to be smart.    │
+│  Note: different nc versions have different flags - check     │
+│  'nc -h' if something doesn't work as expected."              │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

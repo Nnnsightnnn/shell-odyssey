@@ -1,0 +1,5 @@
+HINT 1: Creating custom networks gives you control over IP ranges and isolation. You can specify the subnet, gateway, and even assign specific IPs to containers.
+
+HINT 2: Use 'docker network create' with options like '--subnet=172.30.0.0/24' and '--gateway=172.30.0.1'. Run containers on specific networks with '--network <name>'. Assign IPs with '--ip 172.30.0.100'.
+
+HINT 3: Create network: 'docker network create --subnet=172.30.0.0/24 --gateway=172.30.0.1 customnet'. Run container: 'docker run -d --name test --network customnet --ip 172.30.0.100 nginx:alpine'. Use '--internal' flag for networks that should not reach the internet. Clean up: 'docker network rm customnet'.

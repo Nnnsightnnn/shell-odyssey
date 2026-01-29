@@ -1,0 +1,5 @@
+HINT 1: Packets travel through routers to reach their destination. If something is slow or unreachable, you need to see each hop along the path to find where the problem is.
+
+HINT 2: The 'traceroute' command shows each hop. Use '-I' for ICMP mode, '-T -p 80' for TCP mode (useful when ICMP is blocked). The 'mtr' command combines ping and traceroute for continuous monitoring.
+
+HINT 3: Run 'traceroute server' to see the path (likely 1 hop in Docker). Use 'mtr -r -c 10 server' for a quick report with statistics. Check routes with 'ip route' and 'ip route get 172.20.0.20'. A missing route (like to 172.21.0.0/24 from client) explains why some hosts are unreachable.

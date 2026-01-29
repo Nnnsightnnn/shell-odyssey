@@ -1,0 +1,96 @@
+#!/bin/bash
+# verify - IP Discovery mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                    IP DISCOVERY VERIFICATION                                   ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next mission or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check if network_info.txt exists
+if [[ ! -f "$SCRIPT_DIR/network_info.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} network_info.txt not found."
+    echo ""
+    echo "Create a file called network_info.txt with three lines:"
+    echo "  Line 1: Your container's IP address"
+    echo "  Line 2: Your default gateway"
+    echo "  Line 3: Your DNS server"
+    echo ""
+    exit 1
+fi
+
+# Read the file
+IP_LINE=$(sed -n '1p' "$SCRIPT_DIR/network_info.txt" | tr -d '[:space:]')
+GW_LINE=$(sed -n '2p' "$SCRIPT_DIR/network_info.txt" | tr -d '[:space:]')
+DNS_LINE=$(sed -n '3p' "$SCRIPT_DIR/network_info.txt" | tr -d '[:space:]')
+
+# Validate IP format (basic check)
+if [[ ! "$IP_LINE" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} Line 1 does not look like a valid IP address."
+    echo "Expected format: 172.20.0.10"
+    exit 1
+fi
+
+if [[ ! "$GW_LINE" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} Line 2 does not look like a valid gateway address."
+    echo "Expected format: 172.20.0.1"
+    exit 1
+fi
+
+if [[ ! "$DNS_LINE" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} Line 3 does not look like a valid DNS address."
+    echo "Expected format: 172.20.0.53"
+    exit 1
+fi
+
+# Check if IP is in expected range (172.20.x.x for frontend)
+if [[ "$IP_LINE" =~ ^172\.20\. ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Container IP: $IP_LINE"
+else
+    echo -e "${YELLOW}[WARNING]${NC} IP $IP_LINE is not in the expected 172.20.x.x range, but accepting."
+fi
+
+echo -e "${GREEN}[VERIFIED]${NC} Gateway: $GW_LINE"
+echo -e "${GREEN}[VERIFIED]${NC} DNS Server: $DNS_LINE"
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Excellent work, Specialist. You've identified your network position.
+       Understanding your IP address, gateway, and DNS server is fundamental
+       to all network operations.
+
+       Remember:
+       - IP address: Your unique identifier on the network
+       - Gateway: Your path to other networks
+       - DNS: How you translate names to addresses
+
+       Now let's verify those paths actually work."
+
+EOF
+
+echo -e "${YELLOW}NEXT MISSION:${NC} cd ../connectivity && cat .mission"
+echo ""

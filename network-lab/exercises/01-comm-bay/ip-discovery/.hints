@@ -1,0 +1,5 @@
+HINT 1: Every container has at least one network interface. Think about where network configuration lives - interfaces have addresses, and traffic follows routes.
+
+HINT 2: The 'ip' command family has subcommands for different purposes: 'ip addr' shows addresses, 'ip route' shows routing. DNS configuration lives in a well-known file.
+
+HINT 3: Run 'ip addr show eth0' to see your container's IP (look for 'inet' line). Use 'ip route' to see the default gateway. Check 'cat /etc/resolv.conf' for DNS servers. Use 'dig +short server' to resolve other containers.

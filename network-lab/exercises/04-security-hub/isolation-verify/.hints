@@ -1,0 +1,5 @@
+HINT 1: Network isolation means containers can only reach networks they're attached to. This is a security feature - a compromised frontend container should not be able to directly access the database.
+
+HINT 2: Test isolation by trying to ping or connect to hosts on other networks. Compare what the client can reach (frontend only) vs what the API can reach (both networks). Check route tables to understand why.
+
+HINT 3: From client: 'ping -c 1 server' works, 'ping -c 1 database' fails (different network). Check routes: 'ip route' shows no route to 172.21.0.0/24. From API: both work because it has interfaces on both networks. The API acts as a gateway - client reaches database only through the API.

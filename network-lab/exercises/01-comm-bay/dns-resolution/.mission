@@ -1,0 +1,91 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Name Resolution Protocol                                            ║
+║  DIFFICULTY: Beginner                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "The station's DNS server is the brain of our name resolution system.
+       When you type 'server' instead of '172.20.0.20', DNS translates that
+       name into an address. Understanding this system is critical - many
+       network failures are actually DNS failures in disguise."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+DNS (Domain Name System) is the phone book of the network. When an application
+needs to connect to "server", it first asks DNS for the IP address.
+
+Our station has a custom DNS server (dnsmasq) that knows all our containers.
+Learn to query DNS directly to understand and troubleshoot name resolution.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Basic DNS Lookup
+    Command: dig server
+    Examine the output: QUESTION section, ANSWER section, and SERVER line.
+
+[ ] Task 2: Short Format Lookup
+    Command: dig +short server
+    Get just the IP address without verbose output.
+
+[ ] Task 3: Query Different Record Types
+    Command: dig server A
+    Command: dig server AAAA
+    A records are IPv4, AAAA records are IPv6.
+
+[ ] Task 4: Reverse DNS Lookup
+    Command: dig -x 172.20.0.20
+    Look up a hostname from an IP address.
+
+[ ] Task 5: Query a Specific DNS Server
+    Command: dig @172.20.0.53 server
+    Command: dig @8.8.8.8 server
+    See why external DNS cannot resolve our internal names.
+
+[ ] Task 6: Test External Resolution
+    Command: dig +short google.com
+    Our DNS forwards unknown queries to the internet.
+
+[ ] Task 7: Alternative DNS Tools
+    Command: nslookup server
+    Command: host server
+    Try other DNS utilities available on the system.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CONCEPTS
+════════════
+  dig             - DNS lookup utility (most detailed)
+  dig +short      - Just the answer, no extra info
+  dig @server     - Query a specific DNS server
+  dig -x IP       - Reverse lookup (IP to name)
+  nslookup/host   - Simpler DNS lookup tools
+
+RECORD TYPES:
+  A      - IPv4 address
+  AAAA   - IPv6 address
+  PTR    - Pointer (reverse lookup)
+  CNAME  - Alias to another name
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'dns_report.txt' with three lines:
+  Line 1: IP address that 'server' resolves to
+  Line 2: IP address that 'api' resolves to
+  Line 3: The DNS server IP your container uses (from /etc/resolv.conf)
+
+Run: ./verify
+
+Success: You can query DNS servers, understand record types, and know why
+external DNS servers cannot resolve internal station names.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMM BAY COMPLETE! Proceed to the Diagnostic Sector:
+cd ../../02-diagnostic/conn-diagnosis && cat .mission

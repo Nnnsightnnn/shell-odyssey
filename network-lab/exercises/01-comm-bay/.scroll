@@ -1,0 +1,93 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║   ██████╗ ██████╗ ███╗   ███╗███╗   ███╗      ██████╗  █████╗ ██╗   ██╗      ║
+║  ██╔════╝██╔═══██╗████╗ ████║████╗ ████║      ██╔══██╗██╔══██╗╚██╗ ██╔╝      ║
+║  ██║     ██║   ██║██╔████╔██║██╔████╔██║█████╗██████╔╝███████║ ╚████╔╝       ║
+║  ██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║╚════╝██╔══██╗██╔══██║  ╚██╔╝        ║
+║  ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║      ██████╔╝██║  ██║   ██║         ║
+║   ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝         ║
+║                                                                               ║
+║                    COMMUNICATIONS BAY - LEVEL 7                               ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+                              ┌─────────────────────┐
+                              │    ╔═══════════╗    │
+                              │    ║ COMM-BAY  ║    │
+                              │    ║  LEVEL 7  ║    │
+                              │    ╚═══════════╝    │
+                              │   ┌───┐   ┌───┐     │
+                              │   │░░░│   │░░░│     │
+                              │   │░░░│   │░░░│     │
+                              │   └───┘   └───┘     │
+                              │  NETWORK TERMINALS  │
+                              └─────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCATION: Communications Bay, Deck 7
+STATUS: Training Mode Active
+ACCESS: GRANTED
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The Communications Bay hums with the soft glow of status indicators. Banks of
+network terminals line the walls, their screens displaying packet flows and
+connection states. This is where all station communications are routed - from
+simple intercom messages to critical Earth transmissions.
+
+Chief Communications Officer Park left hastily when the solar flare hit.
+Her workstation still shows the last diagnostic she was running. A coffee
+cup sits cold beside a worn copy of "TCP/IP Illustrated."
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  NEXUS: This is where you'll learn the fundamentals, Specialist.   │
+    │                                                                     │
+    │         Before we can fix the network, you must understand how     │
+    │         it works. Every packet that flows through this station     │
+    │         follows the same rules that govern all networks.           │
+    │                                                                     │
+    │         In this module, you will master:                           │
+    │                                                                     │
+    │         • IP addressing and container configuration                │
+    │         • Connectivity testing with ping                           │
+    │         • DNS resolution and name services                         │
+    │                                                                     │
+    │         Officer Park's notes are still here. She was thorough.     │
+    │         Follow her methodology and you'll understand these         │
+    │         systems as well as she did.                                │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MODULE MISSIONS
+═══════════════
+
+    [1] ip-discovery     Explore Container Network Configuration
+    [2] connectivity     Test Network Reachability with Ping
+    [3] dns-resolution   Understand Name Resolution
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SKILLS YOU WILL LEARN
+═════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  COMMAND          │  PURPOSE                                       │
+    ├───────────────────┼─────────────────────────────────────────────────┤
+    │  ip addr          │  View network interface configuration          │
+    │  ip route         │  Display routing table                         │
+    │  ping             │  Test connectivity to remote hosts             │
+    │  dig              │  Query DNS servers                             │
+    │  nslookup         │  Simple DNS lookups                            │
+    │  cat /etc/resolv.conf │  View DNS configuration                    │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BEGIN FIRST MISSION: cd ip-discovery && cat .mission
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

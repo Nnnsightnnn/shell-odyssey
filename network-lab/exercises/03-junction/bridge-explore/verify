@@ -1,0 +1,92 @@
+#!/bin/bash
+# verify - Bridge Explore mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                  BRIDGE NETWORK VERIFICATION                                   ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next mission or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check for bridge_info.txt
+if [[ ! -f "$SCRIPT_DIR/bridge_info.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} bridge_info.txt not found."
+    echo ""
+    echo "Create a file with:"
+    echo "  Line 1: Frontend subnet (e.g., 172.20.0.0/24)"
+    echo "  Line 2: Frontend gateway (e.g., 172.20.0.1)"
+    echo "  Line 3: Container count on frontend_net"
+    echo ""
+    exit 1
+fi
+
+# Read the file
+SUBNET=$(sed -n '1p' "$SCRIPT_DIR/bridge_info.txt" | tr -d '[:space:]')
+GATEWAY=$(sed -n '2p' "$SCRIPT_DIR/bridge_info.txt" | tr -d '[:space:]')
+COUNT=$(sed -n '3p' "$SCRIPT_DIR/bridge_info.txt" | tr -d '[:space:]')
+
+# Validate subnet format
+if [[ "$SUBNET" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$ ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Subnet: $SUBNET"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Subnet format invalid. Expected like: 172.20.0.0/24"
+    exit 1
+fi
+
+# Validate gateway
+if [[ "$GATEWAY" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Gateway: $GATEWAY"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Gateway format invalid. Expected like: 172.20.0.1"
+    exit 1
+fi
+
+# Validate count
+if [[ "$COUNT" =~ ^[0-9]+$ ]] && [[ "$COUNT" -ge 1 ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Container count: $COUNT"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Container count should be a positive number."
+    exit 1
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "You've explored the bridge network topology. Understanding this
+       foundation is critical for designing container networking.
+
+       Key concepts mastered:
+       - Bridge networks act as virtual switches
+       - Each network has its own subnet and gateway
+       - User-defined bridges provide automatic DNS
+       - Containers on the same bridge can communicate freely
+
+       The gateway (usually .1) is Docker's interface to the network.
+       All traffic to external destinations goes through it."
+
+EOF
+
+echo -e "${YELLOW}NEXT MISSION:${NC} cd ../custom-nets && cat .mission"
+echo ""

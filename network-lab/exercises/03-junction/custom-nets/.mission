@@ -1,0 +1,127 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Custom Network Construction                                         ║
+║  DIFFICULTY: Intermediate                                                     ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Now that you understand bridge networks, it's time to create your own.
+       Custom networks give you control over IP addressing, isolation levels,
+       and network properties. This is how station architects design network
+       topologies for security and organization."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+Learn to create and configure custom Docker networks with specific subnets,
+gateways, and properties. Understand network options like --internal for
+creating completely isolated segments.
+
+NOTE: All commands should be run from the Docker HOST, not inside containers.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Create a Simple Network
+    Command: docker network create testnet
+    Command: docker network ls | grep testnet
+    Command: docker network inspect testnet
+    Note: Docker auto-assigns a subnet.
+
+[ ] Task 2: Create Network with Custom Subnet
+    Command: docker network create \
+      --subnet=172.30.0.0/24 \
+      --gateway=172.30.0.1 \
+      customnet
+    Command: docker network inspect customnet --format '{{.IPAM.Config}}'
+
+[ ] Task 3: Run Containers on Custom Network
+    docker run -d --name custom-server --network customnet nginx:alpine
+    docker run -d --name custom-client --network customnet nicolaka/netshoot sleep 3600
+    docker exec custom-client ping -c 2 custom-server
+
+[ ] Task 4: Assign Specific IP Address
+    docker rm -f custom-server
+    docker run -d --name custom-server \
+      --network customnet \
+      --ip 172.30.0.100 \
+      nginx:alpine
+    docker exec custom-client ping -c 2 172.30.0.100
+
+[ ] Task 5: Create an Internal (Isolated) Network
+    docker network create \
+      --internal \
+      --subnet=172.31.0.0/24 \
+      isolated-net
+
+    # Test - container CANNOT reach external networks:
+    docker run --rm --network isolated-net nicolaka/netshoot \
+      ping -c 1 8.8.8.8
+    # This should FAIL!
+
+[ ] Task 6: Add Labels for Organization
+    docker network create \
+      --subnet=172.32.0.0/24 \
+      --label env=testing \
+      --label project=learning-lab \
+      labeled-net
+    docker network ls --filter label=env=testing
+
+[ ] Task 7: Cleanup Test Networks
+    docker rm -f custom-server custom-client 2>/dev/null
+    docker network rm testnet customnet isolated-net labeled-net 2>/dev/null
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NETWORK CREATION OPTIONS
+════════════════════════
+  --subnet       Define IP range (e.g., 172.30.0.0/24)
+  --gateway      Set gateway IP (e.g., 172.30.0.1)
+  --ip-range     Limit assignable IPs (e.g., 172.30.0.128/25)
+  --internal     No external access (isolated network)
+  --attachable   Allow manual container attachment
+  --label        Add metadata tags
+
+CONTAINER OPTIONS:
+  --network NAME   Connect to specific network
+  --ip ADDRESS     Assign specific IP (requires custom subnet)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMPOSE NETWORK DEFINITION
+══════════════════════════
+In docker-compose.yml:
+
+networks:
+  frontend_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
+
+  backend_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+          gateway: 172.21.0.1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+After experimenting, create a file called 'network_creation.txt' with:
+  Line 1: The docker command to create a network named 'mynet' with subnet 172.40.0.0/24
+  Line 2: What flag makes a network internal-only (no external access)?
+
+Run: ./verify
+
+Success: You can create networks with custom subnets, assign specific IPs,
+and understand the --internal option for isolated networks.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../multi-network && cat .mission

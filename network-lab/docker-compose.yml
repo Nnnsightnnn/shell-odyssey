@@ -1,0 +1,151 @@
+# Network Learning Lab
+# A hands-on environment for learning network fundamentals with Docker
+
+services:
+  # =============================================================================
+  # CLIENT - Your primary workstation for network exploration
+  # =============================================================================
+  client:
+    image: nicolaka/netshoot
+    container_name: client
+    hostname: client
+    networks:
+      frontend_net:
+        ipv4_address: 172.20.0.10
+    dns:
+      - 172.20.0.53
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    depends_on:
+      - dns
+      - server
+
+  # =============================================================================
+  # SERVER - Nginx web server for HTTP testing
+  # =============================================================================
+  server:
+    image: nginx:alpine
+    container_name: server
+    hostname: server
+    networks:
+      frontend_net:
+        ipv4_address: 172.20.0.20
+    dns:
+      - 172.20.0.53
+    volumes:
+      - ./services/server/html:/usr/share/nginx/html:ro
+    depends_on:
+      - dns
+
+  # =============================================================================
+  # API - Flask application for backend testing
+  # =============================================================================
+  api:
+    build: ./services/api
+    container_name: api
+    hostname: api
+    networks:
+      frontend_net:
+        ipv4_address: 172.20.0.30
+      backend_net:
+        ipv4_address: 172.21.0.30
+    dns:
+      - 172.20.0.53
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=labdb
+      - DATABASE_USER=labuser
+      - DATABASE_PASSWORD=labpass
+    depends_on:
+      - dns
+      - database
+
+  # =============================================================================
+  # DATABASE - PostgreSQL for backend connectivity exercises
+  # =============================================================================
+  database:
+    image: postgres:15-alpine
+    container_name: database
+    hostname: database
+    networks:
+      backend_net:
+        ipv4_address: 172.21.0.40
+    environment:
+      - POSTGRES_DB=labdb
+      - POSTGRES_USER=labuser
+      - POSTGRES_PASSWORD=labpass
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  # =============================================================================
+  # DNS - Custom DNS server for learning DNS resolution
+  # =============================================================================
+  dns:
+    image: jpillora/dnsmasq
+    container_name: dns
+    hostname: dns
+    networks:
+      frontend_net:
+        ipv4_address: 172.20.0.53
+      backend_net:
+        ipv4_address: 172.21.0.53
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - HTTP_USER=admin
+      - HTTP_PASS=admin
+    volumes:
+      - ./services/dns/dnsmasq.conf:/etc/dnsmasq.conf:ro
+    ports:
+      - "5380:8080"  # Web UI for DNS management
+
+  # =============================================================================
+  # MONITOR - Second netshoot container for traffic analysis
+  # =============================================================================
+  monitor:
+    image: nicolaka/netshoot
+    container_name: monitor
+    hostname: monitor
+    networks:
+      frontend_net:
+        ipv4_address: 172.20.0.100
+      backend_net:
+        ipv4_address: 172.21.0.100
+    dns:
+      - 172.20.0.53
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - dns
+
+# =============================================================================
+# NETWORKS - Isolated network segments
+# =============================================================================
+networks:
+  # Frontend network - client-facing services
+  frontend_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
+
+  # Backend network - internal services only
+  backend_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+          gateway: 172.21.0.1
+
+# =============================================================================
+# VOLUMES - Persistent storage
+# =============================================================================
+volumes:
+  db_data:

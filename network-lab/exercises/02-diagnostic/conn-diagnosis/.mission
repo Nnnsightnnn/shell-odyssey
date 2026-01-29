@@ -1,0 +1,91 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: The Diagnostic Ladder                                               ║
+║  DIFFICULTY: Intermediate                                                     ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Engineer, we're receiving reports of connection failures across the
+       station. Random 'cannot connect' errors without explanation. I need you
+       to learn systematic diagnosis - a methodical approach to identify WHERE
+       in the network stack a failure occurs. This is the foundation of all
+       troubleshooting."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+When a connection fails, it could fail at multiple layers. The Diagnostic
+Ladder is a systematic approach:
+
+  1. DNS      - Can you resolve the hostname?
+  2. PING     - Can you reach the IP address?
+  3. PORT     - Is the service port open?
+  4. PROTOCOL - Does the application respond correctly?
+
+Check each layer in order - the first failure tells you where the problem is.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Test a Working Connection
+    Command: curl http://api:5000/health
+    Establish a baseline - this should return healthy.
+
+[ ] Task 2: Diagnose DNS Layer
+    Command: dig +short api
+    Command: dig +short fakehost
+    Compare successful vs. failed DNS resolution.
+
+[ ] Task 3: Diagnose Network Layer
+    Command: ping -c 2 172.20.0.30
+    Command: ip route get 172.20.0.30
+    Verify IP connectivity and routing.
+
+[ ] Task 4: Diagnose Port/Service Layer
+    Command: nc -zv api 5000
+    Command: nc -zv api 8080
+    Command: nc -zv server 80
+    Test if specific ports are open and listening.
+
+[ ] Task 5: Run Full Diagnostic Sequence
+    Use this diagnostic workflow:
+
+    TARGET="api"; PORT="5000"
+    echo "[1] DNS:" && dig +short $TARGET
+    echo "[2] Ping:" && ping -c 1 $TARGET
+    echo "[3] Port:" && nc -zv $TARGET $PORT
+    echo "[4] HTTP:" && curl -s http://$TARGET:$PORT/health
+
+[ ] Task 6: Diagnose Intentional Isolation
+    Command: dig +short database
+    Command: ping -c 1 172.21.0.40
+    Understand why the database fails at layer 2 (network), not layer 1 (DNS).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FAILURE PATTERNS
+════════════════
+  "Could not resolve"    - DNS failure       - Use: dig
+  "No route to host"     - Network isolation - Use: ip route
+  "Connection refused"   - Port closed       - Use: nc -zv
+  "Connection timed out" - Firewall/no host  - Use: tcpdump
+  HTTP 5xx errors        - Application error - Use: curl -v
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'diagnosis.txt' with two lines:
+  Line 1: At which layer does the database connection fail? (dns, ping, port, or protocol)
+  Line 2: What command confirms the API port 5000 is open? (e.g., "nc -zv api 5000")
+
+Run: ./verify
+
+Success: You can systematically diagnose connection failures and identify
+which network layer is causing the problem.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../packet-capture && cat .mission

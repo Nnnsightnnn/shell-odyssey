@@ -1,0 +1,103 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: Linux Bridge                                 ║
+║  Classification: Virtual Network Infrastructure               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  The Linux bridge (brctl, now 'ip link' and 'bridge')         │
+│  implements an IEEE 802.1D ethernet bridge in software.       │
+│  Added to the kernel in the 2.2 era (late 1990s), it allows   │
+│  Linux to act as a network switch, forwarding frames based    │
+│  on MAC addresses. Originally used for connecting physical    │
+│  network segments, bridges became essential for virtualization│
+│  - KVM/QEMU VMs and Docker containers both rely heavily on    │
+│  Linux bridges. The older 'brctl' command (bridge-utils) is   │
+│  being replaced by 'ip link' and 'bridge' from iproute2.      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of a bridge as a VIRTUAL NETWORK SWITCH:               │
+│                                                                │
+│           Physical Switch                Virtual Bridge        │
+│    ┌──────────────────────┐      ┌──────────────────────┐     │
+│    │  ┌──┐┌──┐┌──┐┌──┐   │      │  ┌──┐┌──┐┌──┐┌──┐   │     │
+│    │  │p1││p2││p3││p4│   │      │  │v1││v2││v3││v4│   │     │
+│    │  └┬─┘└┬─┘└┬─┘└┬─┘   │      │  └┬─┘└┬─┘└┬─┘└┬─┘   │     │
+│    │   │   │   │   │     │      │   │   │   │   │     │     │
+│    │  ┌┴───┴───┴───┴─┐   │      │  ┌┴───┴───┴───┴─┐   │     │
+│    │  │   Backplane  │   │      │  │    br0       │   │     │
+│    │  │ (MAC table)  │   │      │  │ (MAC table)  │   │     │
+│    │  └──────────────┘   │      │  └──────────────┘   │     │
+│    └──────────────────────┘      └──────────────────────┘     │
+│           Hardware                      Software              │
+│                                                                │
+│  What connects to a bridge:                                    │
+│    • Physical NICs (eth0)                                     │
+│    • Virtual interfaces (veth pairs)                          │
+│    • Container endpoints                                      │
+│    • VM tap devices                                           │
+│                                                                │
+│  Layer 2 operation:                                            │
+│    Bridge learns MAC addresses → builds forwarding table      │
+│    Frames to known MACs → sent only to correct port           │
+│    Frames to unknown MACs → flooded to all ports              │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Modern method (iproute2)                                    │
+│  # Create bridge                                               │
+│  ip link add name br0 type bridge                             │
+│  ip link set br0 up                                           │
+│                                                                │
+│  # Add interface to bridge                                     │
+│  ip link set eth0 master br0                                  │
+│                                                                │
+│  # Assign IP to bridge                                         │
+│  ip addr add 192.168.1.1/24 dev br0                           │
+│                                                                │
+│  # Show bridge information                                     │
+│  bridge link show                                             │
+│  bridge fdb show                    # forwarding database     │
+│                                                                │
+│  # Legacy method (brctl)                                       │
+│  brctl addbr br0                                              │
+│  brctl addif br0 eth0                                         │
+│  brctl show                                                   │
+│                                                                │
+│  # Create veth pair for containers                             │
+│  ip link add veth0 type veth peer name veth1                  │
+│  ip link set veth0 master br0                                 │
+│  ip link set veth0 up                                         │
+│                                                                │
+│  # Delete bridge                                               │
+│  ip link set br0 down                                         │
+│  ip link delete br0                                           │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: ip, iptables, docker network, KVM         │
+│  • Alternatives: Open vSwitch (OVS) for advanced features     │
+│  • Builds toward: VM networking, container networking, SDN    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "Linux bridges are the foundation of container networking.   │
+│  When Docker creates a network, it's making a bridge. When    │
+│  you see docker0, that's a bridge. Understanding bridges      │
+│  helps you debug container connectivity issues. Use           │
+│  'bridge fdb show' to see which MAC addresses are on which    │
+│  ports - this is your L2 troubleshooting view. Remember:      │
+│  bridges work at Layer 2 (MAC addresses), not Layer 3         │
+│  (IP addresses). If containers can't ping each other,         │
+│  check if they're on the same bridge first."                  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

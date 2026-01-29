@@ -1,0 +1,106 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: Docker Networking                            ║
+║  Classification: Container Infrastructure                     ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Docker introduced its Container Network Model (CNM) in 2015  │
+│  with libnetwork. Before this, container networking was       │
+│  ad-hoc and inconsistent. CNM defined three building blocks:  │
+│  Sandboxes (network namespaces), Endpoints (virtual NICs),    │
+│  and Networks (bridges connecting endpoints). This model      │
+│  made container networking predictable and pluggable.         │
+│  Today, Docker networking powers millions of containers,      │
+│  from local development to production Kubernetes clusters.    │
+│  Understanding Docker networking is essential for modern      │
+│  infrastructure work.                                         │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Docker networking creates VIRTUAL INFRASTRUCTURE:            │
+│                                                                │
+│    Host Machine                                                │
+│    ┌─────────────────────────────────────────────────────┐    │
+│    │                                                     │    │
+│    │  ┌─────────────────────────────────────────────┐   │    │
+│    │  │         docker0 (default bridge)            │   │    │
+│    │  │              172.17.0.1                     │   │    │
+│    │  └───────┬─────────────┬─────────────┬────────┘   │    │
+│    │          │             │             │            │    │
+│    │    ┌─────┴────┐  ┌─────┴────┐  ┌─────┴────┐      │    │
+│    │    │Container1│  │Container2│  │Container3│      │    │
+│    │    │172.17.0.2│  │172.17.0.3│  │172.17.0.4│      │    │
+│    │    └──────────┘  └──────────┘  └──────────┘      │    │
+│    │                                                     │    │
+│    └─────────────────────────────────────────────────────┘    │
+│                          │                                     │
+│                     Host Network                               │
+│                    (eth0: 10.0.0.5)                            │
+│                                                                │
+│  Network types:                                                │
+│    bridge   → Default, containers on same host communicate    │
+│    host     → Container uses host's network directly          │
+│    none     → No networking (isolated)                        │
+│    overlay  → Multi-host networking (Swarm/K8s)               │
+│    macvlan  → Container gets real MAC address                 │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # List networks                                               │
+│  docker network ls                                             │
+│                                                                │
+│  # Inspect network details                                     │
+│  docker network inspect bridge                                 │
+│                                                                │
+│  # Create custom bridge network                                │
+│  docker network create my-network                              │
+│  docker network create --subnet=192.168.100.0/24 my-network   │
+│                                                                │
+│  # Run container on specific network                           │
+│  docker run --network my-network nginx                        │
+│                                                                │
+│  # Connect running container to network                        │
+│  docker network connect my-network container-name             │
+│                                                                │
+│  # Disconnect from network                                     │
+│  docker network disconnect my-network container-name          │
+│                                                                │
+│  # Port mapping (host:container)                               │
+│  docker run -p 8080:80 nginx       # host 8080 -> container 80│
+│  docker run -p 127.0.0.1:8080:80 nginx   # localhost only     │
+│                                                                │
+│  # Use host network                                            │
+│  docker run --network host nginx                              │
+│                                                                │
+│  # See container's IP address                                  │
+│  docker inspect -f '{{range.NetworkSettings.Networks}}        │
+│    {{.IPAddress}}{{end}}' container-name                      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: docker-compose, iptables, tcpdump         │
+│  • Alternatives: Podman networking, Kubernetes CNI            │
+│  • Builds toward: Microservices, container orchestration      │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "Default bridge networking is fine for quick tests, but      │
+│  always create custom networks for real applications. Why?    │
+│  Custom networks give you DNS resolution - containers can     │
+│  reach each other by name, not just IP. Use 'docker network   │
+│  inspect' to see which containers are connected and their     │
+│  IPs. When debugging, remember that '--network host' removes  │
+│  all isolation - useful for testing but not for production.   │
+│  And never expose ports to 0.0.0.0 unless you really mean     │
+│  to accept connections from anywhere."                        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

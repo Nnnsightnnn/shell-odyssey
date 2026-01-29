@@ -1,0 +1,105 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Deep Packet Inspection                                              ║
+║  DIFFICULTY: Intermediate                                                     ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Engineer, basic diagnostics are insufficient for complex failures.
+       I need you to learn tcpdump - a packet analyzer that shows the actual
+       data flowing through the network. It's like a surveillance system for
+       network traffic. With this, no communication is hidden from view."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+tcpdump captures and displays network packets in real-time. You can see:
+  - Every packet entering or leaving your interface
+  - TCP handshakes, HTTP requests, DNS queries
+  - The actual content of unencrypted communications
+
+This is the most powerful diagnostic tool for network analysis.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Basic Packet Capture
+    Command: tcpdump -i eth0 -c 5
+    Capture 5 packets on your primary interface.
+
+[ ] Task 2: Filter by Host
+    Command: tcpdump -i eth0 host server -c 10
+    Capture only traffic to/from the server. Generate traffic with:
+    curl http://server
+
+[ ] Task 3: Filter by Port
+    Command: tcpdump -i eth0 port 80 -c 20
+    Capture only HTTP traffic (port 80).
+
+[ ] Task 4: View Packet Contents
+    Command: tcpdump -i eth0 port 80 -A -c 20
+    The -A flag shows ASCII content. Look for HTTP headers!
+
+[ ] Task 5: Capture DNS Traffic
+    Command: tcpdump -i eth0 port 53 -c 4
+    In another terminal: dig server
+    Watch the DNS query and response packets.
+
+[ ] Task 6: Save Capture to File
+    Command: tcpdump -i eth0 -w /tmp/capture.pcap -c 50 &
+    Generate traffic, then read: tcpdump -r /tmp/capture.pcap
+
+[ ] Task 7: Analyze a TCP Connection
+    Command: tcpdump -i eth0 host server and port 80 -c 20
+    Then: curl http://server
+
+    Identify these phases:
+    - SYN (Flags [S])      - Client initiates
+    - SYN-ACK (Flags [S.]) - Server acknowledges
+    - ACK (Flags [.])      - Connection established
+    - PSH (Flags [P.])     - Data transfer
+    - FIN (Flags [F.])     - Connection close
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY OPTIONS
+═══════════
+  -i eth0    Capture on interface eth0
+  -c N       Stop after N packets
+  -n         Don't resolve hostnames (faster)
+  -A         Show ASCII content
+  -X         Show hex + ASCII
+  -w file    Write to file (pcap format)
+  -r file    Read from file
+  -v, -vv    Verbose output
+  -tttt      Full timestamp
+
+COMMON FILTERS:
+  host X          Traffic to/from host X
+  port N          Traffic on port N
+  src host X      Traffic from X
+  dst port N      Traffic to port N
+  tcp/udp/icmp    Specific protocols
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+1. Create a capture file: tcpdump -i eth0 -w capture.pcap -c 30 &
+2. Generate traffic: curl http://server && ping -c 2 api
+3. Wait for capture to complete
+
+Create a file called 'capture_analysis.txt' with:
+  Line 1: How many packets did you capture? (a number)
+  Line 2: What protocol did you see for curl traffic? (tcp or http)
+
+Run: ./verify
+
+Success: You can capture packets, filter by host/port, view content, and
+understand TCP connection phases.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../path-trace && cat .mission

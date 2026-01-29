@@ -1,0 +1,5 @@
+HINT 1: Monitoring traffic at zone boundaries helps detect unauthorized access attempts and understand communication patterns. A monitor container on multiple networks can see cross-zone traffic.
+
+HINT 2: Use tcpdump from a container that has visibility into multiple networks. Filter by specific hosts, ports, or traffic patterns. The API container (172.20.0.30 / 172.21.0.30) is the cross-zone boundary to watch.
+
+HINT 3: Enter monitor: 'docker exec -it monitor bash'. Watch cross-zone: 'tcpdump -i any host 172.20.0.30 or host 172.21.0.30 -n'. Watch for suspicious patterns: 'tcpdump -i eth0 "tcp[tcpflags] == tcp-syn"' shows connection attempts. DNS queries reveal what hosts are being looked up: 'tcpdump -i any port 53 -n'.

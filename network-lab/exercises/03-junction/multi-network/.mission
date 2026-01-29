@@ -1,0 +1,127 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Multi-Network Gateway Operations                                    ║
+║  DIFFICULTY: Advanced                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Some station systems must communicate across network boundaries. The API
+       container serves as a gateway - connected to both frontend and backend
+       networks. This is how we maintain isolation while enabling controlled
+       communication. Learn this pattern, engineer. It's essential for secure
+       architecture."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+Some containers need access to multiple network segments:
+  - API servers: Accept frontend requests, connect to backend databases
+  - Monitoring: Need visibility into all network segments
+  - Gateways: Route traffic between isolated networks
+
+Our 'api' and 'monitor' containers are connected to BOTH frontend_net and
+backend_net. Learn how this works and how to manage it.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Examine Multi-Network Container (from Docker host)
+    docker inspect api --format '
+    Networks:
+    {{range $net, $config := .NetworkSettings.Networks}}
+      {{$net}}: {{$config.IPAddress}}
+    {{end}}'
+
+    Note: API has TWO IPs (172.20.0.30 on frontend, 172.21.0.30 on backend)
+
+[ ] Task 2: View Interfaces Inside Container
+    docker exec -it api bash
+    ip addr           # See TWO eth interfaces
+    ip route          # Routes to BOTH networks
+    exit
+
+[ ] Task 3: Understand the Communication Flow
+
+    ┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+    │    client     │         │      api      │         │   database    │
+    │  172.20.0.10  │ ──────> │  172.20.0.30  │         │  172.21.0.40  │
+    │               │         │  172.21.0.30  │ ──────> │               │
+    └───────────────┘         └───────────────┘         └───────────────┘
+           │                         │                         │
+      frontend_net              BOTH NETS               backend_net
+
+[ ] Task 4: Connect Client to Backend (Temporarily)
+    docker network connect network-lab_backend_net client
+    docker exec client ip addr      # Now has TWO interfaces!
+    docker exec client ping -c 2 172.21.0.40  # Database reachable!
+
+[ ] Task 5: Disconnect Client from Backend
+    docker network disconnect network-lab_backend_net client
+    docker exec client ip addr      # Back to ONE interface
+    docker exec client ping -c 2 172.21.0.40  # Fails again
+
+[ ] Task 6: Build Your Own Multi-Network Setup
+    # Create two networks
+    docker network create --subnet=172.40.0.0/24 net-a
+    docker network create --subnet=172.41.0.0/24 net-b
+
+    # Create isolated containers
+    docker run -d --name box-a --network net-a nicolaka/netshoot sleep 3600
+    docker run -d --name box-b --network net-b nicolaka/netshoot sleep 3600
+
+    # Create gateway on both
+    docker run -d --name gateway --network net-a nicolaka/netshoot sleep 3600
+    docker network connect net-b gateway
+
+    # Test isolation and gateway access
+    docker exec box-a ping -c 1 172.41.0.2   # FAILS - no route
+    docker exec gateway ping -c 1 172.40.0.2  # Works
+    docker exec gateway ping -c 1 172.41.0.2  # Works
+
+[ ] Task 7: Cleanup
+    docker rm -f box-a box-b gateway 2>/dev/null
+    docker network rm net-a net-b 2>/dev/null
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DYNAMIC NETWORK COMMANDS
+════════════════════════
+  docker network connect [--ip X.X.X.X] NETWORK CONTAINER
+  docker network disconnect NETWORK CONTAINER
+
+INSPECTION:
+  # List container's networks
+  docker inspect CONTAINER --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{end}}'
+
+  # List containers on a network
+  docker network inspect NETWORK --format '{{range .Containers}}{{.Name}} {{end}}'
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CONCEPTS
+════════════
+  1. Containers can join multiple networks (each gets separate interface)
+  2. Multi-network containers act as gateways/bridges
+  3. Network connections can be added/removed without restart
+  4. Security through topology - network architecture enforces access patterns
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Create a file called 'multi_net.txt' with:
+  Line 1: How many networks is the 'api' container connected to? (a number)
+  Line 2: The docker command to connect a container 'myapp' to network 'backend'
+  Line 3: The docker command to disconnect it
+
+Run: ./verify
+
+Success: You understand multi-network containers, can connect/disconnect
+networks dynamically, and know how the API gateway pattern works.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NETWORK JUNCTION COMPLETE! Proceed to the Security Hub:
+cd ../../04-security-hub/isolation-verify && cat .mission

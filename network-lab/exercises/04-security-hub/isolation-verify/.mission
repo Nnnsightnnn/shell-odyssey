@@ -1,0 +1,111 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Network Isolation Verification                                      ║
+║  DIFFICULTY: Advanced                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Engineer, network isolation is our first line of defense. The cascade
+       failure exposed vulnerabilities in our architecture. Your mission is to
+       verify that isolation boundaries are intact - that containers can ONLY
+       reach what they're supposed to reach. Security depends on proving the
+       negative: confirming what is NOT possible."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+Network isolation prevents unauthorized access by placing resources on separate
+networks. Traffic cannot cross these boundaries without explicit permission
+(a container connected to both networks).
+
+Our station has two security zones:
+  - Frontend Zone (172.20.0.0/24): Publicly accessible services
+  - Backend Zone (172.21.0.0/24): Protected internal services
+
+Verify that isolation is working correctly.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Map the Trust Boundaries
+    Frontend Zone (172.20.0.0/24):
+      - client (172.20.0.10) - User workstation
+      - server (172.20.0.20) - Web server
+      - api (172.20.0.30)    - Application gateway
+
+    Backend Zone (172.21.0.0/24):
+      - database (172.21.0.40) - Data storage
+      - api (172.21.0.30)      - Backend connection
+      - monitor (172.21.0.50)  - Admin access
+
+[ ] Task 2: Verify Client CAN Reach Frontend Services
+    docker exec client ping -c 1 server
+    docker exec client ping -c 1 api
+    docker exec client curl -s http://server | head -5
+    docker exec client curl -s http://api:5000/health
+
+[ ] Task 3: Verify Client CANNOT Reach Backend Services
+    docker exec client ping -c 1 database
+    # Result: Should FAIL (no route or name resolution fails)
+
+    docker exec client ping -c 1 172.21.0.40
+    # Result: Should FAIL (no route to host)
+
+[ ] Task 4: Verify Database CANNOT Reach Frontend
+    docker exec database sh -c "ping -c 1 172.20.0.10 2>&1 || echo 'Cannot reach client'"
+    # Database is protected in both directions!
+
+[ ] Task 5: Test the API Gateway Pattern
+    docker exec -it api bash
+    ping -c 1 server     # Frontend access
+    ping -c 1 database   # Backend access
+    ip addr | grep inet  # Show both interfaces
+    exit
+
+    # Client -> API -> Database flow
+    docker exec client curl -s http://api:5000/db/status
+
+[ ] Task 6: Compare Route Tables
+    docker exec client ip route     # Only frontend routes
+    docker exec api ip route        # Both frontend AND backend routes
+    docker exec database sh -c "ip route 2>/dev/null || cat /proc/net/route"
+
+[ ] Task 7: Verify DNS Does Not Equal Connectivity
+    docker exec client dig +short database
+    # May resolve (DNS is on both networks)
+
+    docker exec client ping -c 1 172.21.0.40
+    # But still cannot connect!
+
+[ ] Task 8: Attempt Route Manipulation (Will Fail)
+    docker exec client ip route add 172.21.0.0/24 via 172.20.0.1
+    # Should fail - no permission, and gateway won't forward anyway
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ISOLATION PROTECTS AGAINST
+══════════════════════════
+Without isolation, an attacker who compromises the web client could:
+  - Directly connect to the database
+  - Scan the internal network
+  - Access other backend services
+
+With isolation:
+  - Attacker is confined to frontend network
+  - Database is invisible and unreachable
+  - Attack surface is reduced to the API only
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Run: ./verify
+
+Success: You have verified that network isolation is working - the client
+cannot reach the database, and the database cannot reach the client.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NEXT MISSION: cd ../segmentation && cat .mission

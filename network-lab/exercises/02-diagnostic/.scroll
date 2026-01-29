@@ -1,0 +1,117 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║  ██████╗ ██╗ █████╗  ██████╗ ███╗   ██╗ ██████╗ ███████╗████████╗██╗ ██████╗ ║
+║  ██╔══██╗██║██╔══██╗██╔════╝ ████╗  ██║██╔═══██╗██╔════╝╚══██╔══╝██║██╔════╝ ║
+║  ██║  ██║██║███████║██║  ███╗██╔██╗ ██║██║   ██║███████╗   ██║   ██║██║      ║
+║  ██║  ██║██║██╔══██║██║   ██║██║╚██╗██║██║   ██║╚════██║   ██║   ██║██║      ║
+║  ██████╔╝██║██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝███████║   ██║   ██║╚██████╗ ║
+║  ╚═════╝ ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝ ╚═════╝ ║
+║                                                                               ║
+║                      DIAGNOSTIC CENTER - LEVEL 4                              ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+                         ┌─────────────────────────────┐
+                         │   ╔═══════════════════╗     │
+                         │   ║   DIAGNOSTIC      ║     │
+                         │   ║     CENTER        ║     │
+                         │   ╚═══════════════════╝     │
+                         │                             │
+                         │    ┌───────────────┐        │
+                         │    │ ▓▓▓▓▓▓▓▓▓▓▓▓▓ │        │
+                         │    │ ▓ PACKET     ▓ │        │
+                         │    │ ▓ ANALYZER   ▓ │        │
+                         │    │ ▓▓▓▓▓▓▓▓▓▓▓▓▓ │        │
+                         │    └───────────────┘        │
+                         │      MAIN CONSOLE           │
+                         └─────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCATION: Diagnostic Center, Deck 4
+STATUS: Elevated Alert
+ACCESS: GRANTED - TROUBLESHOOTING PROTOCOLS ACTIVE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Warning klaxons have been silenced, but their amber glow still pulses through
+the Diagnostic Center. This is the station's network operations nerve center,
+where technicians monitor traffic flows and hunt down connectivity gremlins.
+
+The main console displays a cascade of error logs from the solar flare impact.
+Packet loss indicators blink red across multiple segments. Senior Technician
+Okonkwo's troubleshooting checklist is pinned to the wall - a methodical
+approach refined over years of chasing network phantoms.
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  NEXUS: Now we get serious, Specialist.                            │
+    │                                                                     │
+    │         Understanding the network is one thing. Fixing it when     │
+    │         things go wrong is another entirely. The tools in this     │
+    │         section will become your eyes and ears.                    │
+    │                                                                     │
+    │         Technician Okonkwo's philosophy: "Trust nothing. Verify    │
+    │         everything. Packets don't lie."                            │
+    │                                                                     │
+    │         You will learn to:                                         │
+    │                                                                     │
+    │         • Diagnose connection failures systematically              │
+    │         • Capture and analyze network packets                      │
+    │         • Trace paths through the network                          │
+    │                                                                     │
+    │         These skills separate network engineers from network       │
+    │         users. Master them well.                                   │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THE TROUBLESHOOTING LADDER
+══════════════════════════
+
+    When debugging network issues, work through the layers:
+
+         ┌─────────────────────────────────────────────┐
+    7    │  APPLICATION   HTTP 404? API timeout?       │  ← curl, wget
+         ├─────────────────────────────────────────────┤
+    4    │  TRANSPORT     Connection refused? Timeout? │  ← nc, ss
+         ├─────────────────────────────────────────────┤
+    3    │  NETWORK       Can't ping? No route?        │  ← ping, traceroute
+         ├─────────────────────────────────────────────┤
+    2    │  DATA LINK     ARP issues? MAC problems?    │  ← arp, ip neigh
+         └─────────────────────────────────────────────┘
+
+    Start from the bottom. Work up. Each layer depends on the ones below.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MODULE MISSIONS
+═══════════════
+
+    [1] conn-diagnosis   Systematically Diagnose Connection Failures
+    [2] packet-capture   Capture Network Packets with tcpdump
+    [3] path-trace       Trace Network Routes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SKILLS YOU WILL LEARN
+═════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  COMMAND          │  PURPOSE                                       │
+    ├───────────────────┼─────────────────────────────────────────────────┤
+    │  nc -zv           │  Test if ports are open                        │
+    │  tcpdump          │  Capture and analyze packets                   │
+    │  traceroute       │  Trace path to destination                     │
+    │  mtr              │  Combined ping + traceroute                    │
+    │  ss               │  Show socket statistics                        │
+    │  curl -v          │  Verbose HTTP debugging                        │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BEGIN FIRST MISSION: cd conn-diagnosis && cat .mission
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

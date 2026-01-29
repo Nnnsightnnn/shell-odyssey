@@ -1,0 +1,84 @@
+#!/bin/bash
+# verify - Custom Networks mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                  CUSTOM NETWORK VERIFICATION                                   ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next mission or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check for network_creation.txt
+if [[ ! -f "$SCRIPT_DIR/network_creation.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} network_creation.txt not found."
+    echo ""
+    echo "Create a file with:"
+    echo "  Line 1: Docker command to create network 'mynet' with subnet 172.40.0.0/24"
+    echo "  Line 2: Flag for internal-only network"
+    echo ""
+    exit 1
+fi
+
+# Read the file
+COMMAND=$(sed -n '1p' "$SCRIPT_DIR/network_creation.txt" | tr '[:upper:]' '[:lower:]')
+FLAG=$(sed -n '2p' "$SCRIPT_DIR/network_creation.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+
+# Validate command has key elements
+if [[ "$COMMAND" == *"docker"* ]] && [[ "$COMMAND" == *"network"* ]] && [[ "$COMMAND" == *"create"* ]] && [[ "$COMMAND" == *"172.40.0.0/24"* ]] && [[ "$COMMAND" == *"mynet"* ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Network creation command looks correct!"
+else
+    echo -e "${RED}[INCOMPLETE]${NC} Command should include: docker network create, subnet 172.40.0.0/24, and name 'mynet'"
+    echo "Example: docker network create --subnet=172.40.0.0/24 mynet"
+    exit 1
+fi
+
+# Validate internal flag
+if [[ "$FLAG" == "--internal" ]] || [[ "$FLAG" == "internal" ]] || [[ "$FLAG" == "-internal" ]]; then
+    echo -e "${GREEN}[VERIFIED]${NC} Correct! The --internal flag creates isolated networks."
+else
+    echo -e "${RED}[INCOMPLETE]${NC} The flag for internal networks is --internal"
+    exit 1
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "You can now create custom Docker networks. This gives you control
+       over your infrastructure's topology.
+
+       Network creation options:
+       - --subnet: Define the IP range
+       - --gateway: Set the gateway address
+       - --internal: Block external access
+       - --ip-range: Limit assignable IPs
+
+       The --internal flag is crucial for security: containers on an
+       internal network cannot reach the outside world, even if they try.
+       Perfect for database networks that should never need internet access."
+
+EOF
+
+echo -e "${YELLOW}NEXT MISSION:${NC} cd ../multi-network && cat .mission"
+echo ""

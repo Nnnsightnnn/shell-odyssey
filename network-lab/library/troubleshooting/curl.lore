@@ -1,0 +1,104 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: curl                                         ║
+║  Classification: URL Transfer Tool                            ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Daniel Stenberg started what became curl in 1996 as          │
+│  "httpget" - a simple tool to fetch currency exchange rates   │
+│  for an IRC bot. By 1998, it had grown to support FTP and     │
+│  was renamed curl (Client URL). Stenberg has maintained it    │
+│  for 25+ years, making it one of the most successful open     │
+│  source projects. curl now supports 26+ protocols and runs    │
+│  on billions of devices - from servers to cars to Mars        │
+│  rovers (NASA included curl on Mars Helicopter Ingenuity).    │
+│  It's the universal tool for moving data with URLs.           │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of curl as a UNIVERSAL PROTOCOL ADAPTER:               │
+│                                                                │
+│                    ┌───────────────┐                          │
+│                    │     curl      │                          │
+│                    │               │                          │
+│                    │  Build Request│                          │
+│                    │     ↓         │                          │
+│                    │  Send Request │                          │
+│                    │     ↓         │                          │
+│                    │  Get Response │                          │
+│                    └───────┬───────┘                          │
+│              ┌─────────────┼─────────────┐                    │
+│              ▼             ▼             ▼                    │
+│         ┌────────┐   ┌────────┐   ┌────────┐                 │
+│         │ HTTP(S)│   │  FTP   │   │  SMTP  │   ... 26+       │
+│         │  APIs  │   │ files  │   │  mail  │   protocols     │
+│         └────────┘   └────────┘   └────────┘                 │
+│                                                                │
+│  Key concepts:                                                 │
+│    • Request = URL + Method + Headers + Body                  │
+│    • Response = Status + Headers + Body (to stdout)           │
+│    • Silent mode (-s) hides progress meter                    │
+│    • Follow redirects (-L) for real-world URLs                │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Basic GET request                                           │
+│  curl https://example.com                                      │
+│                                                                │
+│  # Show response headers                                       │
+│  curl -I https://example.com         # headers only           │
+│  curl -i https://example.com         # headers + body         │
+│                                                                │
+│  # Silent mode (for scripts)                                   │
+│  curl -s https://api.example.com/data                         │
+│                                                                │
+│  # Follow redirects                                            │
+│  curl -L https://short.url/abc                                │
+│                                                                │
+│  # POST with data                                              │
+│  curl -X POST -d "name=value" https://api.example.com         │
+│                                                                │
+│  # POST JSON                                                   │
+│  curl -X POST -H "Content-Type: application/json" \           │
+│       -d '{"key":"value"}' https://api.example.com            │
+│                                                                │
+│  # Add custom headers                                          │
+│  curl -H "Authorization: Bearer TOKEN" https://api.com        │
+│                                                                │
+│  # Download file                                               │
+│  curl -O https://example.com/file.tar.gz                      │
+│  curl -o myfile.tar.gz https://example.com/file.tar.gz        │
+│                                                                │
+│  # Show timing details                                         │
+│  curl -w "Time: %{time_total}s\n" -o /dev/null -s URL         │
+│                                                                │
+│  # Verbose debugging                                           │
+│  curl -v https://example.com                                  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: jq, grep, xargs, shell scripting          │
+│  • Alternatives: wget (simpler), httpie (friendlier syntax)   │
+│  • Builds toward: API testing, automation, web scraping       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "curl is the network debugger you'll use daily. Start with   │
+│  '-v' (verbose) to see exactly what's happening - the         │
+│  request headers, TLS negotiation, response headers.          │
+│  When working with APIs, 'curl -s URL | jq' is your best      │
+│  friend. Use '-w' with format strings to extract timing       │
+│  data for performance testing. And remember: '-o /dev/null'   │
+│  discards the body when you only care about headers or        │
+│  timing. curl's man page is enormous - bookmark it."          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

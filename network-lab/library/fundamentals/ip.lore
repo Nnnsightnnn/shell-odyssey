@@ -1,0 +1,97 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: ip                                           ║
+║  Classification: Network Configuration                        ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Alexey Kuznetsov developed the iproute2 suite in the late    │
+│  1990s as part of his work on Linux advanced routing. The     │
+│  ip command was designed to replace a fragmented collection   │
+│  of older tools: ifconfig, route, arp, and netstat. While     │
+│  those tools still exist, ip provides a unified, consistent   │
+│  interface that better reflects modern networking concepts.   │
+│  Today, iproute2 is the standard networking toolkit on Linux. │
+│  The old tools are considered deprecated, though many admins  │
+│  still use them out of habit.                                 │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  The ip command is a UNIFIED CONTROL PANEL for networking:    │
+│                                                                │
+│                    ┌─────────────────────┐                    │
+│                    │      ip command     │                    │
+│                    └──────────┬──────────┘                    │
+│          ┌─────────────┬──────┴──────┬─────────────┐         │
+│          ▼             ▼             ▼             ▼         │
+│    ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐      │
+│    │ ip addr  │ │ ip link  │ │ ip route │ │ ip neigh │      │
+│    │          │ │          │ │          │ │          │      │
+│    │ IP addrs │ │interfaces│ │ routing  │ │   ARP    │      │
+│    │ (layer 3)│ │ (layer 2)│ │  table   │ │  cache   │      │
+│    └──────────┘ └──────────┘ └──────────┘ └──────────┘      │
+│                                                                │
+│  Replaces:                                                     │
+│    ifconfig  →  ip addr, ip link                              │
+│    route     →  ip route                                      │
+│    arp       →  ip neigh                                      │
+│    netstat   →  ss (separate tool, same suite)                │
+│                                                                │
+│  Object types:                                                 │
+│    link   → network interfaces                                │
+│    addr   → IP addresses                                      │
+│    route  → routing table entries                             │
+│    neigh  → ARP/neighbor cache                                │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Show all IP addresses (like ifconfig)                       │
+│  ip addr show                                                  │
+│  ip a                        # short form                      │
+│                                                                │
+│  # Show specific interface                                     │
+│  ip addr show dev eth0                                         │
+│                                                                │
+│  # Show all interfaces (up/down status)                        │
+│  ip link show                                                  │
+│                                                                │
+│  # Bring interface up/down                                     │
+│  ip link set eth0 up                                          │
+│  ip link set eth0 down                                        │
+│                                                                │
+│  # Show routing table                                          │
+│  ip route show                                                 │
+│  ip r                        # short form                      │
+│                                                                │
+│  # Add/delete IP address                                       │
+│  ip addr add 192.168.1.10/24 dev eth0                         │
+│  ip addr del 192.168.1.10/24 dev eth0                         │
+│                                                                │
+│  # Show ARP cache                                              │
+│  ip neigh show                                                 │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: ss, ping, traceroute, bridge              │
+│  • Alternatives: ifconfig (deprecated), netstat (deprecated)  │
+│  • Builds toward: Network namespaces, routing, bridging       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "Forget ifconfig - ip is the modern way. The syntax is       │
+│  actually more logical once you learn it: ip <object>         │
+│  <action>. Want to see addresses? 'ip addr show'. Want to     │
+│  change a link? 'ip link set'. Everything follows the same    │
+│  pattern. Use 'ip -c' for colorized output that makes         │
+│  reading easier. And 'ip -br addr' gives you a brief,         │
+│  clean summary that's perfect for quick checks."              │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘

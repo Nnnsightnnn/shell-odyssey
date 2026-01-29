@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Lab - Web Server</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #0f0;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #00ff88; }
+        .box {
+            border: 1px solid #0f0;
+            padding: 20px;
+            margin: 20px 0;
+            background: #16213e;
+        }
+        code {
+            background: #0d1117;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        a { color: #00aaff; }
+    </style>
+</head>
+<body>
+    <h1>🌐 Network Learning Lab</h1>
+
+    <div class="box">
+        <h2>Welcome!</h2>
+        <p>You've successfully connected to the web server.</p>
+        <p>This page confirms:</p>
+        <ul>
+            <li>DNS resolution is working</li>
+            <li>HTTP connectivity is established</li>
+            <li>The server container is running</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Available Endpoints</h2>
+        <ul>
+            <li><code>http://server/</code> - This page</li>
+            <li><code>http://api:5000/</code> - API service</li>
+            <li><code>http://api:5000/health</code> - Health check</li>
+            <li><code>http://api:5000/info</code> - Network info</li>
+            <li><code>http://api:5000/echo</code> - Request echo</li>
+        </ul>
+    </div>
+
+    <div class="box">
+        <h2>Try These Commands</h2>
+        <pre>
+# From client container:
+curl http://server
+curl http://api:5000/info
+ping database
+dig api
+        </pre>
+    </div>
+</body>
+</html>

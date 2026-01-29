@@ -1,0 +1,115 @@
+#!/bin/bash
+# verify - Segmentation mission completion checker
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║                  SEGMENTATION VERIFICATION                                     ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check if already completed
+if [[ -f "$SCRIPT_DIR/.complete" ]]; then
+    echo -e "${GREEN}[COMPLETED]${NC} This mission is already complete."
+    echo "Proceed to the next mission or run again to re-verify."
+    echo ""
+    exit 0
+fi
+
+# Check for segmentation_design.txt
+if [[ ! -f "$SCRIPT_DIR/segmentation_design.txt" ]]; then
+    echo -e "${RED}[INCOMPLETE]${NC} segmentation_design.txt not found."
+    echo ""
+    echo "Create a file with:"
+    echo "  Line 1: Should DMZ access database directly? (yes/no)"
+    echo "  Line 2: What bridges zones? (gateway/proxy/firewall/api)"
+    echo "  Line 3: Why segment? (security/performance/compliance)"
+    echo ""
+    exit 1
+fi
+
+# Read answers
+DMZ_DB=$(sed -n '1p' "$SCRIPT_DIR/segmentation_design.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+BRIDGE=$(sed -n '2p' "$SCRIPT_DIR/segmentation_design.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+WHY=$(sed -n '3p' "$SCRIPT_DIR/segmentation_design.txt" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
+
+CORRECT=0
+
+# DMZ should NOT have direct database access
+if [[ "$DMZ_DB" == "no" ]]; then
+    echo -e "${GREEN}[CORRECT]${NC} DMZ should never have direct database access!"
+    ((CORRECT++))
+else
+    echo -e "${RED}[WRONG]${NC} DMZ should NOT have direct database access - that's the whole point of segmentation!"
+fi
+
+# Gateway/API/proxy all acceptable answers
+if [[ "$BRIDGE" == "gateway" ]] || [[ "$BRIDGE" == "api" ]] || [[ "$BRIDGE" == "proxy" ]]; then
+    echo -e "${GREEN}[CORRECT]${NC} Gateways/APIs/proxies bridge zones with controlled access"
+    ((CORRECT++))
+elif [[ "$BRIDGE" == "firewall" ]]; then
+    echo -e "${YELLOW}[PARTIAL]${NC} Firewalls can control traffic, but gateways/APIs provide application-level control"
+    ((CORRECT++))
+else
+    echo -e "${RED}[WRONG]${NC} Zone bridges are typically gateways, APIs, or proxies"
+fi
+
+# Security is the primary reason
+if [[ "$WHY" == "security" ]]; then
+    echo -e "${GREEN}[CORRECT]${NC} Security is the primary driver for network segmentation"
+    ((CORRECT++))
+elif [[ "$WHY" == "compliance" ]]; then
+    echo -e "${GREEN}[CORRECT]${NC} Compliance (like PCI-DSS) often requires segmentation for security"
+    ((CORRECT++))
+elif [[ "$WHY" == "performance" ]]; then
+    echo -e "${YELLOW}[PARTIAL]${NC} Segmentation can help performance, but security is the main reason"
+    ((CORRECT++))
+else
+    echo -e "${RED}[WRONG]${NC} The primary reason is security (or compliance)"
+fi
+
+if [[ $CORRECT -lt 3 ]]; then
+    echo ""
+    echo -e "${RED}[INCOMPLETE]${NC} Please review and correct your answers."
+    exit 1
+fi
+
+# Success!
+touch "$SCRIPT_DIR/.complete"
+
+cat << 'EOF'
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                          MISSION COMPLETE                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "You understand the principles of network segmentation. This knowledge
+       is crucial for designing secure infrastructure.
+
+       Segmentation principles:
+       1. Minimize cross-zone traffic (smaller attack surface)
+       2. Use gateway services (never expose databases directly)
+       3. Implement least privilege (only needed connections)
+       4. Monitor zone boundaries (log cross-zone traffic)
+       5. Separate management (admin on dedicated network)
+
+       Real-world architectures:
+       - E-commerce: DMZ -> App -> Database
+       - Microservices: Public Gateway -> Service Mesh -> Data Layer
+       - Enterprise: Internet -> DMZ -> Internal -> Secure
+
+       Each tier has different security controls appropriate to its
+       trust level."
+
+EOF
+
+echo -e "${YELLOW}NEXT MISSION:${NC} cd ../traffic-monitor && cat .mission"
+echo ""

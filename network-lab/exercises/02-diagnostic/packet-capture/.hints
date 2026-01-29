@@ -1,0 +1,5 @@
+HINT 1: Sometimes you need to see the actual packets on the wire. A packet capture tool lets you watch network traffic in real-time, filter by various criteria, and even see the content of unencrypted traffic.
+
+HINT 2: The 'tcpdump' command captures packets. Key options: '-i eth0' (interface), '-c N' (count), 'host X' (filter), 'port N' (filter), '-A' (ASCII content). Save with '-w file.pcap', read with '-r file.pcap'.
+
+HINT 3: Basic capture: 'tcpdump -i eth0 -c 10'. Filter by host: 'tcpdump -i eth0 host server -c 20'. See HTTP content: 'tcpdump -i eth0 port 80 -A -c 20'. Watch TCP handshake flags - [S]=SYN, [S.]=SYN-ACK, [.]=ACK, [P.]=data, [F.]=FIN.

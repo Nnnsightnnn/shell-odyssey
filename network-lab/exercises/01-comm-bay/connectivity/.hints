@@ -1,0 +1,5 @@
+HINT 1: Connectivity testing starts with the simplest possible check - can packets reach the destination and return? Consider what happens when you can reach one host but not another on a different subnet.
+
+HINT 2: The 'ping' command sends ICMP echo requests. Use '-c N' to limit packet count. Try pinging by both IP address and hostname to test if DNS is also working.
+
+HINT 3: Run 'ping -c 4 server' to test connectivity. Compare 'ping -c 2 api' (reachable) vs 'ping -c 2 database' (unreachable due to network isolation). The error messages differ between DNS failures ("Name not known") and routing failures ("No route").

@@ -1,0 +1,8 @@
+HINT 1: Network segmentation divides infrastructure into zones based on trust and access needs. Common tiers: DMZ (public-facing), Application (business logic), Data (databases). Each tier has different security requirements.
+
+HINT 2: Design segmentation by asking: What needs to talk to what? DMZ to App (yes), DMZ to Data (no), App to Data (yes). Use gateway containers to bridge zones with controlled access points.
+
+HINT 3: Create test tiers:
+  'docker network create --subnet=172.50.0.0/24 tier-dmz'
+  'docker network create --subnet=172.51.0.0/24 tier-app'
+Containers on tier-dmz cannot reach tier-app unless explicitly connected. Gateway services (like API) connect to both and enforce access control. Document: network map, traffic flows, access rules.

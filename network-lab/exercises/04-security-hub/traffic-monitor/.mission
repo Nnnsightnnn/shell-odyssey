@@ -1,0 +1,183 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║  MISSION: Cross-Network Traffic Surveillance                                  ║
+║  DIFFICULTY: Advanced                                                         ║
+║  STATUS: In Progress                                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Final mission, engineer. Security isn't just about building walls - it's
+       about watching them. The monitor container has visibility into both network
+       zones. Your task is to set up traffic surveillance at zone boundaries.
+       Learn to detect anomalies, capture evidence, and understand what 'normal'
+       looks like so you can identify when something is wrong."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OBJECTIVE
+═════════
+Monitoring traffic at zone boundaries helps you:
+  - Detect unauthorized access attempts
+  - Understand normal communication patterns
+  - Identify anomalous behavior
+  - Gather forensic evidence
+
+The 'monitor' container has access to both networks, making it the perfect
+observation point for cross-zone traffic analysis.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TASKS
+═════
+
+[ ] Task 1: Position the Monitor
+    docker exec monitor ip addr | grep inet
+    Note: Monitor has interfaces on BOTH frontend (172.20.x.x) and backend (172.21.x.x)
+
+[ ] Task 2: Capture Frontend Traffic
+    # In one terminal:
+    docker exec -it monitor bash
+    tcpdump -i eth0 -n -c 20
+
+    # In another terminal, generate traffic:
+    docker exec client curl http://server
+    docker exec client ping -c 2 api
+
+[ ] Task 3: Capture Backend Traffic
+    # Inside monitor, find backend interface:
+    ip addr    # Look for 172.21.x.x interface (likely eth1)
+
+    tcpdump -i eth1 -n -c 20
+
+    # Generate API-to-database traffic:
+    docker exec client curl http://api:5000/db/status
+
+[ ] Task 4: Monitor Cross-Zone Communication (API Gateway)
+    # Watch traffic to/from the API (on both networks):
+    tcpdump -i any host 172.20.0.30 or host 172.21.0.30 -n
+
+    # Generate cross-zone traffic:
+    docker exec client curl http://api:5000/info
+    docker exec client curl http://api:5000/db/status
+
+[ ] Task 5: Analyze HTTP Content
+    tcpdump -i any port 5000 -A -n -c 50
+
+    # Make API call:
+    docker exec client curl http://api:5000/echo
+
+    # Look for HTTP headers and JSON in the output
+
+[ ] Task 6: Identify Suspicious Patterns
+    # Watch for unexpected ports:
+    tcpdump -i eth0 'not port 80 and not port 5000 and not port 53' -c 20
+
+    # Watch for TCP resets (rejected connections):
+    tcpdump -i eth0 'tcp[tcpflags] & tcp-rst != 0' -c 10
+
+    # Watch for connection attempts (SYN packets):
+    tcpdump -i eth0 'tcp[tcpflags] == tcp-syn' -n -c 10
+
+[ ] Task 7: Simulate and Detect Port Scanning
+    # In monitor, watch for SYN packets:
+    tcpdump -i eth0 'tcp[tcpflags] == tcp-syn' -n
+
+    # In another terminal, simulate port scan:
+    docker exec client sh -c "for p in 22 80 443 3306 5432; do nc -zv server \$p 2>&1; done"
+
+    # You should see the connection attempts in your capture
+
+[ ] Task 8: Monitor DNS Queries
+    tcpdump -i any port 53 -n
+
+    # Generate DNS traffic:
+    docker exec client dig server
+    docker exec client dig database
+    docker exec client dig google.com
+
+    # DNS reveals what hosts are being looked up!
+
+[ ] Task 9: Save Captures for Forensic Analysis
+    # Capture to file:
+    tcpdump -i any -w /tmp/traffic.pcap -c 100 &
+
+    # Generate varied traffic:
+    docker exec client curl http://server
+    docker exec client curl http://api:5000/health
+    docker exec client ping -c 2 server
+
+    # Wait and analyze:
+    wait
+    tcpdump -r /tmp/traffic.pcap -n
+    tcpdump -r /tmp/traffic.pcap -A | head -100
+
+[ ] Task 10: Exit and Summarize
+    exit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TRAFFIC INSPECTION REFERENCE
+════════════════════════════
+  tcpdump -i any              All interfaces
+  tcpdump host X              Traffic to/from host
+  tcpdump port N              Traffic on port N
+  tcpdump -A                  Show ASCII content
+  tcpdump -w file.pcap        Save to file
+  tcpdump -r file.pcap        Read from file
+  tcpdump 'tcp[tcpflags]'     Filter by TCP flags
+
+SUSPICIOUS PATTERNS TO WATCH:
+  - Connections to unexpected ports
+  - High volume from single source
+  - TCP RST floods (port scanning)
+  - DNS queries for unusual hosts
+  - Traffic to/from isolated networks
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MONITORING STRATEGY
+═══════════════════
+  1. Position monitors at zone boundaries
+  2. Capture baseline traffic (know what's normal)
+  3. Alert on anomalies (unexpected patterns)
+  4. Log for forensics (keep captures for investigation)
+  5. Regular review (audit traffic patterns)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFICATION
+════════════
+Run: ./verify
+
+Success: You can monitor cross-zone traffic, analyze packet content, and
+identify suspicious network patterns.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                      NETWORK LAB COMPLETE!                                    ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+NEXUS: "Outstanding work, engineer. You have mastered the network systems of
+       Helios Station. From basic IP discovery to security zone architecture
+       and traffic surveillance - you now have the skills to diagnose, design,
+       and secure container networks.
+
+       The cascade failure is contained. The station's network integrity is
+       restored. But remember: security is not a destination, it's a practice.
+       Keep watching. Keep learning. The network never sleeps."
+
+SKILLS ACQUIRED:
+  Module 1: Network Fundamentals (IP, DNS, connectivity)
+  Module 2: Troubleshooting (diagnosis, tcpdump, traceroute)
+  Module 3: Docker Networking (bridges, custom networks, multi-network)
+  Module 4: Security (isolation, segmentation, monitoring)
+
+NEXT STEPS:
+  1. Practice these techniques in your own projects
+  2. Explore overlay networks for multi-host setups
+  3. Apply segmentation to your Docker Compose files
+  4. Set up real monitoring with Prometheus/Grafana
+
+CLEANUP:
+  cd /Users/kenny/shell-odyssey/network-lab
+  ./start.sh stop
+  # Or: docker compose down -v && docker network prune

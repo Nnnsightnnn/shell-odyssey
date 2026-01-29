@@ -1,0 +1,115 @@
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║        ██╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗         ║
+║        ██║██║   ██║████╗  ██║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║         ║
+║        ██║██║   ██║██╔██╗ ██║██║        ██║   ██║██║   ██║██╔██╗ ██║         ║
+║   ██   ██║██║   ██║██║╚██╗██║██║        ██║   ██║██║   ██║██║╚██╗██║         ║
+║   ╚█████╔╝╚██████╔╝██║ ╚████║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║         ║
+║    ╚════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝         ║
+║                                                                               ║
+║                       NETWORK JUNCTION - LEVEL 2                              ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+                    ┌─────────────────────────────────────┐
+                    │        ╔═══════════════════╗        │
+                    │        ║ NETWORK JUNCTION  ║        │
+                    │        ║     LEVEL 2       ║        │
+                    │        ╚═══════════════════╝        │
+                    │                                     │
+                    │     ═══╦═══════════════╦═══         │
+                    │        ║   ┌───────┐   ║            │
+                    │   ─────╬───│SWITCH │───╬─────       │
+                    │        ║   └───────┘   ║            │
+                    │     ═══╩═══════════════╩═══         │
+                    │                                     │
+                    │         CORE SWITCHING             │
+                    └─────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCATION: Network Junction, Deck 2
+STATUS: Infrastructure Mode
+ACCESS: GRANTED - ENGINEERING PROTOCOLS ACTIVE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cables snake across the floor like frozen lightning. The Network Junction
+is the physical heart of Helios Station's connectivity - where virtual
+networks are born and traffic flows are shaped. Rows of switches hum
+quietly, their port LEDs blinking in patterns that tell stories of data
+in motion.
+
+Network Architect Santos designed this infrastructure. Her diagrams cover
+an entire wall, showing how Docker containers are organized into isolated
+networks. "Networks aren't just connections," she always said. "They're
+boundaries. They're architecture. They're security."
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │  NEXUS: This is where infrastructure meets intention, Specialist.  │
+    │                                                                     │
+    │         Docker's networking model gives us power that physical     │
+    │         networks can only dream of. We can create, destroy, and    │
+    │         reshape network topologies in seconds.                     │
+    │                                                                     │
+    │         Architect Santos understood that network design is about   │
+    │         more than connectivity - it's about control. Who can       │
+    │         reach what. How traffic flows. Where boundaries lie.       │
+    │                                                                     │
+    │         You will learn to:                                         │
+    │                                                                     │
+    │         • Understand Docker bridge networking                      │
+    │         • Create and configure custom networks                     │
+    │         • Connect containers to multiple networks                  │
+    │                                                                     │
+    │         These skills will let you architect the station's future.  │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DOCKER NETWORK TYPES
+════════════════════
+
+    ┌───────────────────────────────────────────────────────────────────┐
+    │  TYPE        │  DESCRIPTION                  │  USE CASE          │
+    ├──────────────┼───────────────────────────────┼────────────────────┤
+    │  bridge      │  Isolated virtual network     │  Most containers   │
+    │  host        │  Share host network stack     │  Performance       │
+    │  none        │  No networking                │  Maximum isolation │
+    │  overlay     │  Multi-host networking        │  Swarm clusters    │
+    │  macvlan     │  Assign MAC addresses         │  Legacy apps       │
+    └───────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MODULE MISSIONS
+═══════════════
+
+    [1] bridge-explore   Understand Docker Bridge Networks
+    [2] custom-nets      Create Custom Network Topologies
+    [3] multi-network    Connect Containers Across Networks
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SKILLS YOU WILL LEARN
+═════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  COMMAND                      │  PURPOSE                           │
+    ├───────────────────────────────┼─────────────────────────────────────┤
+    │  docker network ls            │  List all networks                 │
+    │  docker network inspect       │  Show network details              │
+    │  docker network create        │  Create new network                │
+    │  docker network connect       │  Attach container to network       │
+    │  docker network disconnect    │  Detach container from network     │
+    │  docker inspect <container>   │  View container network config     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BEGIN FIRST MISSION: cd bridge-explore && cat .mission
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

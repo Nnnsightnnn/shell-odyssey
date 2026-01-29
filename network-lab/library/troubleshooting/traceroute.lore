@@ -1,0 +1,96 @@
+╔═══════════════════════════════════════════════════════════════╗
+║  SHIP'S ARCHIVE: traceroute                                   ║
+║  Classification: Path Discovery                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌─ ORIGIN STORY ─────────────────────────────────────────────────┐
+│                                                                │
+│  Van Jacobson wrote traceroute in 1987 at Lawrence Berkeley   │
+│  Laboratory. He exploited a clever trick: the TTL (Time To    │
+│  Live) field in IP packets. Each router decrements TTL by 1,  │
+│  and when it hits 0, the router sends back an error message.  │
+│  By sending packets with increasing TTLs (1, 2, 3...) and     │
+│  collecting the error messages, traceroute maps every hop     │
+│  between you and the destination. This elegant hack revealed  │
+│  the previously invisible path packets take through the       │
+│  internet. It remains one of the most useful diagnostic       │
+│  tools ever created for networking.                           │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ MENTAL MODEL ─────────────────────────────────────────────────┐
+│                                                                │
+│  Think of traceroute as a PATH MAPPER using self-destructing  │
+│  packets:                                                      │
+│                                                                │
+│    You        Router1      Router2      Router3    Destination │
+│    │             │            │            │            │      │
+│    │ TTL=1       │            │            │            │      │
+│    │────────────▶│            │            │            │      │
+│    │◀──TIMEOUT───│            │            │            │      │
+│    │             │            │            │            │      │
+│    │ TTL=2       │            │            │            │      │
+│    │────────────▶│───────────▶│            │            │      │
+│    │◀────────TIMEOUT──────────│            │            │      │
+│    │             │            │            │            │      │
+│    │ TTL=3       │            │            │            │      │
+│    │────────────▶│───────────▶│───────────▶│            │      │
+│    │◀──────────────TIMEOUT────────────────│            │      │
+│    │             │            │            │            │      │
+│    │ TTL=4       │            │            │            │      │
+│    │────────────▶│───────────▶│───────────▶│───────────▶│      │
+│    │◀──────────────────REPLY─────────────────────────────      │
+│                                                                │
+│  Output format:                                                │
+│    hop#  hostname (IP)           time1   time2   time3        │
+│    1     router1.isp.com (x.x)   1.2ms   1.3ms   1.1ms        │
+│    2     * * *                   (no response - filtered)      │
+│    3     core.isp.com (x.x)      15.3ms  16.1ms  15.8ms       │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ COMMON PATTERNS ──────────────────────────────────────────────┐
+│                                                                │
+│  # Basic trace                                                 │
+│  traceroute google.com                                         │
+│                                                                │
+│  # Use ICMP instead of UDP (like Windows tracert)              │
+│  traceroute -I google.com                                      │
+│                                                                │
+│  # Use TCP on specific port (bypasses some firewalls)          │
+│  traceroute -T -p 443 google.com                              │
+│                                                                │
+│  # Don't resolve hostnames (faster)                            │
+│  traceroute -n google.com                                      │
+│                                                                │
+│  # Set max hops                                                │
+│  traceroute -m 15 google.com                                  │
+│                                                                │
+│  # Faster with fewer probes per hop                            │
+│  traceroute -q 1 google.com                                   │
+│                                                                │
+│  # Wait less time for responses                                │
+│  traceroute -w 1 google.com                                   │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ CONNECTIONS ──────────────────────────────────────────────────┐
+│                                                                │
+│  • Works well with: ping, mtr, whois                          │
+│  • Alternatives: mtr (combines ping+trace), tracepath         │
+│  • Builds toward: Network path analysis, latency debugging    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ NEXUS INSIGHT ────────────────────────────────────────────────┐
+│                                                                │
+│  "traceroute shows WHERE packets slow down or die. If hop     │
+│  1-3 are fast (1-5ms) but hop 4 jumps to 100ms, that's        │
+│  where the problem lives. Asterisks (* * *) don't always      │
+│  mean failure - many routers just don't respond to probes.    │
+│  Use '-I' for ICMP if UDP traces timeout. Better yet, try     │
+│  'mtr' which combines traceroute with continuous ping for     │
+│  a live view of path quality. On macOS, the command is        │
+│  'traceroute', on Windows it's 'tracert'."                    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
