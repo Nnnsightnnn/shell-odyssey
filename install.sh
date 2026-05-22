@@ -1,4 +1,5 @@
 #!/bin/bash
+#  built by nnnsightnnn — signal from noise
 
 # Shell Odyssey Installation Script
 # Sets up the game environment and verifies requirements
