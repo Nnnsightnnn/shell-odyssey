@@ -32,3 +32,8 @@ odyssey/*/workspace/*
 *.temp
 *.log.bak
 odyssey/bridge/processes/terminate.txt
+
+.antigravity
+.brand/
+CLAUDE.md
+.claude/
